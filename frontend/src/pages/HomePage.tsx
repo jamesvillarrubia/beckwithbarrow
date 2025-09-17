@@ -7,44 +7,17 @@
  * - Masonry layout showcasing projects with staggered positioning
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { apiService } from '../services/api';
-import LoadingSpinner from '../components/LoadingSpinner';
-import ErrorMessage from '../components/ErrorMessage';
 import Footer from '../components/Footer';
 import Logo from '../components/Logo';
+import Navigation from '../components/Navigation';
 
-// Types for project data
-interface ProjectCategory {
+// Simple project interface for mock data
+interface SimpleProject {
   id: number;
-  name: string;
-  slug: string;
+  title: string;
   description: string;
-}
-
-interface ProjectImage {
-  id: number;
-  url: string;
-  alternativeText: string;
-  formats?: {
-    large?: { url: string };
-    medium?: { url: string };
-    small?: { url: string };
-    thumbnail?: { url: string };
-  };
-}
-
-interface Project {
-  id: number;
-  Title: string;
-  slug: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  categories?: ProjectCategory[];
-  cover?: ProjectImage;
-  images?: ProjectImage[];
+  imageUrl: string;
+  alt: string;
 }
 
 // Mock project data - will be replaced with API call later
@@ -109,17 +82,13 @@ const HomePage = () => {
   // });
   
   // For now, use mock data
-  const projects = mockProjects;
-  const isLoading = false;
-  const error = null;
-
-  // No need to manually split - CSS columns will handle the layout automatically
-
-  if (isLoading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage message="Failed to load content. Make sure Strapi is running and you have created some content types." />;
+  const projects: SimpleProject[] = mockProjects;
 
   return (
     <div className="bg-white text-black">
+      {/* Navigation */}
+      <Navigation />
+      
       {/* Hero Section - 100vh with dual images and centered text */}
       <section className="relative h-screen flex">
         {/* Left Image */}
@@ -150,11 +119,11 @@ const HomePage = () => {
 
       {/* Slogan Section */}
       <section className="py-24" style={{ paddingTop: '100px', paddingBottom: '100px' }}>
-        <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-          <h3 className="text-4xl md:text-6xl font-serif font-light leading-relaxed text-gray-900">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 text-left">
+          <h3 className="text-4xl md:text-6xl font-serif font-extralight leading-tight text-gray-900">
             "Architecture is a visual art, and the buildings speak for themselves."
           </h3>
-          <p className="text-xl md:text-2xl font-sans text-gray-600 mt-8 italic">
+          <p className="text-xl md:text-2xl font-sans text-gray-500 mt-8 text-right">
             — Julia Morgan
           </p>
         </div>
@@ -167,9 +136,9 @@ const HomePage = () => {
           <div className="columns-2 gap-16">
             {projects.map((project) => (
               <div key={project.id} className="group break-inside-avoid mb-24">
-                <div className="overflow-hidden rounded-lg cursor-pointer">
+                <div className="overflow-hidden rounded-sm cursor-pointer">
                   <img 
-                    className="w-full h-auto rounded-lg transition-transform duration-700 ease-in-out group-hover:scale-102" 
+                    className="w-full h-auto transition-transform duration-700 ease-in-out group-hover:scale-102"
                     src={project.imageUrl}
                     alt={project.alt}
                   />
