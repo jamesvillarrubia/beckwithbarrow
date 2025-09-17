@@ -1,149 +1,192 @@
+/**
+ * HomePage Component
+ * 
+ * The main landing page featuring:
+ * - Full-height hero section with dual images and centered "Willow Voice" branding
+ * - Inspirational slogan section
+ * - Masonry layout showcasing projects with staggered positioning
+ */
+
 import { useQuery } from '@tanstack/react-query';
 import { apiService } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
+import Footer from '../components/Footer';
+import Logo from '../components/Logo';
+
+// Types for project data
+interface ProjectCategory {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+}
+
+interface ProjectImage {
+  id: number;
+  url: string;
+  alternativeText: string;
+  formats?: {
+    large?: { url: string };
+    medium?: { url: string };
+    small?: { url: string };
+    thumbnail?: { url: string };
+  };
+}
+
+interface Project {
+  id: number;
+  Title: string;
+  slug: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  categories?: ProjectCategory[];
+  cover?: ProjectImage;
+  images?: ProjectImage[];
+}
+
+// Mock project data - will be replaced with API call later
+const mockProjects = [
+  {
+    id: 1,
+    title: "Riverside Residence",
+    category: "Contemporary Interior",
+    imageUrl: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=600&q=80",
+    alt: "Modern Living Room",
+    description: "A stunning contemporary living space featuring floor-to-ceiling windows, minimalist furnishings, and warm natural lighting that creates an inviting atmosphere for both relaxation and entertaining."
+  },
+ 
+  {
+    id: 3,
+    title: "Spa Bathroom",
+    category: "Luxury Design",
+    imageUrl: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&fm=jpg&fit=crop&w=1080&q=80&fit=max",
+    alt: "Bathroom Design",
+    description: "An elegant spa-inspired bathroom retreat with marble finishes, sophisticated lighting design, and luxurious fixtures that transform daily routines into moments of personal sanctuary."
+  },
+  {
+    id: 5,
+    title: "Serene Bedroom",
+    category: "Residential Interior",
+    imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=800&q=80",
+    alt: "Bedroom Interior",
+    description: "A tranquil master bedroom designed with soft neutral tones, plush textiles, and carefully curated lighting to create the perfect environment for rest and rejuvenation."
+  },
+  {
+    id: 2,
+    title: "Urban Kitchen",
+    category: "Interior Renovation", 
+    imageUrl: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80",
+    alt: "Kitchen Design",
+    description: "A modern culinary workspace combining sleek cabinetry, premium appliances, and intelligent storage solutions to create both functional efficiency and aesthetic appeal for the contemporary home."
+  },
+  {
+    id: 4,
+    title: "Hillside Manor",
+    category: "Architectural Design",
+    imageUrl: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=800&q=80",
+    alt: "Modern Exterior",
+    description: "An architectural masterpiece that seamlessly blends contemporary design with natural surroundings, featuring clean lines, expansive glass surfaces, and thoughtful integration with the landscape."
+  },
+  {
+    id: 6,
+    title: "Executive Office",
+    category: "Commercial Design",
+    imageUrl: "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=800&q=80",
+    alt: "Office Space",
+    description: "A sophisticated professional environment designed to inspire productivity and creativity, featuring premium materials, ergonomic considerations, and refined aesthetics that reflect executive excellence."
+  }
+];
 
 const HomePage = () => {
-  // Fetch projects from Strapi with populated data
-  const { data: projects, isLoading, error } = useQuery({
-    queryKey: ['projects'],
-    queryFn: () => apiService.getCollection('projects', '*'),
-    retry: false,
-  });
+  // TODO: Replace with actual API call
+  // const { data: projects, isLoading, error } = useQuery({
+  //   queryKey: ['projects'],
+  //   queryFn: () => apiService.getCollection('projects', '*'),
+  //   retry: false,
+  // });
+  
+  // For now, use mock data
+  const projects = mockProjects;
+  const isLoading = false;
+  const error = null;
+
+  // No need to manually split - CSS columns will handle the layout automatically
 
   if (isLoading) return <LoadingSpinner />;
   if (error) return <ErrorMessage message="Failed to load content. Make sure Strapi is running and you have created some content types." />;
 
   return (
-    <div className="max-w-4xl mx-auto">
-      {/* Hero Section */}
-      <div className="text-center py-16">
-        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-          Welcome to{' '}
-          <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            Beckwith Barrow
-          </span>
-        </h1>
-        <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-          Showcasing exceptional projects with beautiful design and craftsmanship.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
-            Get Started
-          </button>
-          <button className="border border-white/30 hover:bg-white/10 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300">
-            Learn More
-          </button>
-        </div>
-      </div>
-
-      {/* Content Section */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
-        {/* Feature Cards */}
-        <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
-          <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mb-4">
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </div>
-          <h3 className="text-xl font-semibold text-white mb-2">Lightning Fast</h3>
-          <p className="text-gray-300">Built with Vite for incredibly fast development and production builds.</p>
+    <div className="bg-white text-black">
+      {/* Hero Section - 100vh with dual images and centered text */}
+      <section className="relative h-screen flex">
+        {/* Left Image */}
+        <div className="w-1/2 relative overflow-hidden">
+          <div className="absolute inset-0 bg-black/40 z-10"></div>
+          <img
+            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2053&q=80"
+            alt="Architectural interior"
+            className="w-full h-full object-cover"
+          />
         </div>
 
-        <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
-          <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-600 rounded-lg flex items-center justify-center mb-4">
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h3 className="text-xl font-semibold text-white mb-2">Type Safe</h3>
-          <p className="text-gray-300">Built with TypeScript for better development experience and fewer bugs.</p>
+        {/* Right Image */}
+        <div className="w-1/2 relative overflow-hidden">
+          <div className="absolute inset-0 bg-black/40 z-10"></div>
+          <img
+            src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+            alt="Modern home exterior"
+            className="w-full h-full object-cover"
+          />
         </div>
 
-        <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
-          <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mb-4">
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
-            </svg>
-          </div>
-          <h3 className="text-xl font-semibold text-white mb-2">Responsive</h3>
-          <p className="text-gray-300">Beautiful design that works perfectly on all devices and screen sizes.</p>
+        {/* Centered Text Overlay */}
+        <div className="absolute w-full h-full z-20 flex items-center justify-center">
+          <Logo size="hero" color="white" />
         </div>
-      </div>
+      </section>
 
-      {/* Projects Section (if available) */}
-      {projects && projects.data.length > 0 && (
-        <div className="mt-16">
-          <h2 className="text-3xl font-bold text-white mb-8">Our Projects</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.data.map((project: any) => (
-              <div key={project.id} className="bg-white/10 backdrop-blur-md rounded-xl overflow-hidden border border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-[1.02]">
-                {/* Cover Image */}
-                {project.cover && (
-                  <div className="aspect-video w-full overflow-hidden">
-                    <img
-                      src={`http://localhost:1337${project.cover.formats?.medium?.url || project.cover.url}`}
-                      alt={project.cover.alternativeText || project.Title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-                
-                <div className="p-6">
-                  {/* Categories */}
-                  {project.categories && project.categories.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      {project.categories.map((category: any) => (
-                        <span
-                          key={category.id}
-                          className="px-3 py-1 text-xs font-semibold bg-blue-500/20 text-blue-300 rounded-full border border-blue-400/30"
-                        >
-                          {category.name}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  
-                  {/* Project Title */}
-                  <h3 className="text-xl font-semibold text-white mb-3">{project.Title}</h3>
-                  
-                  {/* Description */}
-                  <p className="text-gray-300 mb-4 line-clamp-3">{project.description}</p>
-                  
-                  {/* Additional Images Count */}
-                  {project.images && project.images.length > 0 && (
-                    <div className="flex items-center text-sm text-gray-400 mb-4">
-                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      {project.images.length} additional image{project.images.length !== 1 ? 's' : ''}
-                    </div>
-                  )}
-                  
-                  {/* Date */}
-                  <div className="text-sm text-gray-400">
-                    {new Date(project.createdAt).toLocaleDateString()}
-                  </div>
+      {/* Slogan Section */}
+      <section className="py-24" style={{ paddingTop: '100px', paddingBottom: '100px' }}>
+        <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 text-center">
+          <h3 className="text-4xl md:text-6xl font-serif font-light leading-relaxed text-gray-900">
+            "Architecture is a visual art, and the buildings speak for themselves."
+          </h3>
+          <p className="text-xl md:text-2xl font-sans text-gray-600 mt-8 italic">
+            — Julia Morgan
+          </p>
+        </div>
+      </section>
+
+      {/* Projects Masonry Grid */}
+      <section className="py-16 px-10">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+          {/* Masonry Grid */}
+          <div className="columns-2 gap-16">
+            {projects.map((project) => (
+              <div key={project.id} className="group break-inside-avoid mb-24">
+                <div className="overflow-hidden rounded-lg cursor-pointer">
+                  <img 
+                    className="w-full h-auto rounded-lg transition-transform duration-700 ease-in-out group-hover:scale-102" 
+                    src={project.imageUrl}
+                    alt={project.alt}
+                  />
+                </div>
+                <div className="pt-4">
+                  <h5 className="text-xl font-normal text-gray-900 cursor-pointer hover:text-gray-700 transition-colors">{project.title}</h5>
+                  <p className="text-sm text-gray-600 mt-2 leading-relaxed">{project.description}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      )}
+      </section>
 
-      {/* Call to Action */}
-      <div className="text-center py-16 mt-16">
-        <h2 className="text-3xl font-bold text-white mb-4">Ready to get started?</h2>
-        <p className="text-gray-300 mb-8">Add more projects in Strapi to showcase your portfolio!</p>
-        <a
-          href="http://localhost:1337/admin"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 inline-block"
-        >
-          Open Strapi Admin
-        </a>
-      </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
