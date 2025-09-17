@@ -23,7 +23,7 @@ export interface StrapiResponse<T> {
 
 export interface StrapiItem {
   id: number;
-  attributes: Record<string, any>;
+  attributes: Record<string, unknown>;
   createdAt: string;
   updatedAt: string;
 }
