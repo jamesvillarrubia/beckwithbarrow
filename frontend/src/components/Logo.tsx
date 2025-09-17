@@ -36,8 +36,8 @@ const Logo = ({ size = 'md', color = 'black', className = '' }: LogoProps) => {
     },
     md: {
       firstLineSize: 36,
-      secondLineSize: 46,
-      lineHeight: 0.7,
+      secondLineSize: 43,
+      lineHeight: 0.8,
       spacing: 4,
     },
     lg: {
@@ -54,8 +54,8 @@ const Logo = ({ size = 'md', color = 'black', className = '' }: LogoProps) => {
     },
     hero: {
       firstLineSize: 90,
-      secondLineSize: 115,
-      lineHeight: 0.7,
+      secondLineSize: 106,
+      lineHeight: 0.8,
       spacing: 12,
     },
   };
@@ -74,7 +74,7 @@ const Logo = ({ size = 'md', color = 'black', className = '' }: LogoProps) => {
   const textColor = color === 'white' ? '#ffffff' : '#000000';
 
   return (
-    <div className={`font-serif text-center ${className}`}>
+    <div className={`swifted text-center ${className}`}>
       <div 
         style={{
           fontSize: `${config.firstLineSize}px`,

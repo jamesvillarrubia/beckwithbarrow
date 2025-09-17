@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Font face declarations */
+@font-face {
+  font-family: 'Swifted';
+  src: url('/Swifted-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Custom font classes with proper optical sizing */
 .figtree-light {
   font-family: "Figtree", sans-serif;
@@ -36,15 +45,16 @@
   font-style: normal;
 }
 
-/* Spectral serif font classes */
-.spectral-extralight {
-  font-family: "Spectral", serif;
+.swifted {
+  font-family: "Swifted", "Spectral", serif;
   font-weight: 200;
   font-style: normal;
 }
 
-/* Default serif class with 200 weight */
-.font-serif {
+
+
+/* Spectral serif font classes */
+.spectral-extralight {
   font-family: "Spectral", serif;
   font-weight: 200;
   font-style: normal;
@@ -86,6 +96,12 @@
   font-style: normal;
 }
 
+/* Default serif class with 200 weight */
+.font-serif {
+  font-family: "Swifted", "Spectral", serif;
+  /* font-style: normal; */
+}
+
 :root {
   font-family: Figtree, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -93,7 +109,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: white;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -122,24 +138,24 @@
 
   body {
     margin: 0;
-    display: flex;
-    place-items: center;
     min-width: 320px;
     min-height: 100vh;
   }
-  /* Default heading styles - all use Spectral serif with default weight 200 */
+  /* Default heading styles - all use Swifted serif with Spectral fallback */
   h1, h2, h3, h4, h5, h6 {
-    font-family: "Spectral", serif;
-    font-weight: 200;
+    font-family: "Swifted", "Spectral", serif;
+    font-weight: normal;
     font-style: normal;
   }
 
   h1 {
+    font-family: "Swifted", "Spectral", serif;
     font-size: 3.2em;
     line-height: 1.1;
   }
 
   h2 {
+    font-family: "Swifted", "Spectral", serif;
     font-size: 2.4em;
     line-height: 1.2;
   }

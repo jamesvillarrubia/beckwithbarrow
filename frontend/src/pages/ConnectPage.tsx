@@ -5,13 +5,18 @@
  * Features contact information, social links, and potentially a contact form.
  */
 
+import Navigation from '../components/Navigation';
+
 const ConnectPage = () => {
   return (
     <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <Navigation />
+      
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-6 md:px-12 lg:px-16">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="text-5xl md:text-6xl text-gray-900 mb-6">
             Let's Connect
           </h1>
           <p className="text-xl md:text-2xl text-gray-600 leading-relaxed">
@@ -21,7 +26,7 @@ const ConnectPage = () => {
       </section>
 
       {/* Contact Information */}
-      <section className="py-16 px-6 md:px-12 lg:px-16">
+      <section className="py-10 px-6 md:px-12 lg:px-16">
         <div className="max-w-4xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12">
             

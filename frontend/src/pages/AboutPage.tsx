@@ -1,94 +1,86 @@
-import { useQuery } from '@tanstack/react-query';
-import { apiService } from '../services/api';
-import LoadingSpinner from '../components/LoadingSpinner';
+/**
+ * AboutPage Component
+ * 
+ * About page featuring:
+ * - Consistent navigation and typography with homepage
+ * - White theme with black text for readability
+ * - Hero section with centered title
+ * - Team photo section with placeholder for founding team image
+ * - Team description paragraph section
+ * - Maintains same spacing and layout principles as homepage
+ */
+
+import Navigation from '../components/Navigation';
+import Footer from '../components/Footer';
+import Logo from '../components/Logo';
 
 const AboutPage = () => {
-  // Try to fetch about content from Strapi
-  const { data: aboutData, isLoading } = useQuery({
-    queryKey: ['about'],
-    queryFn: () => apiService.getItem('about', ''),
-    retry: false,
-  });
-
-  if (isLoading) return <LoadingSpinner />;
-
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="text-center py-16">
-        <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-          About{' '}
-          <span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-            Us
-          </span>
-        </h1>
-        
-        {aboutData ? (
-          <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20 text-left">
-            <div className="prose prose-invert max-w-none">
-              {aboutData.data.attributes.content && (
-                <div className="text-gray-300 leading-relaxed">
-                  {aboutData.data.attributes.content}
-                </div>
-              )}
-            </div>
-          </div>
-        ) : (
-          <div className="bg-white/10 backdrop-blur-md rounded-xl p-8 border border-white/20">
-            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              This is the about page. You can manage this content through your Strapi admin panel.
-              Create an "About" single type in Strapi to customize this content.
-            </p>
-            
-            <div className="grid md:grid-cols-2 gap-8 mt-12">
-              <div className="text-left">
-                <h3 className="text-2xl font-semibold text-white mb-4">Our Mission</h3>
-                <p className="text-gray-300 leading-relaxed">
-                  We're building modern web experiences with cutting-edge technologies. 
-                  Our stack includes Strapi for content management, React for the frontend, 
-                  and Tailwind CSS for beautiful, responsive design.
-                </p>
-              </div>
-              
-              <div className="text-left">
-                <h3 className="text-2xl font-semibold text-white mb-4">Technology Stack</h3>
-                <ul className="text-gray-300 space-y-2">
-                  <li className="flex items-center">
-                    <span className="w-2 h-2 bg-blue-400 rounded-full mr-3"></span>
-                    Strapi CMS for content management
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
-                    React with TypeScript
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full mr-3"></span>
-                    Vite for fast development
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-2 h-2 bg-pink-400 rounded-full mr-3"></span>
-                    Tailwind CSS for styling
-                  </li>
-                  <li className="flex items-center">
-                    <span className="w-2 h-2 bg-yellow-400 rounded-full mr-3"></span>
-                    TanStack Query for data fetching
-                  </li>
-                </ul>
-              </div>
-            </div>
+    <div className="bg-white text-black">
+      {/* Navigation */}
+      <Navigation />
 
-            <div className="mt-12 text-center">
-              <a
-                href="http://localhost:1337/admin/content-manager/single-types/api::about.about"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 inline-block"
-              >
-                Edit About Content in Strapi
-              </a>
+      {/* Team Photo Section */}
+      <section className="py-16 pt-24">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">          
+          {/* Team Photo Placeholder */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <div className="aspect-[4/3] rounded-sm overflow-hidden">
+              {/* Placeholder for team photo - will be replaced with actual image */}
+              <img 
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=900&q=80"
+                alt="Founding team of Beckwith Barrow"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      </section>
+      {/* Team Description Section */}
+      <section className="py-16">
+        
+        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
+        <h1 className="text-4xl md:text-5xl font-serif font-light leading-relaxed text-gray-900 mt-8">
+            About Our Studio
+          </h1>
+          <p className="text-lg md:text-xl font-sans text-gray-700 leading-relaxed mb-8">
+            Founded by a passionate team of designers and architects, Beckwith Barrow emerged from a 
+            shared vision to create spaces that seamlessly blend form and function. Our founders bring 
+            together decades of combined experience in residential and commercial design, each contributing 
+            their unique perspective and expertise to every project.
+          </p>
+          
+          <p className="text-lg md:text-xl font-sans text-gray-700 leading-relaxed mb-8">
+            What sets our team apart is our collaborative approach and commitment to understanding each 
+            client's individual story. We believe that great design begins with great listening, and our 
+            process is built around creating deep partnerships with those we serve. From initial concept 
+            to final installation, we work closely with our clients to ensure every detail reflects their 
+            vision and enhances their daily experience.
+          </p>
+
+          <p className="text-lg md:text-xl font-sans text-gray-700 leading-relaxed">
+            Our team's diverse backgrounds in architecture, interior design, and project management allow 
+            us to approach each project holistically, considering not just how a space looks, but how it 
+            feels, functions, and evolves with the people who inhabit it. This comprehensive approach has 
+            earned us recognition in the industry and, more importantly, the trust and satisfaction of our clients.
+          </p>
+        </div>
+      </section>
+
+      {/* Philosophy Section */}
+      <section className="py-24" style={{ paddingTop: '100px', paddingBottom: '100px' }}>
+        <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 text-center">
+          <h3 className="text-4xl md:text-6xl font-serif font-light leading-relaxed text-gray-900">
+            "Design is not just what it looks like and feels like. Design is how it works."
+          </h3>
+          <p className="text-xl md:text-2xl font-sans text-gray-600 mt-8 italic">
+            — Steve Jobs
+          </p>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
