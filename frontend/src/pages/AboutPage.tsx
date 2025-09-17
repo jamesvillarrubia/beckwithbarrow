@@ -12,7 +12,6 @@
 
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
-import Logo from '../components/Logo';
 
 const AboutPage = () => {
   return (
