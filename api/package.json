@@ -13,7 +13,20 @@
     "start": "strapi start",
     "strapi": "strapi",
     "upgrade": "npx @strapi/upgrade lantest",
-    "upgrade:dry": "npx @strapi/upgrade latest --dry"
+    "upgrade:dry": "npx @strapi/upgrade latest --dry",
+    "backup": "./scripts/backup.sh",
+    "backup:quick": "strapi export --file backups/quick-backup-$(date +%Y%m%d-%H%M%S) --no-encrypt",
+    "backup:verbose": "VERBOSE=true ./scripts/backup.sh",
+    "backup:silent": "VERBOSE=false ./scripts/backup.sh",
+    "backup:cloud": "./scripts/cloud-backup.sh",
+    "backup:cloud:verbose": "VERBOSE=true ./scripts/cloud-backup.sh",
+    "backup:cloud:config": "./scripts/cloud-backup.sh --config",
+    "deploy:cloud": "./scripts/cloud-deploy.sh",
+    "deploy:cloud:help": "./scripts/cloud-deploy.sh --help",
+    "deploy:cloud:dry-run": "./scripts/cloud-deploy.sh --dry-run",
+    "restore": "strapi import --no-encrypt",
+    "backup:list": "ls -la backups/strapi-backup-*.tar.gz 2>/dev/null || echo 'No backups found'",
+    "backup:cloud:list": "ls -la backups/cloud/strapi-cloud-backup-*.tar.gz 2>/dev/null || echo 'No cloud backups found'"
   },
   "dependencies": {
     "@strapi/plugin-cloud": "5.23.4",
