@@ -10,7 +10,9 @@ export default ({ env }) => ({
         },
         actionOptions: {
             upload: {},
-            uploadStream: {},
+            uploadStream: {
+                folder: 'direct_uploads',
+            },
             delete: {},
         },
         },

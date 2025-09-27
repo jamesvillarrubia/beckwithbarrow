@@ -38,14 +38,13 @@ async function createMediaFolder(folderName, description = '') {
     console.log(`📁 Creating folder: ${folderName}`);
     
     const response = await strapiApi.post('/media/folders', {
-      data: {
-        name: folderName,
-        description: description
-      }
+      name: folderName,
+      description: description
     });
     
-    console.log(`✅ Created folder: ${folderName} (ID: ${response.data.data.id})`);
-    return response.data.data;
+    const folderId = response.data?.id;
+    console.log(`✅ Created folder: ${folderName} (ID: ${folderId})`);
+    return response.data;
   } catch (error) {
     console.error(`❌ Error creating folder ${folderName}:`, error.response?.data || error.message);
     return null;
@@ -58,7 +57,7 @@ async function createMediaFolder(folderName, description = '') {
 async function getExistingFolders() {
   try {
     const response = await strapiApi.get('/media/folders');
-    return response.data.data || [];
+    return response.data || [];
   } catch (error) {
     console.error('❌ Error fetching existing folders:', error.response?.data || error.message);
     return [];
