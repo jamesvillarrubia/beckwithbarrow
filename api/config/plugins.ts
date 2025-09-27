@@ -15,7 +15,7 @@ export default ({ env }) => ({
         },
         },
     },
-    'media-library-handler': {
+    'media': {
         enabled: true,
         config: {
             // Optional: Configure folder permissions
