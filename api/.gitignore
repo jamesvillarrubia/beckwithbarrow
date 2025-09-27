@@ -82,6 +82,7 @@ ssl
 nbproject
 public/uploads/*
 !public/uploads/.gitkeep
+data/*
 .tsbuildinfo
 .eslintcache
 
@@ -129,3 +130,17 @@ dist
 build
 .strapi-updater.json
 .strapi-cloud.json
+
+############################
+# Backup System
+############################
+
+# Environment files with sensitive credentials
+strapi-cloud.env
+*.env.local
+*.env.production
+
+# Backup files (optional - you may want to commit some backups)
+backups/
+*.tar.gz
+*-backup-*

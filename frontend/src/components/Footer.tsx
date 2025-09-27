@@ -23,7 +23,7 @@ const Footer = () => {
           {/* Logo */}
           <Logo size="md" color="black" />
 
-          {/* Navigation Menu */}
+          {/* Navigation Menu */}th 
           <nav className="flex space-x-8">
             {navItems.map((item) => (
               <Link

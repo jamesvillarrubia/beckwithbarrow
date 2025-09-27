@@ -118,12 +118,77 @@ beckwithbarrow/
 - **Loading States**: Smooth loading spinners and error handling
 - **Professional Typography**: Modern font choices and spacing
 
+## 🔄 Data Management & Scripts
+
+This project includes a comprehensive set of scripts for managing data between local development and Strapi Cloud production. **IMPORTANT**: Before creating any new scripts, check the existing ones first!
+
+### 📋 Available Scripts Overview
+
+**See `AI-INSTRUCTIONS.md` for complete script documentation and usage guidelines.**
+
+#### 🔄 Data Transfer (Bidirectional)
+```bash
+# Push local data TO cloud
+pnpm transfer:to-cloud                    # Full transfer
+pnpm transfer:to-cloud:content-only       # Content only (no media)
+pnpm transfer:to-cloud:force              # Skip confirmation
+
+# Pull cloud data TO local  
+pnpm transfer:from-cloud                  # Full transfer
+pnpm transfer:from-cloud:content-only     # Content only (no media)
+pnpm transfer:from-cloud:force            # Skip confirmation
+
+# Preview transfers (dry run)
+pnpm transfer:dry-run
+```
+
+#### 💾 Local Backups
+```bash
+pnpm backup                # Full backup with cleanup
+pnpm backup:quick          # Fast backup without extras
+pnpm backup:verbose        # Detailed output
+pnpm backup:list           # List all local backups
+```
+
+#### ☁️ Cloud Backups  
+```bash
+pnpm backup:cloud                # Download from cloud
+pnpm backup:cloud:verbose        # Detailed output
+pnpm backup:cloud:config         # Configuration help
+```
+
+#### 🚀 Deployment
+```bash
+pnpm deploy:cloud                # Deploy to cloud (with backups)
+pnpm deploy:cloud:dry-run        # Preview deployment
+```
+
+### ⚠️ Current Backup System Issues
+
+**The backup system is currently chaotic** with inconsistent naming:
+- `quick-backup-*`, `strapi-backup-*`, `pre-transfer-*`, etc.
+- Multiple overlapping backup types
+- Confusing retention policies
+
+**Solution**: A redesign plan exists in `api/BACKUP-SYSTEM-REDESIGN.md` to standardize everything.
+
+### 🔧 Cloud Configuration
+
+For cloud operations, you need `api/strapi-cloud.env`:
+```bash
+cd api
+cp strapi-cloud.env.example strapi-cloud.env
+# Edit with your Strapi Cloud credentials
+source strapi-cloud.env
+```
+
 ## 🚀 Deployment
 
 ### Backend Deployment
 - Configure your production database
 - Set environment variables for production
 - Deploy to platforms like Railway, Heroku, or DigitalOcean
+- Use `pnpm deploy:cloud` for Strapi Cloud deployment
 
 ### Frontend Deployment
 - Build the frontend: `pnpm build`
