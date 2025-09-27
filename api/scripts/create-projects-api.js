@@ -16,7 +16,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Load environment variables
-require('dotenv').config({ path: '../strapi-cloud.env' });
+require('dotenv').config({ path: path.join(__dirname, '../strapi-cloud.env') });
 
 const STRAPI_URL = process.env.STRAPI_CLOUD_BASE_URL || 'https://striking-ball-b079f8c4b0.strapiapp.com';
 const API_TOKEN = process.env.STRAPI_CLOUD_API_TOKEN;
