@@ -117,20 +117,21 @@ transfer_data() {
         # Pull FROM cloud TO local
         direction_desc="From: $STRAPI_CLOUD_BASE_URL/admin → To: Local Strapi instance"
         from_param="--from $STRAPI_CLOUD_BASE_URL/admin"
-        # Do not use --from-token here, rely on STRAPI_TRANSFER_TOKEN env var
-        token_param="--from-token $STRAPI_CLOUD_TRANSFER_TOKEN"
+        # Token will be passed via STRAPI_TRANSFER_TOKEN environment variable
+        token_param=""
     else
         # Push FROM local TO cloud (original behavior)
         direction_desc="From: Local Strapi instance → To: $STRAPI_CLOUD_BASE_URL/admin"
         to_param="--to $STRAPI_CLOUD_BASE_URL/admin"
-        token_param="--to-token $STRAPI_CLOUD_TRANSFER_TOKEN"
+        # Token will be passed via STRAPI_TRANSFER_TOKEN environment variable
+        token_param=""
     fi
     
     if [ -n "$dry_run_flag" ]; then
         log_info "DRY RUN: Would transfer data"
         log_info "$direction_desc"
         log_info "Command that would be executed:"
-        echo "STRAPI_TRANSFER_URL=\"$STRAPI_CLOUD_BASE_URL/admin\" STRAPI_TRANSFER_TOKEN=\"$STRAPI_CLOUD_TRANSFER_TOKEN\" pnpm strapi transfer $from_param $to_param $token_param $force_flag $exclude_files_flag $files_only_flag"
+        echo "STRAPI_TRANSFER_URL=\"$STRAPI_CLOUD_BASE_URL/admin\" STRAPI_TRANSFER_TOKEN=\"[HIDDEN]\" pnpm strapi transfer $from_param$to_param $force_flag $exclude_files_flag $files_only_flag"
         return 0
     fi
     
@@ -150,12 +151,24 @@ transfer_data() {
     mkdir -p "logs"
     local log_file="logs/transfer-$(date +%Y%m%d-%H%M%S).log"
     
-    STRAPI_TRANSFER_URL="$STRAPI_CLOUD_BASE_URL/admin" \
-    STRAPI_TRANSFER_TOKEN="$STRAPI_CLOUD_TRANSFER_TOKEN" \
-    pnpm strapi transfer \
-        $from_param $to_param \
-        $force_flag $exclude_files_flag $files_only_flag \
-        2>&1 | tee "$log_file"
+    # Due to CLI bug in Strapi 5.23.4, environment variables don't work reliably
+    # Use interactive mode which works correctly
+    if [ -n "$from_cloud_flag" ]; then
+        # For pulling FROM cloud TO local
+        log_info "Starting interactive transfer (you'll need to enter the remote token)"
+        log_info "Remote token: ${STRAPI_CLOUD_TRANSFER_TOKEN:0:20}..."
+        pnpm strapi transfer \
+            $force_flag $exclude_files_flag $files_only_flag \
+            2>&1 | tee "$log_file"
+    else
+        # For pushing TO cloud, environment variables work fine
+        STRAPI_TRANSFER_URL="$STRAPI_CLOUD_BASE_URL/admin" \
+        STRAPI_TRANSFER_TOKEN="$STRAPI_CLOUD_TRANSFER_TOKEN" \
+        pnpm strapi transfer \
+            $to_param \
+            $force_flag $exclude_files_flag $files_only_flag \
+            2>&1 | tee "$log_file"
+    fi
     
     if [ $? -eq 0 ]; then
         log_success "Transfer completed successfully!"
