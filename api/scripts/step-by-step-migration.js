@@ -629,7 +629,7 @@ class StepByStepMigrator {
             }
           };
           
-          console.log(`   🔄 Updating media entry with Cloudinary URLs...`);
+          console.log(`   🔄 Updating media entry with Cloudinary URLs using custom API...`);
           await strapiApi.put(`/api/media-files/${mediaId}`, updateData);
           
           console.log(`   ✅ COMPLETE: ${image.displayName} → ${image.folder} folder (ID: ${mediaId})`);

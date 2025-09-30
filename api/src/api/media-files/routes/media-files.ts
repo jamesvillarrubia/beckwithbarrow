@@ -1,12 +1,19 @@
-'use strict';
-
 /**
  * Custom media-files routes
  * Provides endpoints for full media file control including formats
  */
 
-module.exports = {
+export default {
   routes: [
+    {
+      method: 'GET',
+      path: '/media-files',
+      handler: 'media-files.listMediaFiles',
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
     {
       method: 'PUT',
       path: '/media-files/:id',

@@ -1,11 +1,30 @@
-'use strict';
-
 /**
  * Custom media-files controller
  * Extends the default media library functionality to allow full updates including formats
  */
 
-module.exports = {
+import { factories } from '@strapi/strapi';
+
+export default {
+  /**
+   * List all media files
+   */
+  async listMediaFiles(ctx) {
+    try {
+      const mediaFiles = await strapi.entityService.findMany('plugin::upload.file', {
+        populate: ['folder']
+      });
+
+      return ctx.send({
+        data: mediaFiles
+      });
+
+    } catch (error) {
+      strapi.log.error('Error listing media files:', error);
+      return ctx.internalServerError('Failed to list media files');
+    }
+  },
+
   /**
    * Update a media file with full control over all fields including formats
    * This bypasses the default media library restrictions
@@ -32,7 +51,7 @@ module.exports = {
           formats: updateData.formats || mediaFile.formats,
           provider: updateData.provider || mediaFile.provider,
           provider_metadata: updateData.provider_metadata || mediaFile.provider_metadata,
-          folder: updateData.folderId ? { id: updateData.folderId } : mediaFile.folder,
+          folder: updateData.folderId ? { id: updateData.folderId } : (mediaFile as any).folder,
           // Allow updating any other fields
           ...updateData
         }
