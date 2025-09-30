@@ -92,7 +92,7 @@ const ProjectGrid = ({ className = '', limit, featured }: ProjectGridProps) => {
           {projects.map((project) => (
             <ProjectBlock 
               key={project.id} 
-              projectId={project.id}
+              project={project}
             />
           ))}
         </div>
