@@ -92,6 +92,41 @@ export default {
         const newStream = new Readable();
         newStream.push(cleanedBodyString);
         newStream.push(null); // End the stream
+        
+        // Preserve original request properties and headers
+        const originalReq = ctx.req;
+        Object.assign(newStream, {
+          headers: originalReq.headers,
+          method: originalReq.method,
+          url: originalReq.url,
+          socket: originalReq.socket,
+          connection: originalReq.connection,
+          httpVersion: originalReq.httpVersion,
+          httpVersionMajor: originalReq.httpVersionMajor,
+          httpVersionMinor: originalReq.httpVersionMinor,
+          rawHeaders: originalReq.rawHeaders,
+          trailers: originalReq.trailers,
+          rawTrailers: originalReq.rawTrailers,
+          setTimeout: originalReq.setTimeout.bind(originalReq),
+          destroy: originalReq.destroy.bind(originalReq),
+          pause: originalReq.pause.bind(originalReq),
+          resume: originalReq.resume.bind(originalReq),
+          readable: true,
+          readableEncoding: null,
+          readableEnded: false,
+          readableFlowing: null,
+          readableHighWaterMark: originalReq.readableHighWaterMark,
+          readableLength: cleanedBodyString.length,
+          readableObjectMode: false,
+          destroyed: false,
+          _read: function() { (this as any).push(null); }
+        });
+        
+        // Update the content-length header to match the new body
+        if ((newStream as any).headers) {
+          (newStream as any).headers['content-length'] = cleanedBodyString.length.toString();
+        }
+        
         ctx.req = newStream as any;
       }
       
