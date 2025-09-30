@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with Strapi base URL
 const api = axios.create({
-  baseURL: 'http://localhost:1337/api',
+  baseURL: 'https://striking-ball-b079f8c4b0.strapiapp.com/api',
   headers: {
     'Content-Type': 'application/json',
   },

@@ -71,20 +71,26 @@ const ProjectBlock = ({ projectId, className = '' }: ProjectBlockProps) => {
   return (
     <div className={`group break-inside-avoid mb-24 ${className}`}>
       <div className="overflow-hidden rounded-sm cursor-pointer">
-        <img 
-          className="w-full h-auto transition-transform duration-700 ease-in-out group-hover:scale-102"
-          src={project.imageUrl}
-          alt={project.alt}
-          loading="lazy"
-        />
+        {project.cover?.url ? (
+          <img 
+            className="w-full h-auto transition-transform duration-700 ease-in-out group-hover:scale-102"
+            src={project.cover.url}
+            alt={project.cover.alternativeText || project.Title}
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
+            <p className="text-gray-500 text-sm">No image available</p>
+          </div>
+        )}
       </div>
       <div className="pt-4">
         <h5 className="text-xl font-normal text-gray-900 cursor-pointer hover:text-gray-700 transition-colors">
-          {project.title}
+          {project.Title}
         </h5>
-        {project.category && (
+        {project.categories && project.categories.length > 0 && (
           <p className="text-sm text-gray-500 mt-1 font-medium">
-            {project.category}
+            {project.categories[0].name}
           </p>
         )}
         <p className="text-sm text-gray-600 mt-2 leading-relaxed">
