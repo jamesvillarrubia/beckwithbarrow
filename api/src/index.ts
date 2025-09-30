@@ -1,4 +1,5 @@
 import type { Core } from '@strapi/strapi';
+import { Readable } from 'stream';
 
 // Define interfaces for the request body structure
 interface ProjectRelationItem {
@@ -85,6 +86,13 @@ export default {
         // Set the cleaned body
         ctx.request.body = body;
         console.log('🔍 MIDDLEWARE: Final cleaned body:', JSON.stringify(body, null, 2));
+        
+        // Recreate the request stream so other middleware can read it
+        const cleanedBodyString = JSON.stringify(body);
+        const newStream = new Readable();
+        newStream.push(cleanedBodyString);
+        newStream.push(null); // End the stream
+        ctx.req = newStream as any;
       }
       
       await next();
