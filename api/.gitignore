@@ -137,6 +137,7 @@ build
 
 # Environment files with sensitive credentials
 strapi-cloud.env
+cloudinary.env
 *.env.local
 *.env.production
 

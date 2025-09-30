@@ -83,7 +83,7 @@ const FOLDER_MAPPING = {
 };
 
 /**
- * Get Cloudinary images from a specific folder
+ * Get Cloudinary images from a specific folder (looking in direct_uploads)
  */
 async function getCloudinaryImagesByFolder(folderPath) {
   try {
@@ -92,14 +92,22 @@ async function getCloudinaryImagesByFolder(folderPath) {
     const response = await cloudinaryApi.get('/resources/image', {
       params: {
         type: 'upload',
-        prefix: `beckwithbarrow/${folderPath}/`,
+        prefix: `direct_uploads/${folderPath}_`,
         max_results: 500
       }
     });
 
-    const images = response.data.resources || [];
-    console.log(`📁 Found ${images.length} images in ${folderPath}`);
-    return images;
+    // Filter to get only the main images (not thumbnails, small, medium, large variants)
+    const mainImages = response.data.resources.filter(img => {
+      const fileName = img.public_id.replace('direct_uploads/', '');
+      return !fileName.startsWith('thumbnail_') && 
+             !fileName.startsWith('small_') && 
+             !fileName.startsWith('medium_') && 
+             !fileName.startsWith('large_');
+    });
+
+    console.log(`📁 Found ${mainImages.length} main images in ${folderPath} (${response.data.resources.length} total with variants)`);
+    return mainImages;
   } catch (error) {
     console.error('❌ Error fetching Cloudinary images:', error.response?.data || error.message);
     return [];
@@ -144,11 +152,11 @@ async function createStrapiMediaReference(cloudinaryImage, folderId, folderName)
       return existing;
     }
 
-    // Prepare formats object for different sizes
+    // Prepare formats object for different sizes based on direct_uploads structure
     const formats = {};
     
-    // Add thumbnail format if it exists
-    const thumbnailUrl = cloudinaryImage.secure_url.replace('/beckwithbarrow/', '/beckwithbarrow/thumbnails/thumbnail_');
+    // Add thumbnail format
+    const thumbnailUrl = cloudinaryImage.secure_url.replace('direct_uploads/', 'direct_uploads/thumbnail_');
     formats.thumbnail = {
       ext: `.${fileExtension}`,
       url: thumbnailUrl,
@@ -161,8 +169,8 @@ async function createStrapiMediaReference(cloudinaryImage, folderId, folderName)
       height: Math.round(cloudinaryImage.height * 0.3)
     };
 
-    // Add small format if it exists
-    const smallUrl = cloudinaryImage.secure_url.replace('/beckwithbarrow/', '/beckwithbarrow/small/small_');
+    // Add small format
+    const smallUrl = cloudinaryImage.secure_url.replace('direct_uploads/', 'direct_uploads/small_');
     formats.small = {
       ext: `.${fileExtension}`,
       url: smallUrl,
@@ -173,6 +181,34 @@ async function createStrapiMediaReference(cloudinaryImage, folderId, folderName)
       size: Math.round(cloudinaryImage.bytes * 0.3 / 1024), // Estimate smaller size
       width: Math.round(cloudinaryImage.width * 0.6),
       height: Math.round(cloudinaryImage.height * 0.6)
+    };
+
+    // Add medium format
+    const mediumUrl = cloudinaryImage.secure_url.replace('direct_uploads/', 'direct_uploads/medium_');
+    formats.medium = {
+      ext: `.${fileExtension}`,
+      url: mediumUrl,
+      hash: `medium_${fileName}`,
+      mime: `image/${fileExtension}`,
+      name: `medium_${fullFileName}`,
+      path: null,
+      size: Math.round(cloudinaryImage.bytes * 0.5 / 1024), // Estimate medium size
+      width: Math.round(cloudinaryImage.width * 0.8),
+      height: Math.round(cloudinaryImage.height * 0.8)
+    };
+
+    // Add large format
+    const largeUrl = cloudinaryImage.secure_url.replace('direct_uploads/', 'direct_uploads/large_');
+    formats.large = {
+      ext: `.${fileExtension}`,
+      url: largeUrl,
+      hash: `large_${fileName}`,
+      mime: `image/${fileExtension}`,
+      name: `large_${fullFileName}`,
+      path: null,
+      size: Math.round(cloudinaryImage.bytes * 0.8 / 1024), // Estimate larger size
+      width: cloudinaryImage.width,
+      height: cloudinaryImage.height
     };
 
     // Create media entry data

@@ -86,7 +86,7 @@ const FOLDER_MAPPING = {
 };
 
 /**
- * Get all Cloudinary images with folder information
+ * Get all Cloudinary images with complete folder and metadata information
  */
 async function getAllCloudinaryImages() {
   try {
@@ -124,6 +124,168 @@ async function getAllCloudinaryImages() {
 }
 
 /**
+ * Create comprehensive dataset of ALL Cloudinary images and folder structure
+ */
+async function createCloudinaryDataset() {
+  try {
+    console.log('📊 Creating comprehensive Cloudinary dataset...');
+    
+    const allImages = await getAllCloudinaryImages();
+    
+    const dataset = {
+      totalImages: allImages.length,
+      folderStructure: {},
+      imagesByFolder: {},
+      rootImages: [],
+      duplicates: [],
+      formats: {
+        thumbnail: [],
+        small: [],
+        medium: [],
+        large: [],
+        original: []
+      },
+      metadata: {
+        totalSize: 0,
+        averageSize: 0,
+        fileTypes: {},
+        dimensions: []
+      }
+    };
+    
+    // Process each image
+    allImages.forEach(image => {
+      const parts = image.public_id.split('/');
+      const isRoot = parts.length === 1;
+      
+      // Track total size and file types
+      dataset.metadata.totalSize += image.bytes || 0;
+      const format = image.format || 'unknown';
+      dataset.metadata.fileTypes[format] = (dataset.metadata.fileTypes[format] || 0) + 1;
+      dataset.metadata.dimensions.push({
+        width: image.width,
+        height: image.height,
+        public_id: image.public_id
+      });
+      
+      if (isRoot) {
+        // Root level image
+        dataset.rootImages.push({
+          public_id: image.public_id,
+          secure_url: image.secure_url,
+          format: image.format,
+          width: image.width,
+          height: image.height,
+          bytes: image.bytes,
+          created_at: image.created_at
+        });
+      } else {
+        // Image in folder structure
+        const folderPath = parts.slice(0, -1).join('/');
+        const fileName = parts[parts.length - 1];
+        
+        // Build folder structure
+        let currentLevel = dataset.folderStructure;
+        for (let i = 0; i < parts.length - 1; i++) {
+          const folder = parts[i];
+          if (!currentLevel[folder]) {
+            currentLevel[folder] = {
+              images: [],
+              subfolders: {},
+              count: 0
+            };
+          }
+          currentLevel = currentLevel[folder].subfolders;
+        }
+        
+        // Add image to appropriate folder
+        if (!dataset.imagesByFolder[folderPath]) {
+          dataset.imagesByFolder[folderPath] = [];
+        }
+        
+        const imageData = {
+          public_id: image.public_id,
+          fileName: fileName,
+          secure_url: image.secure_url,
+          format: image.format,
+          width: image.width,
+          height: image.height,
+          bytes: image.bytes,
+          created_at: image.created_at,
+          folderPath: folderPath
+        };
+        
+        dataset.imagesByFolder[folderPath].push(imageData);
+        
+        // Navigate back to increment count
+        let nav = dataset.folderStructure;
+        for (let i = 0; i < parts.length - 1; i++) {
+          const folder = parts[i];
+          nav[folder].count++;
+          nav[folder].images.push(imageData);
+          nav = nav[folder].subfolders;
+        }
+        
+        // Categorize by format type (thumbnail, small, medium, large, original)
+        const lowerFileName = fileName.toLowerCase();
+        if (lowerFileName.startsWith('thumbnail_')) {
+          dataset.formats.thumbnail.push(imageData);
+        } else if (lowerFileName.startsWith('small_')) {
+          dataset.formats.small.push(imageData);
+        } else if (lowerFileName.startsWith('medium_')) {
+          dataset.formats.medium.push(imageData);
+        } else if (lowerFileName.startsWith('large_')) {
+          dataset.formats.large.push(imageData);
+        } else {
+          dataset.formats.original.push(imageData);
+        }
+      }
+    });
+    
+    // Calculate metadata
+    dataset.metadata.averageSize = dataset.metadata.totalSize / allImages.length;
+    
+    // Find potential duplicates (same base name, different formats)
+    const baseNames = {};
+    allImages.forEach(image => {
+      const fileName = image.public_id.split('/').pop();
+      const baseName = fileName.replace(/^(thumbnail_|small_|medium_|large_)/, '');
+      
+      if (!baseNames[baseName]) {
+        baseNames[baseName] = [];
+      }
+      baseNames[baseName].push(image);
+    });
+    
+    // Identify duplicates (base names with multiple versions)
+    Object.entries(baseNames).forEach(([baseName, images]) => {
+      if (images.length > 1) {
+        dataset.duplicates.push({
+          baseName: baseName,
+          count: images.length,
+          images: images.map(img => ({
+            public_id: img.public_id,
+            secure_url: img.secure_url,
+            format: img.format
+          }))
+        });
+      }
+    });
+    
+    console.log(`✅ Dataset created: ${dataset.totalImages} images analyzed`);
+    console.log(`   📁 Folder structure levels: ${Object.keys(dataset.folderStructure).length}`);
+    console.log(`   🖼️  Root images: ${dataset.rootImages.length}`);
+    console.log(`   🔄 Potential duplicates: ${dataset.duplicates.length}`);
+    
+    return dataset;
+    
+  } catch (error) {
+    console.error('❌ Error creating dataset:', error.message);
+    return null;
+  }
+}
+
+/**
  * Get all Strapi media files
  */
 async function getAllStrapiMedia() {
@@ -146,17 +308,36 @@ async function getAllStrapiMedia() {
 }
 
 /**
- * Get all Strapi folders
+ * Get all Strapi folders (try multiple endpoints)
  */
 async function getAllStrapiFolders() {
   try {
     console.log('🔍 Fetching all Strapi folders...');
     
-    const response = await strapiApi.get('/upload/folders');
-    const folders = response.data || [];
-    
-    console.log(`✅ Total Strapi folders: ${folders.length}`);
-    return folders;
+    // Try the media plugin endpoint first
+    try {
+      const response = await strapiApi.get('/media/folders');
+      if (response.data) {
+        const folders = response.data || [];
+        console.log(`✅ Total Strapi folders (media plugin): ${folders.length}`);
+        return folders;
+      }
+    } catch (mediaError) {
+      console.log('   📁 Media plugin folders endpoint not available, trying standard endpoint...');
+    }
+
+    // Try standard upload folders endpoint
+    try {
+      const response = await strapiApi.get('/upload/folders');
+      const folders = response.data || [];
+      console.log(`✅ Total Strapi folders (standard): ${folders.length}`);
+      return folders;
+    } catch (uploadError) {
+      console.log('   📁 Standard folders endpoint not available');
+    }
+
+    console.log('⚠️  No folder endpoints available - folders will be inferred from media files');
+    return [];
   } catch (error) {
     console.error('❌ Error fetching Strapi folders:', error.response?.data || error.message);
     return [];
@@ -172,12 +353,19 @@ async function getAllProjectsWithMedia() {
     
     const response = await strapiApi.get('/projects', {
       params: {
-        populate: ['cover', 'images', 'categories']
+        populate: '*'  // Use wildcard to populate all relations
       }
     });
     
     const projects = response.data?.data || [];
     console.log(`✅ Total projects: ${projects.length}`);
+    
+    // Debug: Check if any projects have media
+    const projectsWithMedia = projects.filter(project => 
+      project.cover !== null || project.images !== null
+    );
+    console.log(`   📸 Projects with media: ${projectsWithMedia.length}`);
+    
     return projects;
   } catch (error) {
     console.error('❌ Error fetching projects:', error.response?.data || error.message);
@@ -256,7 +444,7 @@ function analyzeMediaUsage(projects, globalSettings, strapiMedia) {
     }
   });
 
-  // Analyze project references
+  // Analyze project references (handle both v4 and v5 data structures)
   projects.forEach(project => {
     const projectRefs = {
       cover: null,
@@ -264,9 +452,21 @@ function analyzeMediaUsage(projects, globalSettings, strapiMedia) {
       brokenRefs: []
     };
 
+    // Handle Strapi v5 structure (direct properties) vs v4 (attributes wrapper)
+    const projectData = project.attributes || project;
+
     // Check cover image
-    if (project.attributes.cover?.data) {
-      const coverId = project.attributes.cover.data.id;
+    if (projectData.cover?.data) {
+      const coverId = projectData.cover.data.id;
+      if (mediaLookup.has(coverId)) {
+        projectRefs.cover = coverId;
+        usage.referencedMedia.add(coverId);
+      } else {
+        projectRefs.brokenRefs.push({ type: 'cover', id: coverId });
+      }
+    } else if (projectData.cover && typeof projectData.cover === 'object' && projectData.cover.id) {
+      // Direct object reference
+      const coverId = projectData.cover.id;
       if (mediaLookup.has(coverId)) {
         projectRefs.cover = coverId;
         usage.referencedMedia.add(coverId);
@@ -275,13 +475,23 @@ function analyzeMediaUsage(projects, globalSettings, strapiMedia) {
       }
     }
 
-    // Check images
-    if (project.attributes.images?.data) {
-      project.attributes.images.data.forEach(img => {
+    // Check images array
+    if (projectData.images?.data && Array.isArray(projectData.images.data)) {
+      projectData.images.data.forEach(img => {
         if (mediaLookup.has(img.id)) {
           projectRefs.images.push(img.id);
           usage.referencedMedia.add(img.id);
         } else {
+          projectRefs.brokenRefs.push({ type: 'images', id: img.id });
+        }
+      });
+    } else if (Array.isArray(projectData.images)) {
+      // Direct array reference
+      projectData.images.forEach(img => {
+        if (img && img.id && mediaLookup.has(img.id)) {
+          projectRefs.images.push(img.id);
+          usage.referencedMedia.add(img.id);
+        } else if (img && img.id) {
           projectRefs.brokenRefs.push({ type: 'images', id: img.id });
         }
       });
@@ -291,10 +501,21 @@ function analyzeMediaUsage(projects, globalSettings, strapiMedia) {
     usage.brokenReferences.push(...projectRefs.brokenRefs);
   });
 
-  // Analyze global references
+  // Analyze global references (handle both v4 and v5 data structures)
   if (globalSettings) {
-    if (globalSettings.attributes.favicon?.data) {
-      const faviconId = globalSettings.attributes.favicon.data.id;
+    const globalData = globalSettings.attributes || globalSettings;
+    
+    // Check favicon
+    if (globalData.favicon?.data) {
+      const faviconId = globalData.favicon.data.id;
+      if (mediaLookup.has(faviconId)) {
+        usage.globalReferences.push({ type: 'favicon', id: faviconId });
+        usage.referencedMedia.add(faviconId);
+      } else {
+        usage.brokenReferences.push({ type: 'global.favicon', id: faviconId });
+      }
+    } else if (globalData.favicon && typeof globalData.favicon === 'object' && globalData.favicon.id) {
+      const faviconId = globalData.favicon.id;
       if (mediaLookup.has(faviconId)) {
         usage.globalReferences.push({ type: 'favicon', id: faviconId });
         usage.referencedMedia.add(faviconId);
@@ -303,8 +524,17 @@ function analyzeMediaUsage(projects, globalSettings, strapiMedia) {
       }
     }
 
-    if (globalSettings.attributes.defaultSeo?.shareImage?.data) {
-      const shareImageId = globalSettings.attributes.defaultSeo.shareImage.data.id;
+    // Check SEO share image
+    if (globalData.defaultSeo?.shareImage?.data) {
+      const shareImageId = globalData.defaultSeo.shareImage.data.id;
+      if (mediaLookup.has(shareImageId)) {
+        usage.globalReferences.push({ type: 'seo.shareImage', id: shareImageId });
+        usage.referencedMedia.add(shareImageId);
+      } else {
+        usage.brokenReferences.push({ type: 'global.seo.shareImage', id: shareImageId });
+      }
+    } else if (globalData.defaultSeo?.shareImage && typeof globalData.defaultSeo.shareImage === 'object' && globalData.defaultSeo.shareImage.id) {
+      const shareImageId = globalData.defaultSeo.shareImage.id;
       if (mediaLookup.has(shareImageId)) {
         usage.globalReferences.push({ type: 'seo.shareImage', id: shareImageId });
         usage.referencedMedia.add(shareImageId);
@@ -717,6 +947,32 @@ async function main() {
       }
       break;
 
+    case 'dataset':
+      const dataset = await createCloudinaryDataset();
+      if (dataset) {
+        const datasetPath = path.join(__dirname, `cloudinary-dataset-${Date.now()}.json`);
+        fs.writeFileSync(datasetPath, JSON.stringify(dataset, null, 2));
+        console.log(`\n📄 Complete dataset saved: ${datasetPath}`);
+        
+        // Print summary
+        console.log('\n📊 DATASET SUMMARY');
+        console.log('━'.repeat(50));
+        console.log(`📁 Folder structure:`);
+        Object.entries(dataset.folderStructure).forEach(([folder, data]) => {
+          console.log(`   ${folder}: ${data.count} images`);
+          if (Object.keys(data.subfolders).length > 0) {
+            Object.entries(data.subfolders).forEach(([subfolder, subdata]) => {
+              console.log(`     └─ ${subfolder}: ${subdata.count} images`);
+            });
+          }
+        });
+        console.log(`🖼️  Root images: ${dataset.rootImages.length}`);
+        console.log(`🔄 Duplicates found: ${dataset.duplicates.length}`);
+        console.log(`📊 File types: ${Object.entries(dataset.metadata.fileTypes).map(([type, count]) => `${type}: ${count}`).join(', ')}`);
+        console.log(`💾 Total size: ${Math.round(dataset.metadata.totalSize / 1024 / 1024)}MB`);
+      }
+      break;
+
     default:
       console.log('📖 Media State Manager');
       console.log('');
@@ -732,6 +988,7 @@ async function main() {
       console.log('  cleanup            - Clean up incorrectly migrated files');
       console.log('  fix-folders        - Fix media folder organization');
       console.log('  report             - Generate detailed JSON report');
+      console.log('  dataset            - Create comprehensive Cloudinary dataset');
       console.log('');
       console.log('Options:');
       console.log('  --dry-run          - Preview actions without executing');
