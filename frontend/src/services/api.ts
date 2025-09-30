@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with Strapi base URL
 const api = axios.create({
-  baseURL: 'https://striking-ball-b079f8c4b0.strapiapp.com/api',
+  baseURL: 'http://localhost:1337/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -59,6 +59,13 @@ export const apiService = {
   // Delete item
   async deleteItem(endpoint: string, id: string | number): Promise<void> {
     await api.delete(`/${endpoint}/${id}`);
+  },
+
+  // Get single type (like home page)
+  async getSingleType<T>(endpoint: string, populate = ''): Promise<StrapiResponse<T>> {
+    const url = populate ? `/${endpoint}?populate=${populate}` : `/${endpoint}`;
+    const response = await api.get(url);
+    return response.data;
   },
 };
 

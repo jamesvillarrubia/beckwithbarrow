@@ -18,22 +18,23 @@ interface LogoProps {
 }
 
 const Logo = ({ size = 'md', color = 'black', className = '' }: LogoProps) => {
-  // Size configurations with width/height for SVG
+  // Size configurations with width/height for SVG (2:1 aspect ratio)
   const sizeConfigs = {
-    xs: { width: 60, height: 60 },
-    sm: { width: 80, height: 80 },
-    md: { width: 120, height: 120 },
-    lg: { width: 160, height: 160 },
-    xl: { width: 200, height: 200 },
-    hero: { width: 300, height: 300 },
+    xs: { width: 60, height: 30 },
+    sm: { width: 80, height: 40 },
+    md: { width: 120, height: 60 },
+    lg: { width: 160, height: 80 },
+    xl: { width: 200, height: 100 },
+    hero: { width: 500, height: 250 },
   };
 
   let dimensions;
   if (typeof size === 'number') {
-    const baseSize = 120; // md size as base
+    const baseWidth = 120; // md size as base
+    const baseHeight = 60;
     dimensions = {
-      width: baseSize * size,
-      height: baseSize * size,
+      width: baseWidth * size,
+      height: baseHeight * size,
     };
   } else {
     dimensions = sizeConfigs[size];
@@ -46,7 +47,7 @@ const Logo = ({ size = 'md', color = 'black', className = '' }: LogoProps) => {
       <svg
         width={dimensions.width}
         height={dimensions.height}
-        viewBox="0 0 800 800"
+        viewBox="200 320 400 150"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="logo-svg"

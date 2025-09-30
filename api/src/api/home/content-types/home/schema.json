@@ -27,10 +27,7 @@
       "type": "media",
       "multiple": false,
       "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
+        "images"
       ]
     },
     "featuredProjects": {
@@ -42,6 +39,18 @@
       "type": "component",
       "component": "shared.seo",
       "repeatable": false
+    },
+    "quote": {
+      "type": "string",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "text": {
+      "type": "text",
+      "required": true
     },
     "blocks": {
       "type": "dynamiczone",

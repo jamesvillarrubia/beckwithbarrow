@@ -52,11 +52,11 @@ const ProjectBlock = ({ project, className = '' }: ProjectBlockProps) => {
         <p className="text-sm text-gray-600 mt-2 leading-relaxed">
           {project.description}
         </p>
-        {project.categories && project.categories.length > 0 && (
+        {/* {project.categories && project.categories.length > 0 && (
           <p className="text-sm text-gray-400 mt-2 italic">
             {project.categories[0].name}
           </p>
-        )}
+        )} */}
       </div>
     </div>
   );
