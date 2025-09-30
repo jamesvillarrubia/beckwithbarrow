@@ -2,10 +2,11 @@ import axios from 'axios';
 
 // Create axios instance with Strapi base URL
 const api = axios.create({
-  baseURL: 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://striking-ball-b079f8c4b0.strapiapp.com/api'),
+  baseURL: 'https://striking-ball-b079f8c4b0.strapiapp.com/api',
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 30000, // 30 second timeout
 });
 
 // Types for Strapi responses
