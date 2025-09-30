@@ -217,7 +217,7 @@ class StepByStepMigrator {
     
     try {
       console.log('🔍 Fetching Cloudinary folder structure...');
-      const response = await cloudinaryApi.get('/folders/beckwithbarrow');
+      const response = await cloudinaryApi.get('/folders/Project%20Photos');
       const folders = response.data.folders || [];
       
       console.log('🔍 Fetching asset counts for each folder...');
@@ -474,46 +474,41 @@ class StepByStepMigrator {
     logStepHeader(6, 'DISCOVER CLOUDINARY IMAGES');
     
     try {
-      console.log('🔍 Fetching all images from Cloudinary folders...');
+      console.log('🔍 Fetching all images from Cloudinary...');
       this.cloudinaryImages = [];
       
-      for (const folder of this.cloudinaryFolders) {
-        if (folder.assetCount > 0) {
-          console.log(`   📁 Fetching images from ${folder.name} (${folder.assetCount} assets)...`);
+      // Get all images at once
+      const response = await cloudinaryApi.get('/resources/image', {
+        params: {
+          type: 'upload',
+          max_results: 1000  // Get all images
+        }
+      });
+      
+      const allImages = response.data.resources || [];
+      console.log(`   📸 Found ${allImages.length} total images in Cloudinary`);
+      
+      // Filter images by folder
+      for (const image of allImages) {
+        if (image.asset_folder && image.asset_folder.startsWith('Project Photos/')) {
+          const folderName = image.asset_folder.replace('Project Photos/', '');
           
-          try {
-            const response = await cloudinaryApi.get('/resources/by_asset_folder', {
-              params: {
-                asset_folder: folder.path,
-                max_results: 1000  // Get all images in this folder
-              }
-            });
-            
-            const images = response.data.resources || [];
-            console.log(`   📸 Found ${images.length} images in ${folder.name}`);
-            
-            for (const image of images) {
-              this.cloudinaryImages.push({
-                publicId: image.public_id,
-                folder: folder.name,
-                cloudinaryPath: folder.path,
-                format: image.format,
-                width: image.width,
-                height: image.height,
-                bytes: image.bytes,
-                url: image.secure_url,
-                version: image.version,
-                createdAt: image.created_at,
-                displayName: image.display_name || image.original_filename || image.public_id.split('/').pop(),
-                originalFilename: image.original_filename || image.public_id.split('/').pop(),
-                context: image.context,
-                tags: image.tags
-              });
-            }
-            
-          } catch (error) {
-            console.log(`   ⚠️  Could not fetch images from ${folder.name}: ${error.message}`);
-          }
+          this.cloudinaryImages.push({
+            publicId: image.public_id,
+            folder: folderName,
+            cloudinaryPath: image.asset_folder,
+            format: image.format,
+            width: image.width,
+            height: image.height,
+            bytes: image.bytes,
+            url: image.secure_url,
+            version: image.version,
+            createdAt: image.created_at,
+            displayName: image.display_name || image.public_id.split('/').pop(),
+            originalFilename: image.original_filename || image.public_id.split('/').pop(),
+            context: image.context,
+            tags: image.tags
+          });
         }
       }
       
@@ -571,19 +566,17 @@ class StepByStepMigrator {
       let createdCount = 0;
       let failedCount = 0;
 
-      // Process just the first few images for testing
-      const testImages = this.cloudinaryImages.slice(0, 3);
-      console.log(`🧪 Processing ${testImages.length} test images (out of ${this.cloudinaryImages.length} total)`);
+      // Process ALL images to force rewrite all Cloudinary links
+      console.log(`🔄 Processing ALL ${this.cloudinaryImages.length} images to force rewrite Cloudinary links`);
 
-      for (const image of testImages) {
+      for (const image of this.cloudinaryImages) {
         try {
-          console.log(`   📸 Creating reference for: ${image.publicId}`);
+          console.log(`   📸 Processing: ${image.publicId}`);
           
           // Find the Strapi folder ID for this image using folderMapping
           const folderMapping = this.folderMapping.get(image.folder);
           if (!folderMapping || !folderMapping.strapiId) {
             console.log(`   ⚠️  No Strapi folder mapping found for ${image.folder}, skipping`);
-            console.log(`   🔍 Available folder mappings:`, Array.from(this.folderMapping.keys()));
             failedCount++;
             continue;
           }
@@ -593,27 +586,94 @@ class StepByStepMigrator {
             name: folderMapping.strapiName
           };
           
-          // Create a minimal placeholder file first
-          const placeholderFile = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64');
-          
-          // Upload placeholder to create media entry
-          const formData = new FormData();
-          formData.append('file', new Blob([placeholderFile], { type: 'image/png' }), 'placeholder.png');
-          formData.append('folderId', strapiFolder.id);
-          formData.append('alternativeText', `${image.folder} - ${image.publicId.split('/').pop()}`);
-          
-          const uploadResponse = await strapiApi.post('/api/media/files', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-          });
-          
-          // Upload was successful, continue with media creation
-          const mediaId = uploadResponse.data.data[0].id;
-          
           // Generate Cloudinary format URLs
           const formats = this.generateCloudinaryFormats(image);
-          
-          // Update the media entry with Cloudinary URLs
           const displayName = image.displayName || image.publicId.split('/').pop();
+          
+          // Check for existing media entries by multiple criteria
+          let existingMedia = null;
+          let needsUpdate = false;
+          
+          try {
+            const existingResponse = await strapiApi.get('/api/media-files');
+            const existingMediaList = existingResponse.data.data || [];
+            
+            // Debug: Check the structure (commented out for production)
+            // console.log(`   🔍 API Response type: ${typeof existingMediaList}, isArray: ${Array.isArray(existingMediaList)}`);
+            // console.log(`   🔍 Response keys: ${Object.keys(existingMediaList)}`);
+            
+            if (!Array.isArray(existingMediaList)) {
+              console.log(`   ⚠️  Expected array but got ${typeof existingMediaList}, skipping duplicate check`);
+              existingMedia = null;
+            } else {
+              // Look for existing entry by multiple criteria
+              existingMedia = existingMediaList.find(media => {
+              // Check by public_id first (most reliable)
+              if (media.provider_metadata && media.provider_metadata.public_id === image.publicId) {
+                return true;
+              }
+              // Check by name (fallback)
+              if (media.name === displayName || media.name === image.publicId) {
+                return true;
+              }
+              // Check by URL (fallback)
+              if (media.url && media.url.includes(image.publicId)) {
+                return true;
+              }
+              return false;
+            });
+            
+            if (existingMedia) {
+              // Validate the existing entry
+              const isCorrectProvider = existingMedia.provider === 'cloudinary';
+              const isCorrectUrl = existingMedia.url === image.url;
+              const isCorrectSize = existingMedia.width === image.width && existingMedia.height === image.height;
+              const isCorrectFolder = existingMedia.folder && existingMedia.folder.id === strapiFolder.id;
+              
+              if (isCorrectProvider && isCorrectUrl && isCorrectSize && isCorrectFolder) {
+                console.log(`   ✅ Entry already correct, skipping: ${displayName}`);
+                createdCount++;
+                continue;
+              } else {
+                console.log(`   🔄 Entry needs update: ${displayName}`);
+                console.log(`      Provider: ${existingMedia.provider} (should be cloudinary)`);
+                console.log(`      URL: ${existingMedia.url} (should be ${image.url})`);
+                console.log(`      Size: ${existingMedia.width}x${existingMedia.height} (should be ${image.width}x${image.height})`);
+                needsUpdate = true;
+              }
+            }
+            }
+          } catch (error) {
+            console.log(`   ⚠️  Could not check existing media: ${error.message}`);
+          }
+          
+          let mediaId;
+          
+          if (existingMedia && needsUpdate) {
+            // Update existing entry
+            console.log(`   🔄 Updating existing media entry (ID: ${existingMedia.id})`);
+            mediaId = existingMedia.id;
+          } else if (existingMedia && !needsUpdate) {
+            // Entry is already correct, skip
+            continue;
+          } else {
+            // Create new entry with placeholder
+            console.log(`   📄 Creating new media entry`);
+            const placeholderFile = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64');
+            
+            const formData = new FormData();
+            formData.append('file', new Blob([placeholderFile], { type: 'image/png' }), 'placeholder.png');
+            formData.append('folderId', strapiFolder.id);
+            formData.append('alternativeText', `${image.folder} - ${displayName}`);
+            
+            const uploadResponse = await strapiApi.post('/api/media/files', formData, {
+              headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            
+            mediaId = uploadResponse.data.data[0].id;
+          }
+          
+          // Force update with Cloudinary URLs
           const updateData = {
             name: displayName,
             alternativeText: `${image.folder} - ${displayName}`,
@@ -629,18 +689,16 @@ class StepByStepMigrator {
             }
           };
           
-          console.log(`   🔄 Updating media entry with Cloudinary URLs using custom API...`);
+          console.log(`   🔄 FORCE UPDATING media entry with Cloudinary URLs...`);
           await strapiApi.put(`/api/media-files/${mediaId}`, updateData);
           
-          console.log(`   ✅ COMPLETE: ${image.displayName} → ${image.folder} folder (ID: ${mediaId})`);
+          console.log(`   ✅ COMPLETE: ${displayName} → ${image.folder} folder (ID: ${mediaId})`);
           console.log(`   🔗 Cloudinary URL: ${image.url}`);
-          console.log(`   📁 Strapi Folder: ${strapiFolder.name} (ID: ${strapiFolder.id})`);
           createdCount++;
           
          } catch (error) {
-           console.log(`   ❌ CRITICAL ERROR: Failed to create ${image.publicId}: ${error.message}`);
-           console.log(`   ❌ EXITING SCRIPT DUE TO FAILURE`);
-           throw error;
+           console.log(`   ❌ ERROR: Failed to process ${image.publicId}: ${error.message}`);
+           failedCount++;
          }
       }
       
