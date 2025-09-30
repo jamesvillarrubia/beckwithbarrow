@@ -49,14 +49,14 @@ const ProjectBlock = ({ project, className = '' }: ProjectBlockProps) => {
         <h5 className="text-xl font-normal text-gray-900 cursor-pointer hover:text-gray-700 transition-colors">
           {project.Title}
         </h5>
-        {project.categories && project.categories.length > 0 && (
-          <p className="text-sm text-gray-500 mt-1 font-medium">
-            {project.categories[0].name}
-          </p>
-        )}
         <p className="text-sm text-gray-600 mt-2 leading-relaxed">
           {project.description}
         </p>
+        {project.categories && project.categories.length > 0 && (
+          <p className="text-sm text-gray-400 mt-2 italic">
+            {project.categories[0].name}
+          </p>
+        )}
       </div>
     </div>
   );
