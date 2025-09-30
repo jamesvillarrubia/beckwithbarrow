@@ -145,3 +145,6 @@ cloudinary.env
 backups/
 *.tar.gz
 *-backup-*
+# NX
+.nx/
+
