@@ -25,7 +25,17 @@ const ProjectGrid = ({ className = '', limit, featured }: ProjectGridProps) => {
   // Fetch projects list using React Query
   const { data: projectsResponse, isLoading, error } = useQuery({
     queryKey: ['projects', { limit, featured }],
-    queryFn: () => apiService.getCollection('projects', '*'),
+    queryFn: async () => {
+      console.log('Fetching projects from API...');
+      try {
+        const result = await apiService.getCollection('projects', '*');
+        console.log('API Response:', result);
+        return result;
+      } catch (err) {
+        console.error('API Error:', err);
+        throw err;
+      }
+    },
     retry: 2,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
