@@ -21,7 +21,17 @@ export default [
       },
     },
   },
-  'strapi::cors',
+  {
+    name: 'strapi::cors',
+    config: {
+      origin: '*',
+      maxAge: 31536000,
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS'],
+      headers: ['Content-Type', 'Authorization', 'X-Requested-With'],
+      keepHeaderOnError: false,
+    },
+  },
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',
