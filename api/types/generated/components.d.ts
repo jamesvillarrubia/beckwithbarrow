@@ -18,8 +18,8 @@ export interface SharedQuote extends Struct.ComponentSchema {
     icon: 'indent';
   };
   attributes: {
-    body: Schema.Attribute.Text;
-    title: Schema.Attribute.String;
+    name: Schema.Attribute.Text;
+    quote: Schema.Attribute.String;
   };
 }
 
