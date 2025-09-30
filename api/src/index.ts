@@ -95,37 +95,22 @@ export default {
         
         // Preserve original request properties and headers
         const originalReq = ctx.req;
-        Object.assign(newStream, {
-          headers: originalReq.headers,
-          method: originalReq.method,
-          url: originalReq.url,
-          socket: originalReq.socket,
-          connection: originalReq.connection,
-          httpVersion: originalReq.httpVersion,
-          httpVersionMajor: originalReq.httpVersionMajor,
-          httpVersionMinor: originalReq.httpVersionMinor,
-          rawHeaders: originalReq.rawHeaders,
-          trailers: originalReq.trailers,
-          rawTrailers: originalReq.rawTrailers,
-          setTimeout: originalReq.setTimeout.bind(originalReq),
-          destroy: originalReq.destroy.bind(originalReq),
-          pause: originalReq.pause.bind(originalReq),
-          resume: originalReq.resume.bind(originalReq),
-          readable: true,
-          readableEncoding: null,
-          readableEnded: false,
-          readableFlowing: null,
-          readableHighWaterMark: originalReq.readableHighWaterMark,
-          readableLength: cleanedBodyString.length,
-          readableObjectMode: false,
-          destroyed: false,
-          _read: function() { (this as any).push(null); }
-        });
+        
+        // Copy essential properties without overriding read-only stream properties
+        (newStream as any).headers = { ...originalReq.headers };
+        (newStream as any).method = originalReq.method;
+        (newStream as any).url = originalReq.url;
+        (newStream as any).socket = originalReq.socket;
+        (newStream as any).connection = originalReq.connection;
+        (newStream as any).httpVersion = originalReq.httpVersion;
+        (newStream as any).httpVersionMajor = originalReq.httpVersionMajor;
+        (newStream as any).httpVersionMinor = originalReq.httpVersionMinor;
+        (newStream as any).rawHeaders = originalReq.rawHeaders;
+        (newStream as any).trailers = originalReq.trailers;
+        (newStream as any).rawTrailers = originalReq.rawTrailers;
         
         // Update the content-length header to match the new body
-        if ((newStream as any).headers) {
-          (newStream as any).headers['content-length'] = cleanedBodyString.length.toString();
-        }
+        (newStream as any).headers['content-length'] = cleanedBodyString.length.toString();
         
         ctx.req = newStream as any;
       }
