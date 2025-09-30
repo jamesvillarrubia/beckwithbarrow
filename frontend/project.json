@@ -1,0 +1,44 @@
+{
+  "name": "frontend",
+  "root": "frontend",
+  "sourceRoot": "frontend/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run build",
+        "cwd": "frontend"
+      }
+    },
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run dev",
+        "cwd": "frontend"
+      }
+    },
+    "preview": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run preview",
+        "cwd": "frontend"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run lint",
+        "cwd": "frontend"
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run deploy",
+        "cwd": "frontend"
+      }
+    }
+  },
+  "tags": ["scope:frontend", "type:app"]
+}

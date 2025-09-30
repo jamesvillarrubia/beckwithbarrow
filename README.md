@@ -4,14 +4,26 @@ A modern portfolio website built with Strapi CMS backend and React frontend, sho
 
 ## 🏗️ Project Structure
 
-This is a monorepo containing two main applications:
+This is a **monorepo** powered by **Nx** and **pnpm workspaces**:
 
 ```
 beckwithbarrow/
-├── api/          # Strapi CMS backend
-├── frontend/     # React frontend application
-└── README.md     # This file
+├── api/                    # Strapi CMS backend
+├── frontend/              # React frontend application
+├── docs/                  # Project documentation
+├── scripts/               # Build and utility scripts
+├── package.json           # Root package.json
+├── pnpm-workspace.yaml    # pnpm workspace config
+├── nx.json               # Nx configuration
+└── .husky/               # Git hooks (secrets protection)
 ```
+
+### 🎯 Monorepo Benefits
+- **Single command setup**: `pnpm install` installs everything
+- **Unified development**: `pnpm run dev` starts all projects
+- **Dependency management**: Shared packages are deduplicated
+- **Build orchestration**: Nx manages build order and caching
+- **Team consistency**: Everyone uses the same tooling
 
 ## 🚀 Features
 
@@ -52,14 +64,9 @@ beckwithbarrow/
    cd beckwithbarrow
    ```
 
-2. **Install dependencies for both applications**
+2. **Install all dependencies (monorepo)**
    ```bash
-   # Install backend dependencies
-   cd api
-   pnpm install
-   
-   # Install frontend dependencies  
-   cd ../frontend
+   # Install all dependencies across all projects
    pnpm install
    ```
 
@@ -72,16 +79,15 @@ beckwithbarrow/
 
 4. **Start the development servers**
    
-   **Backend (Strapi):**
+   **All projects at once:**
    ```bash
-   cd api
-   pnpm develop
+   pnpm run dev
    ```
    
-   **Frontend (React):**
+   **Individual projects:**
    ```bash
-   cd frontend
-   pnpm dev
+   pnpm run dev:api       # Backend (Strapi)
+   pnpm run dev:frontend  # Frontend (React)
    ```
 
 5. **Access the applications**

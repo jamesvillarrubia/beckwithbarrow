@@ -1,0 +1,23 @@
+ 
+{
+  "name": "beckwithbarrow",
+  "version": "1.0.0",
+  "description": "Beckwith Barrow Architecture Portfolio",
+  "private": true,
+  "scripts": {
+    "prepare": "husky",
+    "build": "nx run-many --target=build --all",
+    "test": "nx run-many --target=test --all",
+    "lint": "nx run-many --target=lint --all",
+    "dev": "nx run-many --target=dev --all --parallel",
+    "dev:api": "nx run api:dev",
+    "dev:frontend": "nx run frontend:dev",
+    "build:api": "nx run api:build",
+    "build:frontend": "nx run frontend:build"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "nx": "^21.6.2",
+    "@nx/workspace": "^21.6.2"
+  }
+}

@@ -1,0 +1,2 @@
+# Run gitleaks to check for secrets
+gitleaks protect --staged

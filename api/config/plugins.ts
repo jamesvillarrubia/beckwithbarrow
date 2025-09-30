@@ -9,21 +9,11 @@ export default ({ env }) => ({
             },
             actionOptions: {
                 upload: {},
-                uploadStream: {},
+                uploadStream: {
+                    folder: 'direct_uploads',
+                },
                 delete: {},
             },
         },
     },
-    // 'media': {
-    //     enabled: true,
-    //     config: {
-    //         // Optional: Configure folder permissions
-    //         // permissions: {
-    //         //     create: ['authenticated'],
-    //         //     read: ['public'],
-    //         //     update: ['authenticated'],
-    //         //     delete: ['authenticated']
-    //         // }
-    //     }
-    // },
 });
