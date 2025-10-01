@@ -1,8 +1,22 @@
 import axios from 'axios';
 
+// Determine API base URL based on environment
+const getApiBaseUrl = () => {
+  // Check for environment variable to use production API
+  if (import.meta.env.VITE_USE_PROD_API === 'true') {
+    // Use custom production URL if provided, otherwise use default
+    return import.meta.env.VITE_PROD_API_URL || 'https://striking-ball-b079f8c4b0.strapiapp.com/api';
+  }
+  // Default to local API
+  return 'http://localhost:1337/api';
+};
+
 // Create axios instance with Strapi base URL
+const apiBaseUrl = getApiBaseUrl();
+console.log(`🔗 Using API: ${apiBaseUrl}`);
+
 const api = axios.create({
-  baseURL: 'http://localhost:1337/api',
+  baseURL: apiBaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },

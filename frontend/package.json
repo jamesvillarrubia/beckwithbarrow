@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:local": "VITE_USE_PROD_API=false vite",
+    "dev:prod": "VITE_USE_PROD_API=true vite",
     "build": "tsc -b && vite build",
+    "build:local": "VITE_USE_PROD_API=false tsc -b && vite build",
+    "build:prod": "VITE_USE_PROD_API=true tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy": "vercel --prod",
