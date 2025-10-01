@@ -94,19 +94,36 @@ function generateCloudinaryFormats(image) {
   const version = versionMatch ? versionMatch[1] : '';
   const versionParam = version ? `v${version}/` : '';
   
-  // Generate different format sizes - Strapi expects these specific names
+  // Generate different format sizes with proportional resizing
   const sizes = [
-    { name: 'thumbnail', width: 245, height: 156, crop: 'limit' },
-    { name: 'small', width: 500, height: 500, crop: 'limit' },
-    { name: 'medium', width: 750, height: 750, crop: 'limit' },
-    { name: 'large', width: 1000, height: 1000, crop: 'limit' }
+    { name: 'thumbnail', maxDimension: 245 },
+    { name: 'small', maxDimension: 500 },
+    { name: 'medium', maxDimension: 750 },
+    { name: 'large', maxDimension: 1000 }
   ];
   
   sizes.forEach(size => {
-    const url = `https://res.cloudinary.com/${cloudName}/image/upload/c_${size.crop},w_${size.width},h_${size.height}/${versionParam}${image.publicId}.${image.format}`;
+    // Calculate proportional dimensions
+    const aspectRatio = image.width / image.height;
+    let targetWidth, targetHeight;
     
-    // Calculate size in bytes for this format
-    const formatSizeInBytes = Math.round(image.bytes * (size.width * size.height) / (image.width * image.height));
+    if (image.width > image.height) {
+      // Landscape: constrain by width
+      targetWidth = Math.min(size.maxDimension, image.width);
+      targetHeight = Math.round(targetWidth / aspectRatio);
+    } else {
+      // Portrait or square: constrain by height
+      targetHeight = Math.min(size.maxDimension, image.height);
+      targetWidth = Math.round(targetHeight * aspectRatio);
+    }
+    
+    // Build Cloudinary URL with proportional resizing
+    const url = `https://res.cloudinary.com/${cloudName}/image/upload/c_limit,w_${targetWidth},h_${targetHeight}/${versionParam}${image.publicId}.${image.format}`;
+    
+    // Calculate size in bytes for this format (proportional to area reduction)
+    const originalArea = image.width * image.height;
+    const targetArea = targetWidth * targetHeight;
+    const formatSizeInBytes = Math.round(image.bytes * (targetArea / originalArea));
     const formatSizeInKB = Math.round(formatSizeInBytes / 1024 * 100) / 100; // Convert to KB with 2 decimal places
     
     // Fix MIME type and extension for JPEG files
@@ -121,8 +138,8 @@ function generateCloudinaryFormats(image) {
       name: `${image.displayName || image.publicId}_${size.name}`,
       path: null,
       size: formatSizeInKB,
-      width: size.width,
-      height: size.height,
+      width: targetWidth,
+      height: targetHeight,
       sizeInBytes: formatSizeInBytes
     };
   });
