@@ -6,7 +6,7 @@
   },
   "options": {},
   "attributes": {
-    "quote": {
+    "quoteText": {
       "type": "string"
     },
     "name": {

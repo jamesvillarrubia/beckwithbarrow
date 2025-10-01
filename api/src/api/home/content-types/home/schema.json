@@ -30,7 +30,7 @@
         "images"
       ]
     },
-    "featuredProjects": {
+    "projects": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::project.project"
@@ -41,22 +41,9 @@
       "repeatable": false
     },
     "quote": {
-      "type": "string",
-      "required": true
-    },
-    "name": {
-      "type": "string",
-      "required": true
-    },
-    "text": {
-      "type": "text",
-      "required": true
-    },
-    "blocks": {
-      "type": "dynamiczone",
-      "components": [
-        "shared.quote"
-      ]
+      "type": "component",
+      "component": "shared.quote",
+      "repeatable": true
     }
   }
 }
