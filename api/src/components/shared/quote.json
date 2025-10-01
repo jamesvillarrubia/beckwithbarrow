@@ -7,10 +7,10 @@
   "options": {},
   "attributes": {
     "quoteText": {
-      "type": "string"
+      "type": "text"
     },
     "name": {
-      "type": "text"
+      "type": "string"
     }
   }
 }

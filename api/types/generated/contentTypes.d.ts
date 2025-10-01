@@ -486,7 +486,7 @@ export interface ApiHomeHome extends Struct.SingleTypeSchema {
       Schema.Attribute.Private;
     projects: Schema.Attribute.Relation<'oneToMany', 'api::project.project'>;
     publishedAt: Schema.Attribute.DateTime;
-    quote: Schema.Attribute.Component<'shared.quote', true>;
+    quote: Schema.Attribute.Component<'shared.quote', false>;
     rightImage: Schema.Attribute.Media<'images'>;
     seo: Schema.Attribute.Component<'shared.seo', false>;
     title: Schema.Attribute.String & Schema.Attribute.Required;

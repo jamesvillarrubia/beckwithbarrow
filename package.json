@@ -12,8 +12,10 @@
     "dev": "nx run-many --target=dev --all --parallel",
     "dev:api": "nx run api:dev",
     "dev:frontend": "nx run frontend:dev",
+    "dev:frontend:prod": "VITE_USE_PROD_API=true nx run frontend:dev",
     "build:api": "nx run api:build",
-    "build:frontend": "nx run frontend:build"
+    "build:frontend": "nx run frontend:build",
+    "build:frontend:prod": "VITE_USE_PROD_API=true nx run frontend:build"
   },
   "devDependencies": {
     "husky": "^9.1.7",

@@ -43,7 +43,7 @@
     "quote": {
       "type": "component",
       "component": "shared.quote",
-      "repeatable": true
+      "repeatable": false
     }
   }
 }
