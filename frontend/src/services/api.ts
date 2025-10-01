@@ -63,7 +63,26 @@ export const apiService = {
 
   // Get single type (like home page)
   async getSingleType<T>(endpoint: string, populate = ''): Promise<StrapiResponse<T>> {
-    const url = populate ? `/${endpoint}?populate=${populate}` : `/${endpoint}`;
+    let url = `/${endpoint}`;
+    if (populate) {
+      // Convert Strapi v5 populate syntax
+      const populateParams = new URLSearchParams();
+      const fields = populate.split(',');
+      
+      fields.forEach(field => {
+        if (field.includes('.')) {
+          // Handle nested populate like "featuredProjects.cover"
+          const [parent, child] = field.split('.');
+          populateParams.append(`populate[${parent}][populate][${child}]`, 'true');
+        } else {
+          // Handle simple populate like "leftImage"
+          populateParams.append(`populate[${field}]`, 'true');
+        }
+      });
+      
+      url += `?${populateParams.toString()}`;
+    }
+    
     const response = await api.get(url);
     return response.data;
   },

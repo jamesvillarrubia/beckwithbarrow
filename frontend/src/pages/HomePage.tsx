@@ -45,7 +45,7 @@ const HomePage = () => {
     queryFn: async () => {
       console.log('Fetching home page data from API...');
       try {
-        const result = await apiService.getSingleType('home', 'leftImage,rightImage,featuredProjects.cover');
+        const result = await apiService.getSingleType('home', 'leftImage,rightImage');
         console.log('Home API Response:', result);
         return result;
       } catch (err) {
@@ -126,7 +126,7 @@ const HomePage = () => {
       <section className="py-24" style={{ paddingTop: '100px', paddingBottom: '100px' }}>
         <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 text-left">
           <h3 className="text-4xl md:text-6xl font-serif font-extralight leading-tight text-gray-900">
-            {homeContent?.quote || "Architecture is a visual art, and the buildings speak for themselves."}
+            {homeContent?.text || "Architecture is a visual art, and the buildings speak for themselves."}
           </h3>
           <p className="text-xl md:text-2xl font-sans text-gray-500 mt-8 text-right">
             — {homeContent?.name || "Julia Morgan"}
