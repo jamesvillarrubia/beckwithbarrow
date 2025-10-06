@@ -20,11 +20,11 @@ interface LogoProps {
 const Logo = ({ size = 'md', color = 'black', className = '' }: LogoProps) => {
   // Size configurations with width/height for SVG (2:1 aspect ratio)
   const sizeConfigs = {
-    xs: { width: 60, height: 30 },
-    sm: { width: 80, height: 40 },
-    md: { width: 120, height: 60 },
-    lg: { width: 160, height: 80 },
-    xl: { width: 200, height: 100 },
+    xs: { width: 80, height: 40 },
+    sm: { width: 100, height: 50 },
+    md: { width: 150, height: 75 },
+    lg: { width: 200, height: 100 },
+    xl: { width: 300, height: 150 },
     hero: { width: 500, height: 250 },
   };
 

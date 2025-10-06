@@ -12,12 +12,17 @@ import Footer from '../components/Footer';
 import Logo from '../components/Logo';
 import Navigation from '../components/Navigation';
 import ProjectGrid from '../components/ProjectGrid';
+import AnimatedSection from '../components/AnimatedSection';
 import { apiService } from '../services/api';
 
 interface Project {
   id: number;
   cover?: {
     url: string;
+    formats?: {
+      large?: { url: string; };
+    };
+    alternativeText?: string;
   };
   [key: string]: unknown;
 }
@@ -26,10 +31,16 @@ interface HomeContent {
   title?: string;
   leftImage?: {
     url: string;
+    formats?: {
+      large?: { url: string; };
+    };
     alternativeText?: string;
   };
   rightImage?: {
     url: string;
+    formats?: {
+      large?: { url: string; };
+    };
     alternativeText?: string;
   };
   projects?: Project[];
@@ -101,7 +112,7 @@ const HomePage = () => {
         <div className="w-1/2 relative overflow-hidden">
           <div className="absolute inset-0 bg-black/40 z-10"></div>
           <img
-            src={homeContent?.leftImage?.url || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2053&q=80"}
+            src={homeContent?.leftImage?.formats?.large?.url || homeContent?.leftImage?.url || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2053&q=80"}
             alt={homeContent?.leftImage?.alternativeText || "Architectural interior"}
             className="w-full h-full object-cover"
           />
@@ -111,7 +122,7 @@ const HomePage = () => {
         <div className="w-1/2 relative overflow-hidden">
           <div className="absolute inset-0 bg-black/40 z-10"></div>
           <img
-            src={homeContent?.rightImage?.url || "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"}
+            src={homeContent?.rightImage?.formats?.large?.url || homeContent?.rightImage?.url || "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"}
             alt={homeContent?.rightImage?.alternativeText || "Modern home exterior"}
             className="w-full h-full object-cover"
           />
@@ -119,12 +130,19 @@ const HomePage = () => {
 
         {/* Centered Text Overlay */}
         <div className="absolute w-full h-full z-20 flex items-center justify-center">
-          <Logo size="hero" color="white" />
+          <AnimatedSection delay={500} duration={800}>
+            <Logo size="hero" color="white" />
+          </AnimatedSection>
         </div>
       </section>
 
       {/* Slogan Section */}
-      <section className="py-24" style={{ paddingTop: '100px', paddingBottom: '100px' }}>
+      <AnimatedSection 
+        as="section" 
+        className="py-24" 
+        style={{ paddingTop: '100px', paddingBottom: '100px', backgroundColor: '#ffe9d7' }}
+        delay={200}
+      >
         <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 text-left">
           <h3 className="text-4xl md:text-6xl font-serif font-extralight leading-tight text-gray-900">
             {homeContent?.quote?.[0]?.quoteText || "Architecture is a visual art, and the buildings speak for themselves."}
@@ -133,7 +151,7 @@ const HomePage = () => {
             — {homeContent?.quote?.[0]?.name || "Julia Morgan"}
           </p>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Projects Grid */}
       <ProjectGrid featuredProjects={homeContent?.projects} />

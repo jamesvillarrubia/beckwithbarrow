@@ -47,7 +47,26 @@ export interface StrapiItem {
 export const apiService = {
   // Get all items from a collection
   async getCollection<T>(endpoint: string, populate = ''): Promise<StrapiResponse<T[]>> {
-    const url = populate ? `/${endpoint}?populate=${populate}` : `/${endpoint}`;
+    let url = `/${endpoint}`;
+    if (populate) {
+      // Convert Strapi v5 populate syntax
+      const populateParams = new URLSearchParams();
+      const fields = populate.split(',');
+      
+      fields.forEach(field => {
+        if (field.includes('.')) {
+          // Handle nested populate like "projects.cover"
+          const [parent, child] = field.split('.');
+          populateParams.append(`populate[${parent}][populate][${child}]`, 'true');
+        } else {
+          // Handle simple populate like "cover"
+          populateParams.append(`populate[${field}]`, 'true');
+        }
+      });
+      
+      url += `?${populateParams.toString()}`;
+    }
+    
     const response = await api.get(url);
     return response.data;
   },

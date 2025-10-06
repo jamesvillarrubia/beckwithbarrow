@@ -14,6 +14,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiService } from '../services/api';
 import ProjectBlock from './ProjectBlock';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { useEffect, useState, useRef } from 'react';
 
 interface Project {
   id: number;
@@ -30,7 +32,26 @@ interface ProjectGridProps {
   featuredProjects?: Project[];
 }
 
+// Animated project wrapper component
+const AnimatedProject = ({ children }: { children: React.ReactNode }) => {
+  const { elementRef, animationStyle } = useScrollAnimation({
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px',
+    delay: 0, // No artificial delay - trigger when in view
+    duration: 400
+  });
+
+  return (
+    <div ref={elementRef} style={animationStyle}>
+      {children}
+    </div>
+  );
+};
+
 const ProjectGrid = ({ className = '', limit, featured, featuredProjects }: ProjectGridProps) => {
+  const [visualOrder, setVisualOrder] = useState<number[]>([]);
+  const gridRef = useRef<HTMLDivElement>(null);
+
   // Fetch projects list using React Query (always call hooks)
   const { data: projectsResponse, isLoading, error } = useQuery({
     queryKey: ['projects', { limit, featured }],
@@ -52,6 +73,58 @@ const ProjectGrid = ({ className = '', limit, featured, featuredProjects }: Proj
 
   const projects = projectsResponse?.data as Project[];
   const displayProjects = featuredProjects && featuredProjects.length > 0 ? featuredProjects : projects;
+
+  // Calculate visual order after layout is complete
+  useEffect(() => {
+    if (!displayProjects || displayProjects.length === 0) return;
+
+    const calculateVisualOrder = () => {
+      if (!gridRef.current) return;
+
+      const projectElements = gridRef.current.querySelectorAll('[data-project-id]');
+      const positions: { id: number; top: number; left: number }[] = [];
+
+      projectElements.forEach((element) => {
+        const rect = element.getBoundingClientRect();
+        const projectId = parseInt(element.getAttribute('data-project-id') || '0');
+        positions.push({
+          id: projectId,
+          top: rect.top,
+          left: rect.left
+        });
+      });
+
+      // Sort by top position first, then by left position
+      positions.sort((a, b) => {
+        if (Math.abs(a.top - b.top) < 10) { // Same row (within 10px)
+          return a.left - b.left; // Sort by left position
+        }
+        return a.top - b.top; // Sort by top position
+      });
+
+      // Create mapping from project ID to visual order
+      const visualOrderMap = new Map<number, number>();
+      positions.forEach((pos, index) => {
+        visualOrderMap.set(pos.id, index + 1);
+      });
+
+      // Convert to array in original project order
+      const filteredProjects = displayProjects.filter(project => project.cover?.url);
+      const order = filteredProjects.map(project => visualOrderMap.get(project.id) || 0);
+      setVisualOrder(order);
+    };
+
+    // Calculate after a short delay to ensure layout is complete
+    const timeoutId = setTimeout(calculateVisualOrder, 100);
+    
+    // Also recalculate on window resize
+    window.addEventListener('resize', calculateVisualOrder);
+    
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', calculateVisualOrder);
+    };
+  }, [displayProjects]);
 
   // Always show loading state for now (placeholder boxes)
   if (isLoading) {
@@ -118,14 +191,18 @@ const ProjectGrid = ({ className = '', limit, featured, featuredProjects }: Proj
     <section className={`py-16 px-10 ${className}`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         {/* Masonry Grid */}
-        <div className="columns-2 gap-16">
+        <div ref={gridRef} className="columns-2 gap-16">
           {displayProjects
             .filter(project => project.cover?.url) // Only show projects with cover images
-            .map((project) => (
-              <ProjectBlock 
-                key={project.id} 
-                project={project}
-              />
+            .map((project, index) => (
+              <AnimatedProject key={project.id}>
+                <div data-project-id={project.id}>
+                  <ProjectBlock 
+                    project={project}
+                    number={visualOrder[index] || index + 1}
+                  />
+                </div>
+              </AnimatedProject>
             ))}
         </div>
       </div>
