@@ -31,7 +31,7 @@ function createApiClients() {
     }
   });
 
-  // Strapi API client
+  // Strapi API client (using cloud API with custom endpoint)
   const strapiApi = axios.create({
     baseURL: process.env.STRAPI_CLOUD_BASE_URL,
     headers: {
@@ -107,6 +107,7 @@ function generateCloudinaryFormats(image) {
     const aspectRatio = image.width / image.height;
     let targetWidth, targetHeight;
     
+    // Calculate dimensions that fit within the maxDimension while maintaining aspect ratio
     if (image.width > image.height) {
       // Landscape: constrain by width
       targetWidth = Math.min(size.maxDimension, image.width);
@@ -116,6 +117,10 @@ function generateCloudinaryFormats(image) {
       targetHeight = Math.min(size.maxDimension, image.height);
       targetWidth = Math.round(targetHeight * aspectRatio);
     }
+    
+    // Ensure we don't exceed the original dimensions
+    targetWidth = Math.min(targetWidth, image.width);
+    targetHeight = Math.min(targetHeight, image.height);
     
     // Build Cloudinary URL with proportional resizing
     const url = `https://res.cloudinary.com/${cloudName}/image/upload/c_limit,w_${targetWidth},h_${targetHeight}/${versionParam}${image.publicId}.${image.format}`;

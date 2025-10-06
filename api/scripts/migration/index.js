@@ -96,6 +96,7 @@ class StepByStepMigrator {
       const specificStep = args.find(arg => arg.startsWith('--step='))?.split('=')[1];
       const purgeStrapi = args.includes('--purge-strapi');
       this.dryRun = args.includes('--dry-run');
+      const singleImage = args.find(arg => arg.startsWith('--image='))?.split('=')[1];
       
       // Execute steps
       if (purgeStrapi || specificStep === '0') {
@@ -159,7 +160,7 @@ class StepByStepMigrator {
       }
       
       if (!specificStep || specificStep === '11') {
-        await step11.forceOverwriteAllFormats(strapiApi, cloudinaryApi, this.dryRun, this.rl);
+        await step11.forceOverwriteAllFormats(strapiApi, cloudinaryApi, this.dryRun, this.rl, { singleImageName: singleImage });
         this.saveState();
       }
       
