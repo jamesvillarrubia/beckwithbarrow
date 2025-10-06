@@ -16,4 +16,10 @@ export default ({ env }) => ({
             },
         },
     },
+    'color-picker': {
+        enabled: true,
+        config: {
+            // Color picker configuration options
+        },
+    },
 });
