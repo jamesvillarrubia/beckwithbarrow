@@ -6,13 +6,11 @@
  * - Inspirational slogan section
  * - Masonry layout showcasing projects with staggered positioning
  * 
- * Performance Optimizations:
- * - Prefetches Connect page data in the background after home page loads
- * - Cached data is used when navigating to /connect, eliminating loading states
+ * Note: Page prefetching is handled centrally in App.tsx via usePrefetchPages hook
  */
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import Footer from '../components/Footer';
 import Logo from '../components/Logo';
 import Navigation from '../components/Navigation';
@@ -64,7 +62,6 @@ interface HomeContent {
 
 const HomePage = () => {
   const [showDebug, setShowDebug] = useState(false);
-  const queryClient = useQueryClient();
   
   // Fetch global settings
   const { globalSettings } = useGlobalSettings();
@@ -88,27 +85,6 @@ const HomePage = () => {
   });
 
   const homeContent = homeData?.data as HomeContent;
-
-  // Prefetch Connect page data in the background after home page loads
-  useEffect(() => {
-    if (homeData) {
-      console.log('Prefetching Connect page data...');
-      queryClient.prefetchQuery({
-        queryKey: ['connect'],
-        queryFn: async () => {
-          try {
-            const result = await apiService.getSingleType('connect');
-            console.log('Connect data prefetched successfully');
-            return result;
-          } catch (err) {
-            console.error('Connect prefetch error:', err);
-            throw err;
-          }
-        },
-        staleTime: 5 * 60 * 1000, // 5 minutes - same as ConnectPage
-      });
-    }
-  }, [homeData, queryClient]);
 
   // Show loading state
   if (isLoading) {
