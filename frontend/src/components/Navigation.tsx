@@ -4,23 +4,33 @@
  * A responsive navigation bar that:
  * - On homepage: transitions from transparent to white background when scrolling past 90% of viewport height
  * - On other pages: defaults to white background with black text (no scroll threshold)
+ * - Dynamically loads navigation links from Strapi global settings
  * Provides smooth transitions and adapts text colors accordingly.
  */
 
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useGlobalSettings } from '../hooks/useGlobalSettings';
 
 const Navigation = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   // Initialize isScrolled based on whether we're on homepage or not
   const [isScrolled, setIsScrolled] = useState(!isHomePage);
+  
+  // Fetch navigation links from global settings
+  const { headerNavigation, isLoading } = useGlobalSettings();
 
-  const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Connect', path: '/connect' },
+  // Fallback navigation if API is loading or fails
+  const fallbackNavItems = [
+    { id: 1, label: 'Home', url: '/', external: false, openInNewTab: false, order: 0 },
+    { id: 2, label: 'About', url: '/about', external: false, openInNewTab: false, order: 1 },
+    { id: 3, label: 'Connect', url: '/connect', external: false, openInNewTab: false, order: 2 },
   ];
+
+  const navItems = isLoading || headerNavigation.length === 0 
+    ? fallbackNavItems 
+    : headerNavigation;
 
   useEffect(() => {
     // Set initial state based on page type
@@ -54,22 +64,43 @@ const Navigation = () => {
         <div className="flex justify-start items-center h-16">
           {/* Navigation Links - Left Aligned */}
           <div className="flex space-x-12">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`font-serif text-md transition-all duration-300 ease-in-out no-underline border-b-2 pb-1 ${
-                  location.pathname === item.path
-                    ? `${isScrolled ? 'text-black border-black' : 'text-white border-white'} font-semibold`
-                    : `${isScrolled 
-                        ? 'text-black border-transparent hover:border-gray-600' 
-                        : 'text-white border-transparent hover:border-gray-300'
-                      }`
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const isActive = location.pathname === item.url;
+              const linkClassName = `font-serif text-md transition-all duration-300 ease-in-out no-underline border-b-2 pb-1 ${
+                isActive
+                  ? `${isScrolled ? 'text-black border-black' : 'text-white border-white'} font-semibold`
+                  : `${isScrolled 
+                      ? 'text-black border-transparent hover:border-gray-600' 
+                      : 'text-white border-transparent hover:border-gray-300'
+                    }`
+              }`;
+
+              // External links use <a> tag
+              if (item.external) {
+                return (
+                  <a
+                    key={item.id}
+                    href={item.url}
+                    target={item.openInNewTab ? '_blank' : '_self'}
+                    rel={item.openInNewTab ? 'noopener noreferrer' : undefined}
+                    className={linkClassName}
+                  >
+                    {item.label}
+                  </a>
+                );
+              }
+
+              // Internal links use React Router Link
+              return (
+                <Link
+                  key={item.id}
+                  to={item.url}
+                  className={linkClassName}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Mobile Menu Button */}

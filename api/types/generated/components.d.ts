@@ -11,6 +11,29 @@ export interface SharedMedia extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedNavigationLink extends Struct.ComponentSchema {
+  collectionName: 'components_shared_navigation_links';
+  info: {
+    description: 'A navigation menu link with label, URL, and display options';
+    displayName: 'Navigation Link';
+    icon: 'link';
+  };
+  attributes: {
+    external: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    label: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+      }> &
+      Schema.Attribute.DefaultTo<'Link'>;
+    openInNewTab: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    url: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'/'>;
+  };
+}
+
 export interface SharedQuote extends Struct.ComponentSchema {
   collectionName: 'components_shared_quotes';
   info: {
@@ -66,6 +89,7 @@ declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'shared.media': SharedMedia;
+      'shared.navigation-link': SharedNavigationLink;
       'shared.quote': SharedQuote;
       'shared.rich-text': SharedRichText;
       'shared.seo': SharedSeo;

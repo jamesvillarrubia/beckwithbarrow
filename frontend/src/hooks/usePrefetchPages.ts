@@ -38,6 +38,12 @@ interface PrefetchConfig {
  */
 const PREFETCH_CONFIGS: PrefetchConfig[] = [
   {
+    queryKey: ['global-settings'],
+    queryFn: () => apiService.getSingleType('global', 'headerNavigation,footerNavigation'),
+    staleTime: 10 * 60 * 1000, // 10 minutes - global settings change less frequently
+    name: 'Global Settings',
+  },
+  {
     queryKey: ['home'],
     queryFn: () => apiService.getSingleType('home', 'leftImage,rightImage,projects.cover,quote'),
     staleTime: 5 * 60 * 1000, // 5 minutes

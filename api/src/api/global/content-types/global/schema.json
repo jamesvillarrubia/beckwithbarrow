@@ -29,6 +29,16 @@
       "type": "customField",
       "customField": "plugin::color-picker.color",
       "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+    },
+    "headerNavigation": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.navigation-link"
+    },
+    "footerNavigation": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.navigation-link"
     }
   }
 }

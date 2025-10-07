@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_shared_navigation_links",
+  "info": {
+    "displayName": "Navigation Link",
+    "description": "A navigation menu link with label, URL, and display options",
+    "icon": "link"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true,
+      "maxLength": 50,
+      "default": "Link"
+    },
+    "url": {
+      "type": "string",
+      "required": true,
+      "default": "/"
+    },
+    "external": {
+      "type": "boolean",
+      "default": false
+    },
+    "openInNewTab": {
+      "type": "boolean",
+      "default": false
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
+
