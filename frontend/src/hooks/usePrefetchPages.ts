@@ -62,6 +62,12 @@ const PREFETCH_CONFIGS: PrefetchConfig[] = [
     name: 'About Page',
   },
   {
+    queryKey: ['approach'],
+    queryFn: () => apiService.getSingleType('approach'),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    name: 'Approach Page',
+  },
+  {
     queryKey: ['connect'],
     queryFn: () => apiService.getSingleType('connect'),
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -200,6 +206,7 @@ export function useSmartPrefetch(options?: { skip?: boolean; delay?: number }) {
   const routeToQueryKey: Record<string, string[]> = {
     '/': ['home'],
     '/about': ['about'],
+    '/approach': ['approach'],
     '/connect': ['connect'],
     // Add more route mappings as needed
   };

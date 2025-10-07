@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
+import ApproachPage from './pages/ApproachPage';
 import ConnectPage from './pages/ConnectPage';
 import ProjectPage from './pages/ProjectPage';
 import { useSmartPrefetch } from './hooks/usePrefetchPages';
@@ -32,7 +33,8 @@ function AppContent() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} /> 
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/approach" element={<ApproachPage />} />
           <Route path="/connect" element={<ConnectPage />} />
           <Route path="/project/:slug" element={<ProjectPage />} />
           {/* Catch-all route for 404s */}
