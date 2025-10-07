@@ -43,6 +43,12 @@ const PREFETCH_CONFIGS: PrefetchConfig[] = [
     name: 'Home Page',
   },
   {
+    queryKey: ['about'],
+    queryFn: () => apiService.getSingleType('about'),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    name: 'About Page',
+  },
+  {
     queryKey: ['connect'],
     queryFn: () => apiService.getSingleType('connect'),
     staleTime: 5 * 60 * 1000, // 5 minutes
