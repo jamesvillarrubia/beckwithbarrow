@@ -51,13 +51,25 @@ const ConnectPage = () => {
     setSubmitStatus('idle');
 
     try {
-      // For now, we'll just simulate a submission
-      // In a real implementation, you'd send this to your API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      console.log('Form submission:', formData);
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', message: '' });
+      // Send form data to Vercel serverless function
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log('Email sent successfully:', result);
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        console.error('Email sending failed:', result);
+        setSubmitStatus('error');
+      }
     } catch (error) {
       console.error('Form submission error:', error);
       setSubmitStatus('error');

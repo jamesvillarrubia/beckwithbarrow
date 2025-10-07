@@ -1,13 +1,11 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "devCommand": "npm run dev",
-  "installCommand": "npm install",
-  "framework": "vite",
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
+  "functions": {
+    "api/send-email.js": {
+      "maxDuration": 10
     }
-  ]
+  },
+  "env": {
+    "RESEND_API_KEY": "@resend_api_key",
+    "CONTACT_EMAIL": "@contact_email"
+  }
 }
