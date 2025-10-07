@@ -3,17 +3,28 @@
  * 
  * A clean white footer featuring the Beckwith Barrow logo, navigation menu,
  * and a "Connect with us" call-to-action button with black outline styling.
+ * 
+ * Dynamically loads navigation links from Strapi Menu single type.
  */
 
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
+import { useGlobalSettings } from '../hooks/useGlobalSettings';
 
 const Footer = () => {
-  const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Connect', path: '/connect' },
+  // Fetch navigation links from menu
+  const { navigation, isLoading } = useGlobalSettings();
+
+  // Fallback navigation if API is loading or fails
+  const fallbackNavItems = [
+    { id: 1, label: 'Home', url: '/', external: false, openInNewTab: false, order: 0 },
+    { id: 2, label: 'About', url: '/about', external: false, openInNewTab: false, order: 1 },
+    { id: 3, label: 'Connect', url: '/connect', external: false, openInNewTab: false, order: 2 },
   ];
+
+  const navItems = isLoading || navigation.length === 0 
+    ? fallbackNavItems 
+    : navigation;
 
   return (
     <footer className="bg-white border-t border-gray-200 py-16">
@@ -25,15 +36,35 @@ const Footer = () => {
 
           {/* Navigation Menu */} 
           <nav className="flex space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className="font-serif text-black hover:text-gray-600 transition-colors text-lg"
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const linkClassName = "font-serif text-black hover:text-gray-600 transition-colors text-lg";
+
+              // External links use <a> tag
+              if (item.external) {
+                return (
+                  <a
+                    key={item.id}
+                    href={item.url}
+                    target={item.openInNewTab ? '_blank' : '_self'}
+                    rel={item.openInNewTab ? 'noopener noreferrer' : undefined}
+                    className={linkClassName}
+                  >
+                    {item.label}
+                  </a>
+                );
+              }
+
+              // Internal links use React Router Link
+              return (
+                <Link
+                  key={item.id}
+                  to={item.url}
+                  className={linkClassName}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Connect with us Link */}
