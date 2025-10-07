@@ -1,0 +1,24 @@
+{
+  "kind": "singleType",
+  "collectionName": "connects",
+  "info": {
+    "singularName": "connect",
+    "pluralName": "connects",
+    "displayName": "Connect"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "email": {
+      "type": "email"
+    },
+    "address": {
+      "type": "text"
+    },
+    "phone": {
+      "type": "string"
+    }
+  }
+}
