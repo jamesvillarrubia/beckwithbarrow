@@ -213,7 +213,7 @@ const ProjectPage = () => {
           </button>
 
           {/* Project Title */}
-          <div className="flex items-end gap-6 mb-6">
+          <div className="flex items-end gap-6 mb-6 max-w-6xl">
             {/* Project Number */}
             {projectNumber && (
               <div className="flex-shrink-0 pt-5">
@@ -224,7 +224,7 @@ const ProjectPage = () => {
             )}
             
             {/* Project Title */}
-            <h1 className="text-4xl md:text-6xl font-serif font-light leading-tight text-gray-900">
+            <h1 className="lg:text-7xl font-serif font-light leading-tight text-gray-900">
               {project.Title}
             </h1>
           </div>
@@ -253,8 +253,8 @@ const ProjectPage = () => {
 
           {/* Project Description */}
           {project.description && (
-            <div className="mb-12">
-              <p className="text-lg text-gray-700 leading-relaxed max-w-3xl">
+            <div className="mb-12 max-w-6xl">
+              <p className="text-xl text-gray-700 leading-relaxed">
                 {project.description}
               </p>
             </div>
