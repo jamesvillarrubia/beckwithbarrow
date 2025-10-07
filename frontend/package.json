@@ -7,6 +7,8 @@
     "dev": "vite",
     "dev:local": "VITE_USE_PROD_API=false vite",
     "dev:prod": "VITE_USE_PROD_API=true vite",
+    "dev:full": "concurrently \"vercel dev --listen 3001\" \"vite --port 5173\"",
+    "dev:api": "vercel dev --listen 3001",
     "build": "tsc -b && vite build",
     "build:local": "VITE_USE_PROD_API=false tsc -b && vite build",
     "build:prod": "VITE_USE_PROD_API=true tsc -b && vite build",
@@ -30,6 +32,7 @@
     "@types/react": "^19.1.17",
     "@types/react-dom": "^19.1.11",
     "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^9.2.1",
     "eslint": "^9.33.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
@@ -37,7 +40,7 @@
     "tailwindcss": "^4.1.13",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
-    "vercel": "^48.0.2",
+    "vercel": "^48.1.6",
     "vite": "^7.1.2"
   }
 }
