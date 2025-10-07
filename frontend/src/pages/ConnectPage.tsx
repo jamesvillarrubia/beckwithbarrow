@@ -51,8 +51,8 @@ const ConnectPage = () => {
     setSubmitStatus('idle');
 
     try {
-      // Send form data to Vercel serverless function
-      const response = await fetch('/api/send-email', {
+      // Send form data to API server
+      const response = await fetch('http://localhost:3001/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
