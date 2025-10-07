@@ -21,7 +21,7 @@ const ApproachPage = () => {
   const navigate = useNavigate();
 
   // Fetch approach data from Strapi
-  const { data: approachData, isLoading } = useQuery({
+  const { data: approachData, isLoading, error } = useQuery({
     queryKey: ['approach'],
     queryFn: async () => {
       try {
@@ -32,7 +32,7 @@ const ApproachPage = () => {
         throw err;
       }
     },
-    retry: 2,
+    retry: 1, // Only retry once for faster failure
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
@@ -49,6 +49,47 @@ const ApproachPage = () => {
             <p className="text-gray-600">Loading approach...</p>
           </div>
         </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Show error state or placeholder if content doesn't exist yet
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Navigation />
+        
+        {/* Breadcrumb Navigation */}
+        <section className="py-16 px-6 md:px-12 lg:px-16">
+          <div className="max-w-6xl mx-auto">
+            <button
+              onClick={() => navigate('/')}
+              className="mb-8 text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-2 mt-8 cursor-pointer"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Projects
+            </button>
+          </div>
+        </section>
+
+        {/* Placeholder Content */}
+        <section className="py-16 px-6 md:px-12 lg:px-16">
+          <div className="max-w-6xl mx-auto text-center">
+            <h1 className="text-5xl md:text-6xl text-gray-900 mb-6">
+              Our Approach
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 leading-relaxed mb-8">
+              Content coming soon...
+            </p>
+            <p className="text-sm text-gray-400">
+              (Approach content type not yet configured in Strapi)
+            </p>
+          </div>
+        </section>
+
         <Footer />
       </div>
     );
