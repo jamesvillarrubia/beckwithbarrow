@@ -213,11 +213,11 @@ const ProjectPage = () => {
           </button>
 
           {/* Project Title */}
-          <div className="flex items-start gap-6 mb-6">
+          <div className="flex items-end gap-6 mb-6">
             {/* Project Number */}
             {projectNumber && (
               <div className="flex-shrink-0">
-                <span className="text-8xl swifted leading-tight" style={{ color: homeContent?.numberColors || lightThemeColor }}>
+                <span className="swifted leading-tight" style={{ color: homeContent?.numberColors || lightThemeColor, fontSize: '12rem' }}>
                   {projectNumber.padStart(2, '0')}
                 </span>
               </div>
