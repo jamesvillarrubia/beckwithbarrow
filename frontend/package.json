@@ -7,7 +7,7 @@
     "dev": "vite",
     "dev:local": "VITE_USE_PROD_API=false vite",
     "dev:prod": "VITE_USE_PROD_API=true vite",
-    "dev:full": "concurrently \"vercel dev --listen 3001\" \"vite --port 5173\"",
+    "dev:full": "concurrently \"vercel dev --listen 3001 --yes\" \"vite --port 5173\"",
     "dev:api": "vercel dev --listen 3001",
     "build": "tsc -b && vite build",
     "build:local": "VITE_USE_PROD_API=false tsc -b && vite build",
