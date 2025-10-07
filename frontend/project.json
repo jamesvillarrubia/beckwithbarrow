@@ -14,7 +14,14 @@
     "dev": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm run dev:full",
+        "command": "pnpm run dev",
+        "cwd": "frontend"
+      }
+    },
+    "dev:vercel": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run dev:api",
         "cwd": "frontend"
       }
     },
