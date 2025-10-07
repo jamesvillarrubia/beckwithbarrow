@@ -1,0 +1,9 @@
+nx.json
+package.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+api/
+docs/
+scripts/
+uploads/
+*.log
