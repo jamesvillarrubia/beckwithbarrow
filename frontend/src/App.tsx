@@ -13,18 +13,19 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ConnectPage from './pages/ConnectPage';
 import ProjectPage from './pages/ProjectPage';
-import { usePrefetchPages } from './hooks/usePrefetchPages';
+import { useSmartPrefetch } from './hooks/usePrefetchPages';
 
 // Create a client
 const queryClient = new QueryClient();
 
 /**
  * AppContent - Internal component that has access to QueryClient context
- * This is where we call usePrefetchPages since it needs the QueryClient
+ * This is where we call useSmartPrefetch which automatically waits for the
+ * current page to load before prefetching others
  */
 function AppContent() {
-  // Prefetch all pages in the background on initial load
-  usePrefetchPages();
+  // Smart prefetch: waits for current page to load, then prefetches others
+  useSmartPrefetch();
 
   return (
     <div className="min-h-screen">

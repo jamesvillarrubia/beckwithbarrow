@@ -19,6 +19,7 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { apiService } from '../services/api';
 
 interface PrefetchConfig {
@@ -68,6 +69,7 @@ const PREFETCH_CONFIGS: PrefetchConfig[] = [
  * 
  * Features:
  * - Only runs once per app session
+ * - Waits for current page to load before prefetching others (if waitForQuery specified)
  * - Skips prefetching if data is already in cache
  * - Runs prefetches in parallel for speed
  * - Gracefully handles errors without breaking the app
@@ -75,11 +77,16 @@ const PREFETCH_CONFIGS: PrefetchConfig[] = [
  * @param options Configuration options
  * @param options.skip Skip prefetching (useful for conditional execution)
  * @param options.delay Delay in ms before starting prefetch (default: 0)
+ * @param options.waitForQuery Query key to wait for before prefetching (ensures current page loads first)
  */
-export function usePrefetchPages(options?: { skip?: boolean; delay?: number }) {
+export function usePrefetchPages(options?: { 
+  skip?: boolean; 
+  delay?: number;
+  waitForQuery?: string[];
+}) {
   const queryClient = useQueryClient();
   const hasRun = useRef(false);
-  const { skip = false, delay = 0 } = options || {};
+  const { skip = false, delay = 0, waitForQuery } = options || {};
 
   useEffect(() => {
     // Only run once per app session
@@ -90,7 +97,31 @@ export function usePrefetchPages(options?: { skip?: boolean; delay?: number }) {
     hasRun.current = true;
 
     const prefetchAll = async () => {
-      console.log('🚀 Starting background prefetch of all pages...');
+      // If waitForQuery is specified, wait for that query to have data before prefetching
+      if (waitForQuery) {
+        console.log(`⏳ Waiting for ${JSON.stringify(waitForQuery)} to load before prefetching...`);
+        
+        // Poll until the query has data (max 10 seconds)
+        const maxWaitTime = 10000;
+        const pollInterval = 100;
+        let elapsed = 0;
+        
+        while (elapsed < maxWaitTime) {
+          const queryState = queryClient.getQueryState(waitForQuery);
+          if (queryState?.data) {
+            console.log(`✅ Query ${JSON.stringify(waitForQuery)} loaded, starting prefetch`);
+            break;
+          }
+          await new Promise(resolve => setTimeout(resolve, pollInterval));
+          elapsed += pollInterval;
+        }
+        
+        if (elapsed >= maxWaitTime) {
+          console.warn(`⚠️  Timeout waiting for ${JSON.stringify(waitForQuery)}, prefetching anyway`);
+        }
+      }
+      
+      console.log('🚀 Starting background prefetch of other pages...');
       
       // Run all prefetches in parallel
       const prefetchPromises = PREFETCH_CONFIGS.map(async (config) => {
@@ -126,7 +157,50 @@ export function usePrefetchPages(options?: { skip?: boolean; delay?: number }) {
     } else {
       prefetchAll();
     }
-  }, [queryClient, skip, delay]);
+  }, [queryClient, skip, delay, waitForQuery]);
+}
+
+/**
+ * Smart wrapper that automatically waits for the current page to load
+ * before prefetching other pages. Uses React Router location to determine
+ * which query to wait for.
+ * 
+ * This is the recommended way to use the prefetch system as it ensures
+ * the current page loads first, then other pages are fetched in the background.
+ * 
+ * Example console output when landing on home page:
+ * ```
+ * ⏳ Waiting for ["home"] to load before prefetching...
+ * ✅ Query ["home"] loaded, starting prefetch
+ * 🚀 Starting background prefetch of other pages...
+ * ✅ Home Page already in cache, skipping prefetch
+ * ✅ About Page prefetched successfully
+ * ✅ Connect Page prefetched successfully
+ * 🎉 All page prefetch attempts completed
+ * ```
+ * 
+ * @param options Configuration options (optional)
+ */
+export function useSmartPrefetch(options?: { skip?: boolean; delay?: number }) {
+  const location = useLocation();
+  
+  // Map routes to query keys that should be waited for
+  const routeToQueryKey: Record<string, string[]> = {
+    '/': ['home'],
+    '/about': ['about'],
+    '/connect': ['connect'],
+    // Add more route mappings as needed
+  };
+  
+  // Get the query key for the current route
+  // For dynamic routes like /project/:slug, we don't wait (let them load naturally)
+  const currentQueryKey = routeToQueryKey[location.pathname];
+  
+  // Use the prefetch hook with the detected query key
+  usePrefetchPages({
+    ...options,
+    waitForQuery: currentQueryKey,
+  });
 }
 
 /**
