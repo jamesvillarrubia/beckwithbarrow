@@ -18,8 +18,8 @@ const Navigation = () => {
   // Initialize isScrolled based on whether we're on homepage or not
   const [isScrolled, setIsScrolled] = useState(!isHomePage);
   
-  // Fetch navigation links from global settings
-  const { headerNavigation, isLoading } = useGlobalSettings();
+  // Fetch navigation links from menu
+  const { navigation, isLoading } = useGlobalSettings();
 
   // Fallback navigation if API is loading or fails
   const fallbackNavItems = [
@@ -28,9 +28,9 @@ const Navigation = () => {
     { id: 3, label: 'Connect', url: '/connect', external: false, openInNewTab: false, order: 2 },
   ];
 
-  const navItems = isLoading || headerNavigation.length === 0 
+  const navItems = isLoading || navigation.length === 0 
     ? fallbackNavItems 
-    : headerNavigation;
+    : navigation;
 
   useEffect(() => {
     // Set initial state based on page type

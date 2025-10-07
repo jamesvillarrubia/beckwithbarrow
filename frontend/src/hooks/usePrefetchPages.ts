@@ -39,9 +39,15 @@ interface PrefetchConfig {
 const PREFETCH_CONFIGS: PrefetchConfig[] = [
   {
     queryKey: ['global-settings'],
-    queryFn: () => apiService.getSingleType('global', 'headerNavigation,footerNavigation'),
+    queryFn: () => apiService.getSingleType('global'),
     staleTime: 10 * 60 * 1000, // 10 minutes - global settings change less frequently
     name: 'Global Settings',
+  },
+  {
+    queryKey: ['menu'],
+    queryFn: () => apiService.getSingleType('menu', 'menuItem'),
+    staleTime: 10 * 60 * 1000, // 10 minutes - menu changes less frequently
+    name: 'Menu',
   },
   {
     queryKey: ['home'],
