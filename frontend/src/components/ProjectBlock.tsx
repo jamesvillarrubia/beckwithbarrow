@@ -13,15 +13,31 @@
  */
 
 import { useNavigate } from 'react-router-dom';
+import { useGlobalSettings } from '../hooks/useGlobalSettings';
 
 interface ProjectBlockProps {
-  project: any;
+  project: {
+    id: number;
+    Title: string;
+    description?: string;
+    slug?: string;
+    cover?: {
+      url: string;
+      alternativeText?: string;
+    };
+    [key: string]: unknown;
+  };
   className?: string;
   number?: number;
+  numberColor?: string;
 }
 
-const ProjectBlock = ({ project, className = '', number }: ProjectBlockProps) => {
+const ProjectBlock = ({ project, className = '', number, numberColor }: ProjectBlockProps) => {
   const navigate = useNavigate();
+  const { lightThemeColor } = useGlobalSettings();
+  
+  // Use numberColor prop first, then global settings, then fallback
+  const finalNumberColor = numberColor || lightThemeColor;
 
   // No project data
   if (!project) {
@@ -61,24 +77,29 @@ const ProjectBlock = ({ project, className = '', number }: ProjectBlockProps) =>
         )}
       </div>
       <div className="pt-4">
-        {/* Large graphic number - positioned absolutely */}
-        {number && (
-          <div className="relative -mt-12 mb-4">
-            <span className="text-8xl swifted text-gray-200 leading-tight">
-              {number.toString().padStart(2, '0')}
-            </span>
-          </div>
-        )}
-        
-        {/* Title and description - full width */}
-        <div>
+        {/* Number and title on same row */}
+        <div className="flex items-end gap-4 -mt-16 mb-1">
+          {/* Large graphic number */}
+          {number && (
+            <div className="flex-shrink-0 relative z-10 pl-3">
+                <span className="text-8xl swifted" style={{ lineHeight: '0.9', display: 'block', marginBottom: '-0.1em', color: finalNumberColor }}>
+                  {number.toString().padStart(2, '0')}
+                </span>
+            </div>
+          )}
+          
+          {/* Project title */}
           <h5 
-            className="text-xl font-normal text-gray-900 cursor-pointer hover:text-gray-700 transition-colors"
+            className="text-2xl font-normal text-gray-900 cursor-pointer hover:text-gray-700 transition-colors flex-1 mt-16"
             onClick={handleProjectClick}
           >
             {project.Title}
           </h5>
-          <p className="text-sm text-gray-600 mt-2 leading-relaxed">
+        </div>
+        
+        {/* Description below both - full width */}
+        <div>
+          <p className="text-sm text-gray-600 leading-relaxed">
             {project.description}
           </p>
           {/* {project.categories && project.categories.length > 0 && (

@@ -8,12 +8,14 @@
  */
 
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import Footer from '../components/Footer';
 import Logo from '../components/Logo';
 import Navigation from '../components/Navigation';
 import ProjectGrid from '../components/ProjectGrid';
 import AnimatedSection from '../components/AnimatedSection';
 import { apiService } from '../services/api';
+import { useGlobalSettings } from '../hooks/useGlobalSettings';
 
 interface Project {
   id: number;
@@ -47,10 +49,20 @@ interface HomeContent {
   quote?: {
     quoteText?: string;
     name?: string;
-  }[];
+  };
+  numberColors?: string;
+  quoteBgColor?: string;
+  seo?: {
+    [key: string]: unknown;
+  };
 }
 
 const HomePage = () => {
+  const [showDebug, setShowDebug] = useState(false);
+  
+  // Fetch global settings
+  const { globalSettings } = useGlobalSettings();
+  
   // Fetch home page content
   const { data: homeData, isLoading, error } = useQuery({
     queryKey: ['home'],
@@ -137,25 +149,84 @@ const HomePage = () => {
       </section>
 
       {/* Slogan Section */}
-      <AnimatedSection 
-        as="section" 
+      <section 
         className="py-24" 
-        style={{ paddingTop: '100px', paddingBottom: '100px', backgroundColor: '#ffe9d7' }}
-        delay={200}
+        style={{ 
+          paddingTop: '100px', 
+          paddingBottom: '100px', 
+          backgroundColor: homeContent?.quoteBgColor || '#ffe9d7' 
+        }}
       >
+        <AnimatedSection delay={200}>
         <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 text-left">
           <h3 className="text-4xl md:text-6xl font-serif font-extralight leading-tight text-gray-900">
-            {homeContent?.quote?.[0]?.quoteText || "Architecture is a visual art, and the buildings speak for themselves."}
+            {homeContent?.quote?.quoteText || "Architecture is a visual art, and the buildings speak for themselves."}
           </h3>
           <p className="text-xl md:text-2xl font-sans text-gray-500 mt-8 text-right">
-            — {homeContent?.quote?.[0]?.name || "Julia Morgan"}
+            — {homeContent?.quote?.name || "Julia Morgan"}
           </p>
         </div>
-      </AnimatedSection>
+        </AnimatedSection>
+      </section>
 
       {/* Projects Grid */}
-      <ProjectGrid featuredProjects={homeContent?.projects} />
+      <ProjectGrid 
+        featuredProjects={homeContent?.projects} 
+        numberColor={homeContent?.numberColors}
+      />
 
+      {/* Debug Section - Only show in development */}
+      {import.meta.env.DEV && (
+        <section className="py-8 px-6 md:px-12 lg:px-16 bg-gray-50">
+          <div className="max-w-6xl mx-auto">
+            <button
+              onClick={() => setShowDebug(!showDebug)}
+              className="mb-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-sm font-medium transition-colors"
+            >
+              {showDebug ? 'Hide' : 'Show'} Debug Info
+            </button>
+
+            {showDebug && (
+              <div className="bg-white rounded-lg border p-6 space-y-6">
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900">Home Page Core Data</h3>
+                  <div className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-auto max-h-96">
+                    <pre className="text-xs">
+                      {JSON.stringify({
+                        title: homeContent?.title,
+                        leftImage: homeContent?.leftImage,
+                        rightImage: homeContent?.rightImage,
+                        quote: homeContent?.quote,
+                        numberColors: homeContent?.numberColors,
+                        quoteBgColor: homeContent?.quoteBgColor,
+                        seo: homeContent?.seo
+                      }, null, 2)}
+                    </pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900">Home Page Projects Data</h3>
+                  <div className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-auto max-h-96">
+                    <pre className="text-xs">
+                      {JSON.stringify(homeContent?.projects, null, 2)}
+                    </pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900">Global Settings (Full Raw API Response)</h3>
+                  <div className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-auto max-h-96">
+                    <pre className="text-xs">
+                      {JSON.stringify(globalSettings, null, 2)}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Footer */}
       <Footer />

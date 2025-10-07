@@ -22,6 +22,7 @@ import Navigation from '../components/Navigation';
 import ImageGrid from '../components/ImageGrid';
 import AnimatedSection from '../components/AnimatedSection';
 import { apiService } from '../services/api';
+import { useGlobalSettings } from '../hooks/useGlobalSettings';
 
 interface ProjectImage {
   id: number;
@@ -70,6 +71,7 @@ const ProjectPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [showDebug, setShowDebug] = useState(false);
+  const { lightThemeColor } = useGlobalSettings();
   
   // Get the project number from URL parameters
   const projectNumber = searchParams.get('number');
@@ -197,7 +199,7 @@ const ProjectPage = () => {
             {/* Project Number */}
             {projectNumber && (
               <div className="flex-shrink-0">
-                <span className="text-8xl swifted text-gray-200 leading-tight">
+                <span className="text-8xl swifted leading-tight" style={{ color: lightThemeColor }}>
                   {projectNumber.padStart(2, '0')}
                 </span>
               </div>

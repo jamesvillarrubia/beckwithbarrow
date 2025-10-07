@@ -30,6 +30,7 @@ interface ProjectGridProps {
   limit?: number;
   featured?: boolean;
   featuredProjects?: Project[];
+  numberColor?: string;
 }
 
 // Animated project wrapper component
@@ -48,7 +49,7 @@ const AnimatedProject = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const ProjectGrid = ({ className = '', limit, featured, featuredProjects }: ProjectGridProps) => {
+const ProjectGrid = ({ className = '', limit, featured, featuredProjects, numberColor }: ProjectGridProps) => {
   const [visualOrder, setVisualOrder] = useState<number[]>([]);
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -200,6 +201,7 @@ const ProjectGrid = ({ className = '', limit, featured, featuredProjects }: Proj
                   <ProjectBlock 
                     project={project}
                     number={visualOrder[index] || index + 1}
+                    numberColor={numberColor}
                   />
                 </div>
               </AnimatedProject>
