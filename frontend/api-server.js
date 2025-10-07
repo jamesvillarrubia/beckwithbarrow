@@ -31,7 +31,8 @@ app.use(express.json());
 app.post('/api/send-email', async (req, res) => {
   try {
     // Import the Vercel function dynamically
-    const { default: sendEmailHandler } = await import('./api/send-email.js');
+    const sendEmailModule = await import('./api/send-email.js');
+    const sendEmailHandler = sendEmailModule.default;
     
     // Create a mock Vercel request/response
     const mockReq = {

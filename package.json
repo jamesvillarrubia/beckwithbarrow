@@ -9,7 +9,7 @@
     "build": "nx run-many --target=build --all",
     "test": "nx run-many --target=test --all",
     "lint": "nx run-many --target=lint --all",
-    "dev": "./scripts/dev-all.sh",
+    "dev": "nx run-many --target=dev --all --parallel",
     "dev:basic": "nx run-many --target=dev --all --parallel",
     "dev:api": "nx run api:dev",
     "dev:frontend": "nx run frontend:dev",

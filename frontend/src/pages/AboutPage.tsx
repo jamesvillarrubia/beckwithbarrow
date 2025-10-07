@@ -10,17 +10,35 @@
  * - Maintains same spacing and layout principles as homepage
  */
 
+import { useNavigate } from 'react-router-dom';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 
 const AboutPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-white text-black">
       {/* Navigation */}
       <Navigation />
 
+      {/* Breadcrumb Navigation */}
+      <section className="py-16 px-6 md:px-12 lg:px-16">
+        <div className="max-w-6xl mx-auto">
+          <button
+            onClick={() => navigate('/')}
+            className="mb-8 text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-2 mt-8 cursor-pointer"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Projects
+          </button>
+        </div>
+      </section>
+
       {/* Team Photo Section */}
-      <section className="py-16 pt-24">
+      <section className="py-16">
         <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">          
           {/* Team Photo Placeholder */}
           <div className="max-w-4xl mx-auto mb-16">

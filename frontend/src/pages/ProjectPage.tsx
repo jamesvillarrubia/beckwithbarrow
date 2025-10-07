@@ -73,6 +73,24 @@ const ProjectPage = () => {
   const [showDebug, setShowDebug] = useState(false);
   const { lightThemeColor } = useGlobalSettings();
   
+  // Fetch home content to get numberColors
+  const { data: homeData } = useQuery({
+    queryKey: ['home'],
+    queryFn: async () => {
+      try {
+        const result = await apiService.getSingleType('home');
+        return result;
+      } catch (err) {
+        console.error('Home API Error:', err);
+        throw err;
+      }
+    },
+    retry: 2,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
+  const homeContent = homeData?.data as { numberColors?: string };
+  
   // Get the project number from URL parameters
   const projectNumber = searchParams.get('number');
 
@@ -186,7 +204,7 @@ const ProjectPage = () => {
           {/* Back Button */}
           <button
             onClick={() => navigate('/')}
-            className="mb-8 text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-2 mt-8"
+            className="mb-8 text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-2 mt-8 cursor-pointer"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -199,7 +217,7 @@ const ProjectPage = () => {
             {/* Project Number */}
             {projectNumber && (
               <div className="flex-shrink-0">
-                <span className="text-8xl swifted leading-tight" style={{ color: lightThemeColor }}>
+                <span className="text-8xl swifted leading-tight" style={{ color: homeContent?.numberColors || lightThemeColor }}>
                   {projectNumber.padStart(2, '0')}
                 </span>
               </div>

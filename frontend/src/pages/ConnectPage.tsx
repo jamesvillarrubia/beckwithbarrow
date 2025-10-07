@@ -7,6 +7,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import { apiService } from '../services/api';
@@ -18,6 +19,7 @@ interface ConnectData {
 }
 
 const ConnectPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -52,7 +54,7 @@ const ConnectPage = () => {
 
     try {
       // Send form data to API server
-      const response = await fetch('http://localhost:3001/api/send-email', {
+      const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -107,9 +109,24 @@ const ConnectPage = () => {
       {/* Navigation */}
       <Navigation />
       
+      {/* Breadcrumb Navigation */}
+      <section className="py-16 px-6 md:px-12 lg:px-16">
+        <div className="max-w-6xl mx-auto">
+          <button
+            onClick={() => navigate('/')}
+            className="mb-8 text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-2 mt-8 cursor-pointer"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Projects
+          </button>
+        </div>
+      </section>
+      
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-6 md:px-12 lg:px-16">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="py-16 px-6 md:px-12 lg:px-16">
+        <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl text-gray-900 mb-6">
             Let's Connect
           </h1>
@@ -121,8 +138,8 @@ const ConnectPage = () => {
 
       {/* Contact Information */}
       <section className="py-10 px-6 md:px-12 lg:px-16">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-12">
             
             {/* Contact Details */}
             <div>
@@ -183,42 +200,46 @@ const ConnectPage = () => {
             </div>
 
             {/* Contact Form */}
-            <div>
+            <div className="md:col-span-2">
               <h2 className="text-3xl font-semibold text-gray-900 mb-8">Send a Message</h2>
               
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                    placeholder="Your name"
-                  />
+                {/* Name and Email side by side */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent text-gray-900"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent text-gray-900"
+                      placeholder="your@email.com"
+                    />
+                  </div>
                 </div>
                 
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                    placeholder="your@email.com"
-                  />
-                </div>
-                
+                {/* Message field full width */}
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
                     Message
@@ -233,17 +254,19 @@ const ConnectPage = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent text-gray-900"
                     placeholder="Tell us about your project..."
                   />
-
-                  </div>
+                </div>
                 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full py-3 px-6 rounded-lg transition-colors ${
+                  className={`w-full py-3 px-6 rounded-lg transition-colors g-recaptcha ${
                     isSubmitting
                       ? 'bg-gray-400 cursor-not-allowed text-white'
                       : 'bg-gray-900 hover:bg-gray-800 text-white'
                   }`}
+                  data-sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                  data-callback="onSubmit"
+                  data-action="submit"
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
@@ -269,17 +292,13 @@ const ConnectPage = () => {
                 )}
               </form>
             </div>
-            <div>
+            {/* <div>
               <h2 className="text-3xl font-semibold text-gray-900 mb-8">Environment Variables</h2>
-                {import.meta.env.RESEND_API_KEY}
-                {import.meta.env.CONTACT_EMAIL}
-                {import.meta.env.PUBLIC_URL}
-                {import.meta.env.VITE_USE_PROD_API}
-                {import.meta.env.VITE_PROD_API_URL}
-                {import.meta.env.VITE_DEV_API_URL}
-                {import.meta.env.VITE_DEV_API_KEY}
-                {import.meta.env.VITE_DEV_API_SECRET}
-            </div>
+                <p>{import.meta.env.RESEND_API_KEY}</p>
+                <p>{import.meta.env.CONTACT_EMAIL}</p>
+                <p>{import.meta.env.VITE_USE_PROD_API}</p>
+                <p>{import.meta.env.VITE_PROD_API_URL}</p>
+            </div> */}
           </div>
         </div>
       </section>
