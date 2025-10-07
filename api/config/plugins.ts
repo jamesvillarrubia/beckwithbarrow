@@ -22,4 +22,10 @@ export default ({ env }) => ({
             // Color picker configuration options
         },
     },
+    menus: {
+        enabled: true,
+        config: {
+            maxDepth: 3, // Maximum nesting depth for menu items
+        },
+    },
 });
