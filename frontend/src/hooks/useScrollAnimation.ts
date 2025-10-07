@@ -28,7 +28,7 @@ export const useScrollAnimation = (options: UseScrollAnimationOptions = {}) => {
     duration = 600
   } = options;
 
-  const elementRef = useRef<HTMLElement>(null);
+  const elementRef = useRef<HTMLElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
 

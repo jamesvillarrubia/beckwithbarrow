@@ -19,6 +19,7 @@ import { useEffect, useState, useRef } from 'react';
 
 interface Project {
   id: number;
+  Title: string;
   cover?: {
     url: string;
   };
@@ -43,7 +44,7 @@ const AnimatedProject = ({ children }: { children: React.ReactNode }) => {
   });
 
   return (
-    <div ref={elementRef} style={animationStyle}>
+    <div ref={elementRef as React.RefObject<HTMLDivElement>} style={animationStyle}>
       {children}
     </div>
   );

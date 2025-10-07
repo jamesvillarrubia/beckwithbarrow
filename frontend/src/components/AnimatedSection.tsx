@@ -21,7 +21,7 @@ interface AnimatedSectionProps {
   rootMargin?: string;
   delay?: number;
   duration?: number;
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
 }
 
 const AnimatedSection: React.FC<AnimatedSectionProps> = ({
@@ -40,14 +40,16 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
     duration
   });
 
+  const ComponentElement = Component as React.ElementType;
+
   return (
-    <Component
+    <ComponentElement
       ref={elementRef}
       className={className}
       style={animationStyle}
     >
       {children}
-    </Component>
+    </ComponentElement>
   );
 };
 

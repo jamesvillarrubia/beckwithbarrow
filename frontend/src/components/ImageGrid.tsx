@@ -20,7 +20,6 @@ import { ColumnsPhotoAlbum } from 'react-photo-album';
 import 'react-photo-album/columns.css';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
-import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 interface ProjectImage {
   id: number;
@@ -43,21 +42,6 @@ interface ImageGridProps {
   className?: string;
 }
 
-// Animated image wrapper component
-const AnimatedImage = ({ children }: { children: React.ReactNode }) => {
-  const { elementRef, animationStyle } = useScrollAnimation({
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px',
-    delay: 0, // No artificial delay - trigger when in view
-    duration: 400
-  });
-
-  return (
-    <div ref={elementRef} style={animationStyle}>
-      {children}
-    </div>
-  );
-};
 
 const ImageGrid = ({ images, projectTitle, className = '' }: ImageGridProps) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
@@ -140,30 +124,6 @@ const ImageGrid = ({ images, projectTitle, className = '' }: ImageGridProps) => 
               return 4; // Desktop: 4 columns
             }}
             onClick={({ index }) => openLightbox(index)}
-            renderPhoto={({ wrapperStyle, renderDefaultPhoto }) => (
-              <AnimatedImage>
-                <div
-                  style={{
-                    ...wrapperStyle,
-                    position: 'relative',
-                    cursor: 'pointer',
-                  }}
-                  className="group"
-                >
-                  {renderDefaultPhoto({ wrapped: true })}
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="bg-white bg-opacity-90 rounded-full p-3">
-                        <svg className="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </AnimatedImage>
-            )}
           />
         </div>
       </section>

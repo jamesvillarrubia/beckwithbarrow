@@ -19,6 +19,7 @@ import { useGlobalSettings } from '../hooks/useGlobalSettings';
 
 interface Project {
   id: number;
+  Title: string;
   cover?: {
     url: string;
     formats?: {
