@@ -2,7 +2,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "functions": {
-    "api/send-email.js": {
+    "./api/send-email.js": {
       "maxDuration": 10
     }
   }
