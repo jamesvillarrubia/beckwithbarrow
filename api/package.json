@@ -78,7 +78,6 @@
     "react-router-dom": "^6.0.0",
     "sharp": "^0.34.4",
     "strapi-plugin-media-library-handler": "^0.1.6",
-    "strapi-plugin-menus": "^1.6.1",
     "styled-components": "^6.0.0"
   },
   "devDependencies": {
