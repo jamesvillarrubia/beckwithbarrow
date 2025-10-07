@@ -19,9 +19,11 @@
     "build:frontend": "nx run frontend:build",
     "build:frontend:prod": "VITE_USE_PROD_API=true nx run frontend:build"
   },
-  "devDependencies": {
-    "husky": "^9.1.7",
+  "dependencies": {
     "nx": "^21.6.2",
     "@nx/workspace": "^21.6.2"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
   }
 }

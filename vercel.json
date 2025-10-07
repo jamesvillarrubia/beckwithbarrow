@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "npm run build:frontend",
+  "buildCommand": "npx nx build frontend",
   "outputDirectory": "frontend/dist",
-  "installCommand": "npm install",
+  "installCommand": "pnpm install",
   "framework": null,
   "functions": {
     "frontend/api/send-email.js": {
