@@ -233,7 +233,8 @@ const ConnectPage = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent text-gray-900"
                     placeholder="Tell us about your project..."
                   />
-                </div>
+
+                  </div>
                 
                 <button
                   type="submit"
@@ -246,6 +247,7 @@ const ConnectPage = () => {
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
+
 
                 {/* Status Messages */}
                 {submitStatus === 'success' && (
@@ -267,7 +269,17 @@ const ConnectPage = () => {
                 )}
               </form>
             </div>
-            
+            <div>
+              <h2 className="text-3xl font-semibold text-gray-900 mb-8">Environment Variables</h2>
+                {import.meta.env.RESEND_API_KEY}
+                {import.meta.env.CONTACT_EMAIL}
+                {import.meta.env.PUBLIC_URL}
+                {import.meta.env.VITE_USE_PROD_API}
+                {import.meta.env.VITE_PROD_API_URL}
+                {import.meta.env.VITE_DEV_API_URL}
+                {import.meta.env.VITE_DEV_API_KEY}
+                {import.meta.env.VITE_DEV_API_SECRET}
+            </div>
           </div>
         </div>
       </section>

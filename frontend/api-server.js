@@ -12,6 +12,11 @@ import dotenv from 'dotenv';
 // Load environment variables
 dotenv.config({ path: '.env.local' });
 
+// Debug environment variables
+console.log('🔧 Environment check:');
+console.log('RESEND_API_KEY:', process.env.RESEND_API_KEY ? 'Set' : 'Not set');
+console.log('CONTACT_EMAIL:', process.env.CONTACT_EMAIL || 'Not set');
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -57,4 +62,15 @@ app.get('/api/health', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 API server running on http://localhost:${PORT}`);
   console.log(`📧 Email endpoint: http://localhost:${PORT}/api/send-email`);
+});
+
+// Keep the server running
+process.on('SIGINT', () => {
+  console.log('\n🛑 API server shutting down...');
+  process.exit(0);
+});
+
+process.on('SIGTERM', () => {
+  console.log('\n🛑 API server shutting down...');
+  process.exit(0);
 });
