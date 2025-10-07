@@ -1,0 +1,27 @@
+{
+  "kind": "singleType",
+  "collectionName": "menus",
+  "info": {
+    "singularName": "menu",
+    "pluralName": "menus",
+    "displayName": "Menu",
+    "mainField": "name"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "default": "Main Navigation",
+      "maxLength": 100
+    },
+    "menuItem": {
+      "type": "component",
+      "component": "shared.navigation-link",
+      "repeatable": true
+    }
+  }
+}
