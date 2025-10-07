@@ -3,9 +3,5 @@
     "api/send-email.js": {
       "maxDuration": 10
     }
-  },
-  "env": {
-    "RESEND_API_KEY": "@resend_api_key",
-    "CONTACT_EMAIL": "@contact_email"
   }
 }

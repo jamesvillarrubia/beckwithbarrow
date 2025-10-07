@@ -140,7 +140,7 @@ const ImageGrid = ({ images, projectTitle, className = '' }: ImageGridProps) => 
               return 4; // Desktop: 4 columns
             }}
             onClick={({ index }) => openLightbox(index)}
-            renderPhoto={({ photo, wrapperStyle, renderDefaultPhoto }) => (
+            renderPhoto={({ wrapperStyle, renderDefaultPhoto }) => (
               <AnimatedImage>
                 <div
                   style={{

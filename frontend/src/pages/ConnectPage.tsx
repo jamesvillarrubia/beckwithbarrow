@@ -27,7 +27,7 @@ const ConnectPage = () => {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   // Fetch connect data from Strapi
-  const { data: connectData, isLoading, error } = useQuery({
+  const { data: connectData, isLoading } = useQuery({
     queryKey: ['connect'],
     queryFn: async () => {
       try {
