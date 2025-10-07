@@ -3,7 +3,8 @@
   "info": {
     "displayName": "Navigation Link",
     "description": "A navigation menu link with label, URL, and display options",
-    "icon": "link"
+    "icon": "link",
+    "mainField": "label"
   },
   "options": {},
   "attributes": {
