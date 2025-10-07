@@ -7,7 +7,7 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm run build",
+        "command": "npm run build",
         "cwd": "frontend"
       }
     },
