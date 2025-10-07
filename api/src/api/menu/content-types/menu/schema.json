@@ -12,13 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
-      "type": "string",
-      "required": true,
-      "default": "Main Navigation",
-      "maxLength": 100,
-      "disabled": true
-    },
     "menuItem": {
       "type": "component",
       "component": "shared.navigation-link",

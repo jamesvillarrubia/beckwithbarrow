@@ -17,6 +17,7 @@ export interface SharedNavigationLink extends Struct.ComponentSchema {
     description: 'A navigation menu link with label, URL, and display options';
     displayName: 'Navigation Link';
     icon: 'link';
+    mainField: 'label';
   };
   attributes: {
     external: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
