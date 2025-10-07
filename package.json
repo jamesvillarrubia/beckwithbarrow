@@ -9,10 +9,12 @@
     "build": "nx run-many --target=build --all",
     "test": "nx run-many --target=test --all",
     "lint": "nx run-many --target=lint --all",
-    "dev": "nx run-many --target=dev --all --parallel",
+    "dev": "./scripts/dev-all.sh",
+    "dev:basic": "nx run-many --target=dev --all --parallel",
     "dev:api": "nx run api:dev",
     "dev:frontend": "nx run frontend:dev",
     "dev:frontend:prod": "VITE_USE_PROD_API=true nx run frontend:dev",
+    "dev:frontend:full": "cd frontend && pnpm dev:full",
     "build:api": "nx run api:build",
     "build:frontend": "nx run frontend:build",
     "build:frontend:prod": "VITE_USE_PROD_API=true nx run frontend:build"
