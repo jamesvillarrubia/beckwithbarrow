@@ -1,0 +1,14 @@
+# Development files
+node_modules
+*.log
+.env.local
+.env.*.local
+
+# Build artifacts
+dist
+
+# Monorepo parent directories (if Vercel scans up)
+../api
+../node_modules
+../.git
+

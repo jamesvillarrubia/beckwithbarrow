@@ -1,8 +1,10 @@
 {
-  "buildCommand": "npx nx build frontend",
+  "buildCommand": "pnpm install && pnpm run build",
   "outputDirectory": "dist",
+  "installCommand": "pnpm install --no-frozen-lockfile",
+  "framework": null,
   "functions": {
-    "./api/send-email.js": {
+    "api/send-email.js": {
       "maxDuration": 10
     }
   }
