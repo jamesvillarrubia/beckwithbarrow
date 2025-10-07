@@ -16,7 +16,8 @@
       "type": "string",
       "required": true,
       "default": "Main Navigation",
-      "maxLength": 100
+      "maxLength": 100,
+      "disabled": true
     },
     "menuItem": {
       "type": "component",
