@@ -20,3 +20,4 @@ FRONTEND_PID=$!
 
 # Wait for all processes
 wait $STRAPI_PID $VERCEL_PID $FRONTEND_PID
+

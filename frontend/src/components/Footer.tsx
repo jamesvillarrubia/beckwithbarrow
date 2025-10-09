@@ -27,7 +27,7 @@ const Footer = () => {
     : navigation;
 
   return (
-    <footer className="bg-white border-t border-gray-200 pt-16 pb-24 relative">
+    <footer className="bg-white border-t border-gray-200 pt-16 pb-32 relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         {/* Pie symbol link to Strapi admin - bottom right corner */}
         <a
@@ -40,7 +40,7 @@ const Footer = () => {
           π
         </a>
 
-        <div className="flex flex-col items-center text-center space-y-8">
+        <div className="flex flex-col items-center text-center space-y-6">
           
           {/* Logo */}
           <Logo size="md" color="black" />
@@ -79,12 +79,14 @@ const Footer = () => {
           </nav>
 
           {/* Connect with us Link */}
+          <div className="mt-4">
           <Link 
             to="/connect"
             className="border-2 border-black text-black bg-white font-serif px-8 py-3 rounded-lg hover:text-white hover:bg-black cursor-pointer transition-all duration-300 text-lg inline-block"
           >
             Connect with us
           </Link>
+          </div>
 
         </div>
       </div>
