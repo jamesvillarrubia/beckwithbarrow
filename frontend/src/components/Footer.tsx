@@ -27,7 +27,7 @@ const Footer = () => {
     : navigation;
 
   return (
-    <footer className="bg-white border-t border-gray-200 py-16 relative">
+    <footer className="bg-white border-t border-gray-200 pt-16 pb-24 relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         {/* Pie symbol link to Strapi admin - bottom right corner */}
         <a
