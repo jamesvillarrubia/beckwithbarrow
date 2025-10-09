@@ -27,8 +27,19 @@ const Footer = () => {
     : navigation;
 
   return (
-    <footer className="bg-white border-t border-gray-200 py-16">
+    <footer className="bg-white border-t border-gray-200 py-16 relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+        {/* Pie symbol link to Strapi admin - bottom left corner */}
+        <a
+          href="https://striking-ball-b079f8c4b0.strapiapp.com/admin"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute bottom-4 left-4 text-gray-400 hover:text-gray-600 transition-colors text-sm"
+          title="Strapi Admin"
+        >
+          π
+        </a>
+
         <div className="flex flex-col items-center text-center space-y-8">
           
           {/* Logo */}
