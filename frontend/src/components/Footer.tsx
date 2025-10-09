@@ -34,7 +34,7 @@ const Footer = () => {
           href="https://striking-ball-b079f8c4b0.strapiapp.com/admin"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute bottom-4 right-4 text-gray-400 hover:text-gray-600 transition-colors text-sm"
+          className="absolute bottom-4 right-4 text-gray-300 hover:text-gray-500 transition-colors text-sm"
           title="Strapi Admin"
         >
           π
