@@ -14,6 +14,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import { useGlobalSettings } from '../hooks/useGlobalSettings';
+import { formatNumberWithO } from '../utils/formatNumber';
 
 interface ProjectBlockProps {
   project: {
@@ -57,8 +58,46 @@ const ProjectBlock = ({ project, className = '', number, numberColor }: ProjectB
     navigate(url);
   };
 
+  // Format the number and check if it starts with O (originally started with 0)
+  const formattedNumber = number ? formatNumberWithO(number) : '';
+  const startsWithO = formattedNumber.startsWith('O');
+  
+  // If number starts with O, extend line to middle of O character
+  // At text-8xl (6rem/96px), Lato Thin O is ~60px wide, so middle is ~30px
+  const lineExtension = startsWithO ? '65px' : '0px';
+
   return (
     <div className={`group break-inside-avoid mb-24 ${className}`}>
+      {/* Title and Number Row - Above Image */}
+      <div className="flex items-center gap-4 mb-4">
+        {/* Project title - left justified */}
+        <h5 
+          className="text-2xl font-normal text-gray-900 cursor-pointer hover:text-gray-700 transition-colors flex-shrink-0"
+          onClick={handleProjectClick}
+        >
+          {project.Title}
+        </h5>
+        
+        {/* Horizontal line connecting title to number */}
+        <div 
+          className="flex-grow h-px" 
+          style={{ 
+            backgroundColor: finalNumberColor,
+            marginRight: `-${lineExtension}`
+          }}
+        ></div>
+        
+        {/* Large graphic number - right justified */}
+        {number && (
+          <div className="flex-shrink-0" style={{ transform: 'translateY(-2px)' }}>
+            <span className="lato-thin" style={{ fontSize: '128px', lineHeight: '0.9', display: 'block', color: finalNumberColor }}>
+              {formattedNumber}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Project Image */}
       <div 
         className="overflow-hidden rounded-sm cursor-pointer"
         onClick={handleProjectClick}
@@ -76,38 +115,12 @@ const ProjectBlock = ({ project, className = '', number, numberColor }: ProjectB
           </div>
         )}
       </div>
+
+      {/* Description below image */}
       <div className="pt-4">
-        {/* Number and title on same row */}
-        <div className="flex items-end gap-4 -mt-16 mb-1">
-          {/* Large graphic number */}
-          {number && (
-            <div className="flex-shrink-0 relative z-10 pl-3">
-                <span className="text-8xl swifted" style={{ lineHeight: '0.9', display: 'block', marginBottom: '-0.1em', color: finalNumberColor }}>
-                  {number.toString().padStart(2, '0')}
-                </span>
-            </div>
-          )}
-          
-          {/* Project title */}
-          <h5 
-            className="text-2xl font-normal text-gray-900 cursor-pointer hover:text-gray-700 transition-colors flex-1 mt-16"
-            onClick={handleProjectClick}
-          >
-            {project.Title}
-          </h5>
-        </div>
-        
-        {/* Description below both - full width */}
-        <div>
-          <p className="text-sm text-gray-600 leading-relaxed">
-            {project.description}
-          </p>
-          {/* {project.categories && project.categories.length > 0 && (
-            <p className="text-sm text-gray-400 mt-2 italic">
-              {project.categories[0].name}
-            </p>
-          )} */}
-        </div>
+        <p className="text-sm text-gray-600 leading-relaxed">
+          {project.description}
+        </p>
       </div>
     </div>
   );
