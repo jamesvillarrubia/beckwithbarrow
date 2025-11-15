@@ -1,21 +1,115 @@
 /**
  * AboutPage Component
  * 
- * About page featuring:
- * - Consistent navigation and typography with homepage
- * - White theme with black text for readability
- * - Hero section with centered title
- * - Team photo section with placeholder for founding team image
- * - Team description paragraph section
- * - Maintains same spacing and layout principles as homepage
+ * About page with 2x2 grid layout featuring:
+ * - Title section ("Who we are")
+ * - 2x2 grid layout:
+ *   - Top left: Vertical image
+ *   - Top right: Rich text content
+ *   - Bottom left: Rich text content
+ *   - Bottom right: Vertical image
+ * - Responsive: Stacks vertically on mobile
+ * - Rich text rendered with markdown support
+ * - Images maintain tall (2:3) aspect ratio
+ * 
+ * Content managed through Strapi's About singleton with fixed fields.
  */
 
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
+import { apiService } from '../services/api';
+
+/**
+ * Type definitions for Strapi media
+ */
+interface StrapiMedia {
+  id: number;
+  url: string;
+  formats?: {
+    large?: { url: string };
+    medium?: { url: string };
+    small?: { url: string };
+  };
+  alternativeText?: string;
+}
+
+/**
+ * Type definition for the About page content from Strapi
+ */
+interface AboutContent {
+  title?: string;
+  topLeftImage?: StrapiMedia;
+  topRightText?: string;
+  bottomLeftText?: string;
+  bottomRightImage?: StrapiMedia;
+}
 
 const AboutPage = () => {
   const navigate = useNavigate();
+
+  // Fetch about page content from Strapi
+  const { data: aboutData, isLoading, error } = useQuery({
+    queryKey: ['about'],
+    queryFn: async () => {
+      console.log('Fetching about page data from API...');
+      try {
+        // Populate both image fields
+        const result = await apiService.getSingleType('about', 'topLeftImage,bottomRightImage');
+        console.log('About API Response:', result);
+        return result;
+      } catch (err) {
+        console.error('About API Error:', err);
+        throw err;
+      }
+    },
+    retry: 2,
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+  });
+
+  const aboutContent = aboutData?.data as AboutContent;
+
+  /**
+   * Helper function to get the best image URL
+   * Prefers large format, falls back to original
+   */
+  const getImageUrl = (media?: StrapiMedia) => {
+    if (!media) return null;
+    return media.formats?.large?.url || media.url;
+  };
+
+  // Loading state - show spinner while fetching data
+  if (isLoading) {
+    return (
+      <div className="bg-white text-black">
+        <Navigation />
+        <div className="h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state - show user-friendly error message
+  if (error) {
+    return (
+      <div className="bg-white text-black">
+        <Navigation />
+        <div className="h-screen flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-red-600 text-lg">Unable to load about page content</p>
+            <p className="text-gray-500 text-sm mt-2">Please try again later</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white text-black">
@@ -28,6 +122,7 @@ const AboutPage = () => {
           <button
             onClick={() => navigate('/')}
             className="mb-8 text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-2 mt-8 cursor-pointer"
+            aria-label="Back to Projects"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -37,62 +132,226 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Team Photo Section */}
-      <section className="py-16">
-        <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">          
-          {/* Team Photo Placeholder */}
-          <div className="max-w-4xl mx-auto mb-16">
-            <div className="aspect-[4/3] rounded-sm overflow-hidden">
-              {/* Placeholder for team photo - will be replaced with actual image */}
-              <img 
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=900&q=80"
-                alt="Founding team of Beckwith Barrow"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* Team Description Section */}
-      <section className="py-16">
-        
-        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-        <h1 className="text-4xl md:text-5xl font-serif font-light leading-relaxed text-gray-900 mt-8">
-            About Our Studio
+      {/* Title Section with Decorative Lines */}
+      <section className="pt-0 relative">
+        <div className="max-w-4xl mx-auto pl-6 text-center relative">
+          <h1 className="text-5xl md:text-6xl text-left px-2 md:px-10 font-serif font-light leading-relaxed text-gray-900 relative z-10">
+            {aboutContent?.title || 'Who we are'}
           </h1>
-          <p className="text-lg md:text-xl font-sans text-gray-700 leading-relaxed mb-8">
-            Founded by a passionate team of designers and architects, Beckwith Barrow emerged from a 
-            shared vision to create spaces that seamlessly blend form and function. Our founders bring 
-            together decades of combined experience in residential and commercial design, each contributing 
-            their unique perspective and expertise to every project.
-          </p>
           
-          <p className="text-lg md:text-xl font-sans text-gray-700 leading-relaxed mb-8">
-            What sets our team apart is our collaborative approach and commitment to understanding each 
-            client's individual story. We believe that great design begins with great listening, and our 
-            process is built around creating deep partnerships with those we serve. From initial concept 
-            to final installation, we work closely with our clients to ensure every detail reflects their 
-            vision and enhances their daily experience.
-          </p>
-
-          <p className="text-lg md:text-xl font-sans text-gray-700 leading-relaxed">
-            Our team's diverse backgrounds in architecture, interior design, and project management allow 
-            us to approach each project holistically, considering not just how a space looks, but how it 
-            feels, functions, and evolves with the people who inhabit it. This comprehensive approach has 
-            earned us recognition in the industry and, more importantly, the trust and satisfaction of our clients.
-          </p>
+          {/* Decorative Cross Lines - SVG positioned absolutely */}
+          <svg 
+            className="hidden lg:block absolute top-0 w-full pointer-events-none z-20"
+            style={{ height: 'calc(100% + 600px)', left: '-80px', top: '10px'}}
+            viewBox="0 0 100 100"
+            preserveAspectRatio="xMinYMin meet"
+          >
+            {/* Horizontal line - starts 5% left, extends to 80% */}
+            <line
+              x1="5"
+              y1="12"
+              x2="105"
+              y2="12"
+              stroke="black"
+              strokeWidth="1.5"
+              vectorEffect="non-scaling-stroke"
+            />
+            
+            {/* Vertical line - starts above title, goes down alongside content */}
+            <line
+              x1="15"
+              y1="0"
+              x2="15"
+              y2="100"
+              stroke="black"
+              strokeWidth="1.5"
+              vectorEffect="non-scaling-stroke"
+            />
+            
+            {/* Circle tangent to both lines - diameter is 70% of horizontal line width */}
+            <circle
+              cx="46"
+              cy="43"
+              r="31"
+              stroke="black"
+              strokeWidth="1.5"
+              fill="none"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
         </div>
       </section>
 
-      {/* Philosophy Section */}
-      <section className="py-24" style={{ paddingTop: '100px', paddingBottom: '100px' }}>
-        <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-          <h3 className="text-4xl md:text-6xl font-serif font-light leading-relaxed text-gray-900">
-            "Design is not just what it looks like and feels like. Design is how it works."
-          </h3>
-          <p className="text-xl md:text-2xl font-sans text-gray-600 mt-8 italic">
-            — Steve Jobs
-          </p>
+      {/* 2x2 Grid Layout */}
+      <section className="pb-16 pt-8 relative">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 relative">
+          {/* Desktop: 2x2 Grid, Mobile: Stacked */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            
+            {/* Top Left: Vertical Image */}
+            {aboutContent?.topLeftImage && (
+              <div className="w-full">
+                <div className="aspect-[2/3] rounded-sm overflow-hidden">
+                  <img 
+                    src={getImageUrl(aboutContent.topLeftImage) || ''}
+                    alt={aboutContent.topLeftImage.alternativeText || 'About image'}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Top Right: Rich Text */}
+            <div className="pt-4">
+              {aboutContent?.topRightText ? (
+                <div className="prose prose-lg max-w-none">
+                  <ReactMarkdown 
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      h1: ({ children }) => (
+                        <h2 className="text-3xl md:text-4xl font-serif font-light leading-relaxed text-gray-900 mb-6">
+                          {children}
+                        </h2>
+                      ),
+                      h2: ({ children }) => (
+                        <h3 className="text-2xl md:text-3xl font-serif font-light leading-relaxed text-gray-900 mb-4">
+                          {children}
+                        </h3>
+                      ),
+                      h3: ({ children }) => (
+                        <h4 className="text-xl md:text-2xl font-serif font-light leading-relaxed text-gray-900 mb-4">
+                          {children}
+                        </h4>
+                      ),
+                      p: ({ children }) => (
+                        <p className="text-base md:text-lg font-sans text-gray-700 leading-relaxed mb-6">
+                          {children}
+                        </p>
+                      ),
+                      a: ({ href, children }) => (
+                        <a 
+                          href={href} 
+                          className="text-gray-900 underline hover:text-gray-600 transition-colors"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {children}
+                        </a>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="list-disc list-inside mb-6 space-y-2">
+                          {children}
+                        </ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="list-decimal list-inside mb-6 space-y-2">
+                          {children}
+                        </ol>
+                      ),
+                      li: ({ children }) => (
+                        <li className="text-base md:text-lg font-sans text-gray-700 leading-relaxed">
+                          {children}
+                        </li>
+                      ),
+                      blockquote: ({ children }) => (
+                        <blockquote className="border-l-4 border-gray-300 pl-6 italic my-6">
+                          {children}
+                        </blockquote>
+                      ),
+                    }}
+                  >
+                    {aboutContent.topRightText}
+                  </ReactMarkdown>
+                </div>
+              ) : (
+                <p className="text-base md:text-lg font-sans text-gray-400 leading-relaxed">
+                  No content added yet.
+                </p>
+              )}
+            </div>
+
+            {/* Bottom Left: Rich Text */}
+            <div className="pt-4">
+              {aboutContent?.bottomLeftText ? (
+                <div className="prose prose-lg max-w-none">
+                  <ReactMarkdown 
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      h1: ({ children }) => (
+                        <h2 className="text-3xl md:text-4xl font-serif font-light leading-relaxed text-gray-900 mb-6">
+                          {children}
+                        </h2>
+                      ),
+                      h2: ({ children }) => (
+                        <h3 className="text-2xl md:text-3xl font-serif font-light leading-relaxed text-gray-900 mb-4">
+                          {children}
+                        </h3>
+                      ),
+                      h3: ({ children }) => (
+                        <h4 className="text-xl md:text-2xl font-serif font-light leading-relaxed text-gray-900 mb-4">
+                          {children}
+                        </h4>
+                      ),
+                      p: ({ children }) => (
+                        <p className="text-base md:text-lg font-sans text-gray-700 leading-relaxed mb-6">
+                          {children}
+                        </p>
+                      ),
+                      a: ({ href, children }) => (
+                        <a 
+                          href={href} 
+                          className="text-gray-900 underline hover:text-gray-600 transition-colors"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {children}
+                        </a>
+                      ),
+                      ul: ({ children }) => (
+                        <ul className="list-disc list-inside mb-6 space-y-2">
+                          {children}
+                        </ul>
+                      ),
+                      ol: ({ children }) => (
+                        <ol className="list-decimal list-inside mb-6 space-y-2">
+                          {children}
+                        </ol>
+                      ),
+                      li: ({ children }) => (
+                        <li className="text-base md:text-lg font-sans text-gray-700 leading-relaxed">
+                          {children}
+                        </li>
+                      ),
+                      blockquote: ({ children }) => (
+                        <blockquote className="border-l-4 border-gray-300 pl-6 italic my-6">
+                          {children}
+                        </blockquote>
+                      ),
+                    }}
+                  >
+                    {aboutContent.bottomLeftText}
+                  </ReactMarkdown>
+                </div>
+              ) : (
+                <p className="text-base md:text-lg font-sans text-gray-400 leading-relaxed">
+                  No content added yet.
+                </p>
+              )}
+            </div>
+
+            {/* Bottom Right: Vertical Image */}
+            {aboutContent?.bottomRightImage && (
+              <div className="w-full">
+                <div className="aspect-[2/3] rounded-sm overflow-hidden">
+                  <img 
+                    src={getImageUrl(aboutContent.bottomRightImage) || ''}
+                    alt={aboutContent.bottomRightImage.alternativeText || 'About image'}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
