@@ -15,12 +15,12 @@
  * Content managed through Strapi's About singleton with fixed fields.
  */
 
-import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
+import Breadcrumb from '../components/Breadcrumb';
 import { apiService } from '../services/api';
 
 /**
@@ -49,8 +49,6 @@ interface AboutContent {
 }
 
 const AboutPage = () => {
-  const navigate = useNavigate();
-
   // Fetch about page content from Strapi
   const { data: aboutData, isLoading, error } = useQuery({
     queryKey: ['about'],
@@ -66,7 +64,8 @@ const AboutPage = () => {
         throw err;
       }
     },
-    retry: 2,
+    retry: 3, // Increase retries for cold starts
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000), // Exponential backoff: 1s, 2s, 4s
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
   });
 
@@ -117,20 +116,7 @@ const AboutPage = () => {
       <Navigation />
 
       {/* Breadcrumb Navigation */}
-      <section className="py-16 px-6 md:px-12 lg:px-16">
-        <div className="max-w-6xl mx-auto">
-          <button
-            onClick={() => navigate('/')}
-            className="mb-8 text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-2 mt-8 cursor-pointer"
-            aria-label="Back to Projects"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Projects
-          </button>
-        </div>
-      </section>
+      <Breadcrumb />
 
       {/* Title Section with Decorative Lines */}
       <section className="pt-0 relative">

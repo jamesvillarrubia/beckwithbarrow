@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 // Determine API base URL based on environment
 const getApiBaseUrl = () => {
@@ -15,13 +15,57 @@ const getApiBaseUrl = () => {
 const apiBaseUrl = getApiBaseUrl();
 console.log(`🔗 Using API: ${apiBaseUrl}`);
 
+/**
+ * Smart timeout strategy:
+ * - First request to an endpoint: 10 seconds (detect cold starts)
+ * - Subsequent requests: 30 seconds (normal timeout)
+ * - Retry with exponential backoff on timeout
+ */
+const endpointTimeouts = new Map<string, number>();
+const DEFAULT_TIMEOUT = 10000; // 10 seconds for first request
+const WARM_TIMEOUT = 30000; // 30 seconds for subsequent requests
+
 const api = axios.create({
   baseURL: apiBaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 30000, // 30 second timeout
+  timeout: DEFAULT_TIMEOUT,
 });
+
+// Request interceptor to adjust timeout based on endpoint history
+api.interceptors.request.use((config) => {
+  const endpoint = config.url || '';
+  
+  // Check if we've successfully called this endpoint before
+  const lastSuccessTime = endpointTimeouts.get(endpoint);
+  
+  if (lastSuccessTime) {
+    // Endpoint is warm, use longer timeout
+    config.timeout = WARM_TIMEOUT;
+  } else {
+    // First call or cold start, use shorter timeout
+    config.timeout = DEFAULT_TIMEOUT;
+  }
+  
+  return config;
+});
+
+// Response interceptor to track successful requests
+api.interceptors.response.use(
+  (response) => {
+    const endpoint = response.config.url || '';
+    endpointTimeouts.set(endpoint, Date.now());
+    return response;
+  },
+  (error: AxiosError) => {
+    // If timeout on first request, mark endpoint as potentially cold
+    if (error.code === 'ECONNABORTED' && error.message.includes('timeout')) {
+      console.warn(`⚠️  Timeout on ${error.config?.url} - backend may be cold starting`);
+    }
+    return Promise.reject(error);
+  }
+);
 
 // Types for Strapi responses
 export interface StrapiResponse<T> {
@@ -49,22 +93,27 @@ export const apiService = {
   async getCollection<T>(endpoint: string, populate = ''): Promise<StrapiResponse<T[]>> {
     let url = `/${endpoint}`;
     if (populate) {
-      // Convert Strapi v5 populate syntax
-      const populateParams = new URLSearchParams();
-      const fields = populate.split(',');
-      
-      fields.forEach(field => {
-        if (field.includes('.')) {
-          // Handle nested populate like "projects.cover"
-          const [parent, child] = field.split('.');
-          populateParams.append(`populate[${parent}][populate][${child}]`, 'true');
-        } else {
-          // Handle simple populate like "cover"
-          populateParams.append(`populate[${field}]`, 'true');
-        }
-      });
-      
-      url += `?${populateParams.toString()}`;
+      // Handle wildcard populate (Strapi v5 syntax)
+      if (populate === '*') {
+        url += '?populate=*';
+      } else {
+        // Convert Strapi v5 populate syntax for specific fields
+        const populateParams = new URLSearchParams();
+        const fields = populate.split(',');
+        
+        fields.forEach(field => {
+          if (field.includes('.')) {
+            // Handle nested populate like "projects.cover"
+            const [parent, child] = field.split('.');
+            populateParams.append(`populate[${parent}][populate][${child}]`, 'true');
+          } else {
+            // Handle simple populate like "cover"
+            populateParams.append(`populate[${field}]`, 'true');
+          }
+        });
+        
+        url += `?${populateParams.toString()}`;
+      }
     }
     
     const response = await api.get(url);
@@ -98,22 +147,27 @@ export const apiService = {
   async getSingleType<T>(endpoint: string, populate = ''): Promise<StrapiResponse<T>> {
     let url = `/${endpoint}`;
     if (populate) {
-      // Convert Strapi v5 populate syntax
-      const populateParams = new URLSearchParams();
-      const fields = populate.split(',');
-      
-      fields.forEach(field => {
-        if (field.includes('.')) {
-          // Handle nested populate like "featuredProjects.cover"
-          const [parent, child] = field.split('.');
-          populateParams.append(`populate[${parent}][populate][${child}]`, 'true');
-        } else {
-          // Handle simple populate like "leftImage"
-          populateParams.append(`populate[${field}]`, 'true');
-        }
-      });
-      
-      url += `?${populateParams.toString()}`;
+      // Handle wildcard populate (Strapi v5 syntax)
+      if (populate === '*') {
+        url += '?populate=*';
+      } else {
+        // Convert Strapi v5 populate syntax for specific fields
+        const populateParams = new URLSearchParams();
+        const fields = populate.split(',');
+        
+        fields.forEach(field => {
+          if (field.includes('.')) {
+            // Handle nested populate like "featuredProjects.cover"
+            const [parent, child] = field.split('.');
+            populateParams.append(`populate[${parent}][populate][${child}]`, 'true');
+          } else {
+            // Handle simple populate like "leftImage"
+            populateParams.append(`populate[${field}]`, 'true');
+          }
+        });
+        
+        url += `?${populateParams.toString()}`;
+      }
     }
     
     const response = await api.get(url);

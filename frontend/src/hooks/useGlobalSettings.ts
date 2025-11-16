@@ -48,7 +48,8 @@ export const useGlobalSettings = () => {
         throw err;
       }
     },
-    retry: 2,
+    retry: 3, // Increase retries for cold starts
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000), // Exponential backoff: 1s, 2s, 4s
     staleTime: 10 * 60 * 1000, // 10 minutes cache
   });
 
@@ -66,7 +67,8 @@ export const useGlobalSettings = () => {
         throw err;
       }
     },
-    retry: 2,
+    retry: 3, // Increase retries for cold starts
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000), // Exponential backoff: 1s, 2s, 4s
     staleTime: 10 * 60 * 1000, // 10 minutes cache
   });
 

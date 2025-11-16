@@ -89,8 +89,9 @@ const PREFETCH_CONFIGS: PrefetchConfig[] = [
  * - Only runs once per app session
  * - Waits for current page to load before prefetching others (if waitForQuery specified)
  * - Skips prefetching if data is already in cache
- * - Runs prefetches in parallel for speed
+ * - Runs prefetches SEQUENTIALLY with delays to avoid overwhelming cold backends
  * - Gracefully handles errors without breaking the app
+ * - Smart retry logic for timeout errors
  * 
  * @param options Configuration options
  * @param options.skip Skip prefetching (useful for conditional execution)
@@ -119,8 +120,8 @@ export function usePrefetchPages(options?: {
       if (waitForQuery) {
         console.log(`⏳ Waiting for ${JSON.stringify(waitForQuery)} to load before prefetching...`);
         
-        // Poll until the query has data (max 10 seconds)
-        const maxWaitTime = 10000;
+        // Poll until the query has data (max 15 seconds to account for cold starts)
+        const maxWaitTime = 15000;
         const pollInterval = 100;
         let elapsed = 0;
         
@@ -135,20 +136,22 @@ export function usePrefetchPages(options?: {
         }
         
         if (elapsed >= maxWaitTime) {
-          console.warn(`⚠️  Timeout waiting for ${JSON.stringify(waitForQuery)}, prefetching anyway`);
+          console.warn(`⚠️  Timeout waiting for ${JSON.stringify(waitForQuery)}, skipping prefetch to avoid overload`);
+          return; // Don't prefetch if current page is having issues
         }
       }
       
-      console.log('🚀 Starting background prefetch of other pages...');
+      console.log('🚀 Starting sequential background prefetch of other pages...');
       
-      // Run all prefetches in parallel
-      const prefetchPromises = PREFETCH_CONFIGS.map(async (config) => {
+      // Run prefetches SEQUENTIALLY to avoid overwhelming backend
+      // Add small delays between requests
+      for (const config of PREFETCH_CONFIGS) {
         // Check if data is already in cache
         const cachedData = queryClient.getQueryData(config.queryKey);
         
         if (cachedData) {
           console.log(`✅ ${config.name} already in cache, skipping prefetch`);
-          return;
+          continue;
         }
 
         try {
@@ -158,13 +161,22 @@ export function usePrefetchPages(options?: {
             staleTime: config.staleTime,
           });
           console.log(`✅ ${config.name} prefetched successfully`);
+          
+          // Small delay before next prefetch to be gentle on backend
+          await new Promise(resolve => setTimeout(resolve, 200));
         } catch (error) {
-          console.error(`❌ Failed to prefetch ${config.name}:`, error);
-          // Don't throw - we want other prefetches to continue
+          const err = error as Error;
+          console.error(`❌ Failed to prefetch ${config.name}:`, err.message);
+          
+          // If we get a timeout, wait longer before next request
+          if (err.message.includes('timeout')) {
+            console.log('⏸️  Backend seems slow, waiting 2 seconds before next prefetch...');
+            await new Promise(resolve => setTimeout(resolve, 2000));
+          }
+          // Continue with other prefetches even on error
         }
-      });
+      }
 
-      await Promise.allSettled(prefetchPromises);
       console.log('🎉 All page prefetch attempts completed');
     };
 

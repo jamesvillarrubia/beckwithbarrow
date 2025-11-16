@@ -15,14 +15,16 @@
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Footer from '../components/Footer';
 import Navigation from '../components/Navigation';
 import ImageGrid from '../components/ImageGrid';
 import AnimatedSection from '../components/AnimatedSection';
+import Breadcrumb from '../components/Breadcrumb';
 import { apiService } from '../services/api';
 import { useGlobalSettings } from '../hooks/useGlobalSettings';
+import { formatNumberWithO } from '../utils/formatNumber';
 
 interface ProjectImage {
   id: number;
@@ -68,7 +70,6 @@ interface Project {
 
 const ProjectPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [showDebug, setShowDebug] = useState(false);
   const { lightThemeColor } = useGlobalSettings();
@@ -85,7 +86,8 @@ const ProjectPage = () => {
         throw err;
       }
     },
-    retry: 2,
+    retry: 3, // Increase retries for cold starts
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000), // Exponential backoff: 1s, 2s, 4s
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
@@ -121,7 +123,8 @@ const ProjectPage = () => {
         throw err;
       }
     },
-    retry: 2,
+    retry: 3, // Increase retries for cold starts
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000), // Exponential backoff: 1s, 2s, 4s
     staleTime: 5 * 60 * 1000, // 5 minutes
     enabled: !!slug,
   });
@@ -149,16 +152,11 @@ const ProjectPage = () => {
     return (
       <div className="bg-white text-black">
         <Navigation />
+        <Breadcrumb />
         <div className="h-screen flex items-center justify-center">
           <div className="text-center">
             <p className="text-red-600 text-lg">Project not found</p>
             <p className="text-gray-500 text-sm mt-2">The project you're looking for doesn't exist</p>
-            <button
-              onClick={() => navigate('/')}
-              className="mt-4 px-6 py-2 bg-gray-900 text-white rounded hover:bg-gray-800 transition-colors"
-            >
-              Back to Home
-            </button>
           </div>
         </div>
         <Footer />
@@ -198,35 +196,40 @@ const ProjectPage = () => {
       {/* Navigation */}
       <Navigation />
       
-      {/* Project Header */}
-      <AnimatedSection as="section" className="py-16 px-6 md:px-12 lg:px-16" delay={100}>
-        <div className="max-w-6xl mx-auto">
-          {/* Back Button */}
-          <button
-            onClick={() => navigate('/')}
-            className="mb-8 text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-2 mt-8 cursor-pointer"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Projects
-          </button>
+      {/* Breadcrumb */}
+      <Breadcrumb />
 
-          {/* Project Title */}
-          <div className="flex items-end gap-6 mb-6 max-w-6xl">
+      {/* Project Header */}
+      <AnimatedSection as="section" className="px-6 md:px-12 lg:px-16" delay={100}>
+        <div className="max-w-6xl mx-auto">
+
+          {/* Project Title with decorative line */}
+          <div className="flex items-end gap-6 mb-6 max-w-6xl relative">
             {/* Project Number */}
             {projectNumber && (
               <div className="flex-shrink-0 pt-5">
-                <span className="swifted leading-tight" style={{ color: homeContent?.numberColors || lightThemeColor, fontSize: '12rem', lineHeight: '9rem', display: 'block' }}>
-                  {projectNumber.padStart(2, '0')}
+                <span className="lato-thin leading-tight" style={{ color: homeContent?.numberColors || lightThemeColor, fontSize: '12rem', lineHeight: '9rem', display: 'block' }}>
+                  {formatNumberWithO(parseInt(projectNumber))}
                 </span>
               </div>
             )}
             
             {/* Project Title */}
-            <h1 className="lg:text-7xl font-serif font-light leading-tight text-gray-900">
-              {project.Title}
-            </h1>
+            <div className="relative flex-1">
+              <h1 className="lg:text-6xl font-serif font-light leading-tight text-gray-900">
+                {project.Title}
+              </h1>
+              
+              {/* Decorative line under title - starts at right of numbers, extends 20% past container */}
+              <div 
+                className="absolute bottom-0 h-0.5"
+                style={{ 
+                  backgroundColor: homeContent?.numberColors || lightThemeColor,
+                  left: '0',
+                  right: '-20%'
+                }}
+              ></div>
+            </div>
           </div>
 
           {/* Project Metadata */}
@@ -260,8 +263,8 @@ const ProjectPage = () => {
             </div>
           )}
 
-          {/* Categories */}
-          {project.categories && project.categories.length > 0 && (
+          {/* Categories - Hidden */}
+          {/* {project.categories && project.categories.length > 0 && (
             <div className="mb-12">
               <div className="flex flex-wrap gap-2">
                 {project.categories.map((category, index) => (
@@ -274,37 +277,7 @@ const ProjectPage = () => {
                 ))}
               </div>
             </div>
-          )}
-        </div>
-      </AnimatedSection>
-
-      {/* Debug Section */}
-      <AnimatedSection as="section" className="py-8 px-6 md:px-12 lg:px-16 bg-gray-50" delay={200}>
-        <div className="max-w-6xl mx-auto">
-          <button
-            onClick={() => setShowDebug(!showDebug)}
-            className="mb-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-sm font-medium transition-colors"
-          >
-            {showDebug ? 'Hide' : 'Show'} Debug Info
-          </button>
-          
-          {showDebug && (
-            <div className="bg-white rounded-lg border p-6">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">Raw Project Data</h3>
-              <div className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-auto max-h-96">
-                <pre className="text-xs">
-                  {JSON.stringify(project, null, 2)}
-                </pre>
-              </div>
-              
-              <h3 className="text-lg font-semibold mb-4 text-gray-900 mt-6">Processed Images Array</h3>
-              <div className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-auto max-h-96">
-                <pre className="text-xs">
-                  {JSON.stringify(allImages, null, 2)}
-                </pre>
-              </div>
-            </div>
-          )}
+          )} */}
         </div>
       </AnimatedSection>
 
@@ -315,6 +288,38 @@ const ProjectPage = () => {
 
       {/* Footer */}
       <Footer />
+
+      {/* Debug Section - Moved to bottom */}
+      {import.meta.env.DEV && (
+        <AnimatedSection as="section" className="py-8 px-6 md:px-12 lg:px-16 bg-gray-50" delay={200}>
+          <div className="max-w-6xl mx-auto">
+            <button
+              onClick={() => setShowDebug(!showDebug)}
+              className="mb-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded text-sm font-medium transition-colors"
+            >
+              {showDebug ? 'Hide' : 'Show'} Debug Info
+            </button>
+            
+            {showDebug && (
+              <div className="bg-white rounded-lg border p-6">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900">Raw Project Data</h3>
+                <div className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-auto max-h-96">
+                  <pre className="text-xs">
+                    {JSON.stringify(project, null, 2)}
+                  </pre>
+                </div>
+                
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 mt-6">Processed Images Array</h3>
+                <div className="bg-gray-900 text-green-400 p-4 rounded-lg overflow-auto max-h-96">
+                  <pre className="text-xs">
+                    {JSON.stringify(allImages, null, 2)}
+                  </pre>
+                </div>
+              </div>
+            )}
+          </div>
+        </AnimatedSection>
+      )}
     </div>
   );
 };
