@@ -204,25 +204,33 @@ const ProjectPage = () => {
         <div className="max-w-6xl mx-auto">
 
           {/* Project Title with decorative line */}
-          <div className="flex items-end gap-6 mb-6 max-w-6xl relative">
+          <div className="flex flex-col md:flex-row md:items-end gap-6 mb-6 max-w-6xl relative">
             {/* Project Number */}
             {projectNumber && (
               <div className="flex-shrink-0 pt-5">
-                <span className="lato-thin leading-tight" style={{ color: homeContent?.numberColors || lightThemeColor, fontSize: '12rem', lineHeight: '9rem', display: 'block' }}>
+                <span 
+                  className="lato-thin leading-tight" 
+                  style={{ 
+                    color: homeContent?.numberColors || lightThemeColor, 
+                    fontSize: 'clamp(6rem, 12vw, 12rem)', 
+                    lineHeight: '0.75', 
+                    display: 'block' 
+                  }}
+                >
                   {formatNumberWithO(parseInt(projectNumber))}
                 </span>
               </div>
             )}
             
             {/* Project Title */}
-            <div className="relative flex-1">
-              <h1 className="lg:text-6xl font-serif font-light leading-tight text-gray-900">
+            <div className="relative flex-1 pt-6 md:pt-0">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-light leading-tight text-gray-900">
                 {project.Title}
               </h1>
               
-              {/* Decorative line under title - starts at right of numbers, extends 20% past container */}
+              {/* Decorative line under title - starts at right of numbers, extends 20% past container (hidden on mobile) */}
               <div 
-                className="absolute bottom-0 h-0.5"
+                className="hidden md:block absolute bottom-0 h-0.5"
                 style={{ 
                   backgroundColor: homeContent?.numberColors || lightThemeColor,
                   left: '0',
@@ -232,7 +240,7 @@ const ProjectPage = () => {
             </div>
           </div>
 
-          {/* Project Metadata */}
+          {/* Project Metadata
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             {project.location && (
               <div>
@@ -252,7 +260,7 @@ const ProjectPage = () => {
                 <p className="text-gray-900">{project.client}</p>
               </div>
             )}
-          </div>
+          </div> */}
 
           {/* Project Description */}
           {project.description && (

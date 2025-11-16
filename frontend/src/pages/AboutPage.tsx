@@ -22,6 +22,7 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
 import { apiService } from '../services/api';
+import { useGlobalSettings } from '../hooks/useGlobalSettings';
 
 /**
  * Type definitions for Strapi media
@@ -49,6 +50,8 @@ interface AboutContent {
 }
 
 const AboutPage = () => {
+  const { lightThemeColor } = useGlobalSettings();
+  
   // Fetch about page content from Strapi
   const { data: aboutData, isLoading, error } = useQuery({
     queryKey: ['about'],
@@ -132,38 +135,38 @@ const AboutPage = () => {
             viewBox="0 0 100 100"
             preserveAspectRatio="xMinYMin meet"
           >
-            {/* Horizontal line - starts 5% left, extends to 80% */}
-            <line
-              x1="5"
-              y1="12"
-              x2="105"
-              y2="12"
-              stroke="black"
-              strokeWidth="1.5"
-              vectorEffect="non-scaling-stroke"
-            />
-            
-            {/* Vertical line - starts above title, goes down alongside content */}
-            <line
-              x1="15"
-              y1="0"
-              x2="15"
-              y2="100"
-              stroke="black"
-              strokeWidth="1.5"
-              vectorEffect="non-scaling-stroke"
-            />
-            
-            {/* Circle tangent to both lines - diameter is 70% of horizontal line width */}
-            <circle
-              cx="46"
-              cy="43"
-              r="31"
-              stroke="black"
-              strokeWidth="1.5"
-              fill="none"
-              vectorEffect="non-scaling-stroke"
-            />
+          {/* Horizontal line - starts 5% left, extends to 80% */}
+          <line
+            x1="5"
+            y1="12"
+            x2="105"
+            y2="12"
+            stroke={lightThemeColor}
+            strokeWidth="1.5"
+            vectorEffect="non-scaling-stroke"
+          />
+          
+          {/* Vertical line - starts above title, goes down alongside content */}
+          <line
+            x1="15"
+            y1="0"
+            x2="15"
+            y2="100"
+            stroke={lightThemeColor}
+            strokeWidth="1.5"
+            vectorEffect="non-scaling-stroke"
+          />
+          
+          {/* Circle tangent to both lines - diameter is 70% of horizontal line width */}
+          <circle
+            cx="46"
+            cy="43"
+            r="31"
+            stroke={lightThemeColor}
+            strokeWidth="1.5"
+            fill="none"
+            vectorEffect="non-scaling-stroke"
+          />
           </svg>
         </div>
       </section>
