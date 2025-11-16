@@ -1,0 +1,29 @@
+{
+  "kind": "singleType",
+  "collectionName": "presses",
+  "info": {
+    "singularName": "press",
+    "pluralName": "presses",
+    "displayName": "Press & Media",
+    "description": "Press coverage, media mentions, awards, and publications"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Press & Media"
+    },
+    "introduction": {
+      "type": "richtext"
+    },
+    "pressItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.press-item"
+    }
+  }
+}
+

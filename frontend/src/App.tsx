@@ -13,6 +13,7 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ApproachPage from './pages/ApproachPage';
 import ConnectPage from './pages/ConnectPage';
+import PressPage from './pages/PressPage';
 import ProjectPage from './pages/ProjectPage';
 import { useSmartPrefetch } from './hooks/usePrefetchPages';
 
@@ -36,6 +37,7 @@ function AppContent() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/approach" element={<ApproachPage />} />
           <Route path="/connect" element={<ConnectPage />} />
+          <Route path="/press" element={<PressPage />} />
           <Route path="/project/:slug" element={<ProjectPage />} />
           {/* Catch-all route for 404s */}
           <Route path="*" element={<HomePage />} />

@@ -1,0 +1,44 @@
+{
+  "collectionName": "components_shared_press_items",
+  "info": {
+    "displayName": "Press Item",
+    "icon": "newspaper",
+    "description": "Individual press article or media mention"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "text": {
+      "type": "richtext",
+      "required": false
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "color": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+      "required": false
+    },
+    "source": {
+      "type": "string",
+      "required": false
+    },
+    "date": {
+      "type": "date",
+      "required": false
+    },
+    "link": {
+      "type": "string",
+      "required": false
+    }
+  }
+}
+

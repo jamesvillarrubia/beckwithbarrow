@@ -35,6 +35,25 @@ export interface SharedNavigationLink extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedPressItem extends Struct.ComponentSchema {
+  collectionName: 'components_shared_press_items';
+  info: {
+    description: 'Individual press article or media mention';
+    displayName: 'Press Item';
+    icon: 'newspaper';
+  };
+  attributes: {
+    color: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'plugin::color-picker.color'>;
+    date: Schema.Attribute.Date;
+    image: Schema.Attribute.Media<'images'>;
+    link: Schema.Attribute.String;
+    source: Schema.Attribute.String;
+    text: Schema.Attribute.RichText;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface SharedQuote extends Struct.ComponentSchema {
   collectionName: 'components_shared_quotes';
   info: {
@@ -91,6 +110,7 @@ declare module '@strapi/strapi' {
     export interface ComponentSchemas {
       'shared.media': SharedMedia;
       'shared.navigation-link': SharedNavigationLink;
+      'shared.press-item': SharedPressItem;
       'shared.quote': SharedQuote;
       'shared.rich-text': SharedRichText;
       'shared.seo': SharedSeo;

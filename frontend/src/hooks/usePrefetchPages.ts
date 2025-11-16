@@ -73,6 +73,12 @@ const PREFETCH_CONFIGS: PrefetchConfig[] = [
     staleTime: 5 * 60 * 1000, // 5 minutes
     name: 'Connect Page',
   },
+  {
+    queryKey: ['press'],
+    queryFn: () => apiService.getSingleType('press', 'pressItems,pressItems.image'),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    name: 'Press Page',
+  },
   // Add more pages here as needed:
   // {
   //   queryKey: ['projects'],
@@ -220,6 +226,7 @@ export function useSmartPrefetch(options?: { skip?: boolean; delay?: number }) {
     '/about': ['about'],
     '/approach': ['approach'],
     '/connect': ['connect'],
+    '/press': ['press'],
     // Add more route mappings as needed
   };
   
