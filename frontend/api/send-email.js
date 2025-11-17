@@ -15,12 +15,48 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, message } = req.body;
+    const { name, email, message, recaptchaToken } = req.body;
 
     // Validate required fields
     if (!name || !email || !message) {
       return res.status(400).json({ 
         error: 'Missing required fields: name, email, and message are required' 
+      });
+    }
+
+    // Validate reCAPTCHA token
+    if (!recaptchaToken) {
+      return res.status(400).json({ 
+        error: 'reCAPTCHA validation required' 
+      });
+    }
+
+    // Verify reCAPTCHA token with Google
+    const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+    if (!recaptchaSecret) {
+      console.error('RECAPTCHA_SECRET_KEY environment variable is not set');
+      return res.status(500).json({ 
+        error: 'Security verification not configured' 
+      });
+    }
+
+    const recaptchaVerification = await fetch(
+      'https://www.google.com/recaptcha/api/siteverify',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `secret=${recaptchaSecret}&response=${recaptchaToken}`,
+      }
+    );
+
+    const recaptchaResult = await recaptchaVerification.json();
+
+    if (!recaptchaResult.success) {
+      console.error('reCAPTCHA verification failed:', recaptchaResult);
+      return res.status(400).json({ 
+        error: 'Security verification failed. Please try again.' 
       });
     }
 

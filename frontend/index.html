@@ -7,12 +7,20 @@
     <!-- Preload custom Swifted font for immediate availability -->
     <link rel="preload" href="/Swifted-Regular.otf" as="font" type="font/otf" crossorigin>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts - Non-blocking load with preconnect optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <script src="https://www.google.com/recaptcha/api.js"></script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Lato:wght@100&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <!-- Load fonts asynchronously to prevent render blocking -->
+    <link 
+      href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Lato:wght@100&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" 
+      rel="stylesheet"
+      media="print" 
+      onload="this.media='all'; this.onload=null;"
+    >
+    <!-- Fallback for browsers without JS -->
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Lato:wght@100&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    </noscript>
     <meta name="keywords" content="Interior Design, Interior Architecture, Interior Design Firm, Interior Design Company, Interior Design Services, Interior Design Studio, Interior Design Firm, Interior Design Company, Interior Design Services, Interior Design Studio, Interior Design Firm, Interior Design Company, Interior Design Services, Interior Design Studio">
     <meta name="author" content="Beckwith Barrow Interior Design">
     <title>Beckwith Barrow Interior Design</title>
@@ -40,14 +48,5 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script>
-      function onSubmit(token) {
-        // Find the form and submit it
-        const form = document.querySelector('form');
-        if (form) {
-          form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-        }
-      }
-    </script>
   </body>
 </html>

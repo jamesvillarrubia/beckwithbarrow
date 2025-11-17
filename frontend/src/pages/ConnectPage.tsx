@@ -6,11 +6,12 @@
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
 import { apiService } from '../services/api';
+import { useRecaptcha } from '../hooks/useRecaptcha';
 
 interface ConnectData {
   email?: string;
@@ -26,6 +27,10 @@ const ConnectPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const recaptchaRef = useRef<number | null>(null);
+  
+  // Lazy load reCAPTCHA only on this page
+  const { isLoaded: recaptchaLoaded, error: recaptchaError } = useRecaptcha();
 
   // Fetch connect data from Strapi
   const { data: connectData, isLoading } = useQuery({
@@ -46,20 +51,34 @@ const ConnectPage = () => {
 
   const connect = connectData?.data as ConnectData;
 
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
+  // Render reCAPTCHA widget once loaded
+  useEffect(() => {
+    if (recaptchaLoaded && window.grecaptcha && !recaptchaRef.current) {
+      try {
+        recaptchaRef.current = window.grecaptcha.render('recaptcha-container', {
+          sitekey: import.meta.env.VITE_RECAPTCHA_SITE_KEY,
+          size: 'invisible',
+          callback: handleRecaptchaSuccess,
+        });
+      } catch (error) {
+        console.error('Error rendering reCAPTCHA:', error);
+      }
+    }
+  }, [recaptchaLoaded]);
 
+  // Handle reCAPTCHA success callback
+  const handleRecaptchaSuccess = async (token: string) => {
     try {
-      // Send form data to API server
+      // Send form data with reCAPTCHA token to API server
       const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          recaptchaToken: token,
+        }),
       });
 
       const result = await response.json();
@@ -68,6 +87,10 @@ const ConnectPage = () => {
         console.log('Email sent successfully:', result);
         setSubmitStatus('success');
         setFormData({ name: '', email: '', message: '' });
+        // Reset reCAPTCHA for next submission
+        if (recaptchaRef.current !== null) {
+          window.grecaptcha.reset(recaptchaRef.current);
+        }
       } else {
         console.error('Email sending failed:', result);
         setSubmitStatus('error');
@@ -76,6 +99,34 @@ const ConnectPage = () => {
       console.error('Form submission error:', error);
       setSubmitStatus('error');
     } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Don't submit if reCAPTCHA isn't loaded yet
+    if (!recaptchaLoaded || recaptchaError) {
+      console.error('reCAPTCHA not available');
+      setSubmitStatus('error');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Execute reCAPTCHA (will call handleRecaptchaSuccess on success)
+      if (recaptchaRef.current !== null) {
+        window.grecaptcha.execute(recaptchaRef.current);
+      } else {
+        throw new Error('reCAPTCHA not initialized');
+      }
+    } catch (error) {
+      console.error('reCAPTCHA execution error:', error);
+      setSubmitStatus('error');
       setIsSubmitting(false);
     }
   };
@@ -244,21 +295,30 @@ const ConnectPage = () => {
                   />
                 </div>
                 
+                {/* Invisible reCAPTCHA container */}
+                <div id="recaptcha-container"></div>
+                
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className={`w-full py-3 px-6 rounded-lg transition-colors g-recaptcha ${
-                    isSubmitting
+                  disabled={isSubmitting || !recaptchaLoaded}
+                  className={`w-full py-3 px-6 rounded-lg transition-colors ${
+                    isSubmitting || !recaptchaLoaded
                       ? 'bg-gray-400 cursor-not-allowed text-white'
                       : 'bg-gray-900 hover:bg-gray-800 text-white'
                   }`}
-                  data-sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-                  data-callback="onSubmit"
-                  data-action="submit"
                 >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                  {isSubmitting ? 'Sending...' : !recaptchaLoaded ? 'Loading...' : 'Send Message'}
                 </button>
 
+                {/* reCAPTCHA Error Message */}
+                {recaptchaError && (
+                  <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p className="text-yellow-800 font-medium">Security verification unavailable</p>
+                    <p className="text-yellow-700 text-sm mt-1">
+                      Please refresh the page or contact us directly.
+                    </p>
+                  </div>
+                )}
 
                 {/* Status Messages */}
                 {submitStatus === 'success' && (
