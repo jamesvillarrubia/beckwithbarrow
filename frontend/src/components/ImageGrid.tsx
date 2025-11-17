@@ -82,12 +82,14 @@ const ImageGrid = ({ images, projectTitle, className = '' }: ImageGridProps) => 
   }, [images, preloadedImages]);
 
   // Convert images to react-photo-album format (using optimized URLs for grid display)
-  const photos = images.map((image) => ({
+  const photos = images.map((image, index) => ({
     src: transformCloudinaryUrl(image.url, CloudinaryPresets.card),
     alt: image.alternativeText || `${projectTitle} - Image`,
     title: image.caption || image.alternativeText,
     width: image.width || 800, // Use original width to preserve aspect ratio
     height: image.height || 600, // Use original height to preserve aspect ratio
+    // Add fetchpriority="high" to the first image for LCP optimization
+    ...(index === 0 && { loading: 'eager' as const }),
   }));
 
   // Convert to Yet Another React Lightbox format (using high-quality optimized URLs for lightbox)
@@ -125,22 +127,6 @@ const ImageGrid = ({ images, projectTitle, className = '' }: ImageGridProps) => 
               return 4; // Desktop: 4 columns
             }}
             onClick={({ index }) => openLightbox(index)}
-            renderPhoto={({ photo, imageProps, wrapperStyle, renderDefaultPhoto }) => {
-              // Add fetchpriority="high" to the first image for LCP optimization
-              const index = photos.indexOf(photo);
-              const isFirstImage = index === 0;
-              
-              return (
-                <div style={wrapperStyle}>
-                  <img
-                    {...imageProps}
-                    loading={isFirstImage ? 'eager' : 'lazy'}
-                    fetchPriority={isFirstImage ? 'high' : undefined}
-                    alt={photo.alt || ''}
-                  />
-                </div>
-              );
-            }}
           />
         </div>
       </section>

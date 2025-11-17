@@ -6,7 +6,7 @@
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
@@ -51,23 +51,8 @@ const ConnectPage = () => {
 
   const connect = connectData?.data as ConnectData;
 
-  // Render reCAPTCHA widget once loaded
-  useEffect(() => {
-    if (recaptchaLoaded && window.grecaptcha && !recaptchaRef.current) {
-      try {
-        recaptchaRef.current = window.grecaptcha.render('recaptcha-container', {
-          sitekey: import.meta.env.VITE_RECAPTCHA_SITE_KEY,
-          size: 'invisible',
-          callback: handleRecaptchaSuccess,
-        });
-      } catch (error) {
-        console.error('Error rendering reCAPTCHA:', error);
-      }
-    }
-  }, [recaptchaLoaded]);
-
   // Handle reCAPTCHA success callback
-  const handleRecaptchaSuccess = async (token: string) => {
+  const handleRecaptchaSuccess = useCallback(async (token: string) => {
     try {
       // Send form data with reCAPTCHA token to API server
       const response = await fetch('/api/send-email', {
@@ -101,7 +86,22 @@ const ConnectPage = () => {
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [formData]);
+
+  // Render reCAPTCHA widget once loaded
+  useEffect(() => {
+    if (recaptchaLoaded && window.grecaptcha && !recaptchaRef.current) {
+      try {
+        recaptchaRef.current = window.grecaptcha.render('recaptcha-container', {
+          sitekey: import.meta.env.VITE_RECAPTCHA_SITE_KEY,
+          size: 'invisible',
+          callback: handleRecaptchaSuccess,
+        });
+      } catch (error) {
+        console.error('Error rendering reCAPTCHA:', error);
+      }
+    }
+  }, [recaptchaLoaded, handleRecaptchaSuccess]);
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
