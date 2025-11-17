@@ -16,6 +16,7 @@ import Logo from '../components/Logo';
 import Navigation from '../components/Navigation';
 import ProjectGrid from '../components/ProjectGrid';
 import AnimatedSection from '../components/AnimatedSection';
+import OptimizedImage from '../components/OptimizedImage';
 import { apiService } from '../services/api';
 import { useGlobalSettings } from '../hooks/useGlobalSettings';
 
@@ -132,20 +133,28 @@ const HomePage = () => {
         {/* Left Image */}
         <div className="w-1/2 relative overflow-hidden">
           <div className="absolute inset-0 bg-black/40 z-10"></div>
-          <img
-            src={homeContent?.leftImage?.formats?.large?.url || homeContent?.leftImage?.url || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2053&q=80"}
+          <OptimizedImage
+            src={homeContent?.leftImage?.url || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2053&q=80"}
             alt={homeContent?.leftImage?.alternativeText || "Architectural interior"}
             className="w-full h-full object-cover"
+            width={1920}
+            quality="auto:good"
+            sizes="50vw"
+            loading="eager"
           />
         </div>
 
         {/* Right Image */}
         <div className="w-1/2 relative overflow-hidden">
           <div className="absolute inset-0 bg-black/40 z-10"></div>
-          <img
-            src={homeContent?.rightImage?.formats?.large?.url || homeContent?.rightImage?.url || "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"}
+          <OptimizedImage
+            src={homeContent?.rightImage?.url || "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"}
             alt={homeContent?.rightImage?.alternativeText || "Modern home exterior"}
             className="w-full h-full object-cover"
+            width={1920}
+            quality="auto:good"
+            sizes="50vw"
+            loading="eager"
           />
         </div>
 

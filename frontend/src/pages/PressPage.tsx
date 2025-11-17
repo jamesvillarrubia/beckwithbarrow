@@ -16,6 +16,7 @@ import remarkGfm from 'remark-gfm';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
+import OptimizedImage from '../components/OptimizedImage';
 import { apiService } from '../services/api';
 
 /**
@@ -87,12 +88,12 @@ const PressPage = () => {
   };
 
   /**
-   * Helper function to get the best image URL
-   * Prefers medium format, falls back to small, then original
+   * Helper function to get the image URL
+   * Returns original URL - OptimizedImage component handles transformations
    */
   const getImageUrl = (image?: PressItem['image']) => {
     if (!image) return null;
-    return image.formats?.medium?.url || image.formats?.small?.url || image.url;
+    return image.url;
   };
 
   // Loading state - show spinner while fetching data
@@ -193,10 +194,13 @@ const PressPage = () => {
                             borderLeft: item.color ? `4px solid ${item.color}` : undefined
                           }}
                         >
-                          <img 
+                          <OptimizedImage 
                             src={getImageUrl(item.image) || ''}
                             alt={item.image.alternativeText || item.title}
                             className="w-full h-full object-cover"
+                            width={400}
+                            quality="auto"
+                            sizes="(max-width: 768px) 100vw, 25vw"
                           />
                         </div>
                       </div>

@@ -15,6 +15,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useGlobalSettings } from '../hooks/useGlobalSettings';
 import { formatNumberWithO } from '../utils/formatNumber';
+import OptimizedImage from './OptimizedImage';
 
 interface ProjectBlockProps {
   project: {
@@ -103,10 +104,13 @@ const ProjectBlock = ({ project, className = '', number, numberColor }: ProjectB
         onClick={handleProjectClick}
       >
         {project.cover?.url ? (
-          <img 
+          <OptimizedImage 
             className="w-full h-auto transition-transform duration-700 ease-in-out group-hover:scale-102"
             src={project.cover.url}
             alt={project.cover.alternativeText || project.Title}
+            width={800}
+            quality="auto"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
             loading="lazy"
           />
         ) : (

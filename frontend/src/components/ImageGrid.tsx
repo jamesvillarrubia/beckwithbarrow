@@ -20,6 +20,7 @@ import { ColumnsPhotoAlbum } from 'react-photo-album';
 import 'react-photo-album/columns.css';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
+import { transformCloudinaryUrl, CloudinaryPresets } from '../utils/cloudinary';
 
 interface ProjectImage {
   id: number;
@@ -80,18 +81,18 @@ const ImageGrid = ({ images, projectTitle, className = '' }: ImageGridProps) => 
     return () => clearTimeout(timer);
   }, [images, preloadedImages]);
 
-  // Convert images to react-photo-album format (using small format with original dimensions)
+  // Convert images to react-photo-album format (using optimized URLs for grid display)
   const photos = images.map((image) => ({
-    src: image.formats?.small?.url || image.url,
+    src: transformCloudinaryUrl(image.url, CloudinaryPresets.card),
     alt: image.alternativeText || `${projectTitle} - Image`,
     title: image.caption || image.alternativeText,
     width: image.width || 800, // Use original width to preserve aspect ratio
     height: image.height || 600, // Use original height to preserve aspect ratio
   }));
 
-  // Convert to Yet Another React Lightbox format (using large format for lightbox)
+  // Convert to Yet Another React Lightbox format (using high-quality optimized URLs for lightbox)
   const slides = images.map((image) => ({
-    src: image.formats?.large?.url || image.url, // Use large format if available, fallback to original
+    src: transformCloudinaryUrl(image.url, CloudinaryPresets.lightbox),
     alt: image.alternativeText || `${projectTitle} - Image`,
     title: image.caption || image.alternativeText,
     width: image.width, // Use original width to preserve aspect ratio

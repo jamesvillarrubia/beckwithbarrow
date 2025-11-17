@@ -13,6 +13,7 @@
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import OptimizedImage from './OptimizedImage';
 
 /**
  * Type definitions for Strapi block components
@@ -72,9 +73,6 @@ const MediaBlockRenderer = ({ block }: { block: MediaBlock }) => {
   
   if (!file) return null;
 
-  // Determine the best image URL to use
-  const imageUrl = file.formats?.large?.url || file.url;
-  
   // Check if it's a video
   const isVideo = file.mime?.startsWith('video/');
 
@@ -92,10 +90,13 @@ const MediaBlockRenderer = ({ block }: { block: MediaBlock }) => {
                 Your browser does not support the video tag.
               </video>
             ) : (
-              <img 
-                src={imageUrl}
+              <OptimizedImage 
+                src={file.url}
                 alt={file.alternativeText || 'Content image'}
                 className="w-full h-full object-cover"
+                width={1200}
+                quality="auto:good"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
               />
             )}
           </div>
@@ -231,14 +232,19 @@ const SliderBlockRenderer = ({ block }: { block: SliderBlock }) => {
           'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
         }`}>
           {files.map((file) => {
-            const imageUrl = file.formats?.large?.url || file.url;
-            
             return (
               <div key={file.id} className="aspect-[4/3] rounded-sm overflow-hidden">
-                <img 
-                  src={imageUrl}
+                <OptimizedImage 
+                  src={file.url}
                   alt={file.alternativeText || 'Gallery image'}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  width={800}
+                  quality="auto"
+                  sizes={
+                    files.length === 1 ? '(max-width: 1200px) 100vw, 1200px' :
+                    files.length === 2 ? '(max-width: 768px) 100vw, 50vw' :
+                    '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'
+                  }
                 />
               </div>
             );

@@ -22,6 +22,7 @@ import remarkGfm from 'remark-gfm';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
+import OptimizedImage from '../components/OptimizedImage';
 import { apiService } from '../services/api';
 import { useGlobalSettings } from '../hooks/useGlobalSettings';
 
@@ -95,9 +96,12 @@ const ImageWithPlaceholder = ({
       )}
       
       {/* Actual Image */}
-      <img 
+      <OptimizedImage 
         src={src}
         alt={alt}
+        width={600}
+        quality="auto:good"
+        sizes="(max-width: 768px) 100vw, 50vw"
         className={`w-full h-full object-cover transition-opacity duration-300 ${
           imageState === 'loaded' ? 'opacity-100' : 'opacity-0'
         }`}
@@ -134,17 +138,16 @@ const AboutPage = () => {
   const aboutContent = aboutData?.data as AboutContent;
 
   /**
-   * Helper function to get the best image URL
-   * Prefers large format, falls back to original
+   * Helper function to get the image URL from media object
+   * Always returns the original URL - OptimizedImage component handles transformations
    */
   const getImageUrl = (media?: StrapiMedia) => {
     if (!media) {
       console.log('No media object provided');
       return null;
     }
-    const url = media.formats?.large?.url || media.url;
-    console.log('Image URL:', url, 'Media object:', media);
-    return url;
+    console.log('Image URL:', media.url, 'Media object:', media);
+    return media.url;
   };
 
   // Debug: Log the about content structure
