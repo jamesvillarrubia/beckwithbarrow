@@ -11,9 +11,15 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.13
         version: 4.1.14(vite@7.1.7(@types/node@16.18.11)(jiti@2.6.1)(lightningcss@1.30.1))
+      '@tanstack/query-sync-storage-persister':
+        specifier: ^5.90.9
+        version: 5.90.11
       '@tanstack/react-query':
-        specifier: ^5.90.2
-        version: 5.90.2(react@19.1.1)
+        specifier: ^5.90.9
+        version: 5.90.9(react@19.1.1)
+      '@tanstack/react-query-persist-client':
+        specifier: ^5.90.9
+        version: 5.90.11(@tanstack/react-query@5.90.9(react@19.1.1))(react@19.1.1)
       axios:
         specifier: ^1.12.2
         version: 1.12.2
@@ -769,11 +775,23 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
 
-  '@tanstack/query-core@5.90.2':
-    resolution: {integrity: sha512-k/TcR3YalnzibscALLwxeiLUub6jN5EDLwKDiO7q5f4ICEoptJ+n9+7vcEFy5/x/i6Q+Lb/tXrsKCggf5uQJXQ==}
+  '@tanstack/query-core@5.90.9':
+    resolution: {integrity: sha512-UFOCQzi6pRGeVTVlPNwNdnAvT35zugcIydqjvFUzG62dvz2iVjElmNp/hJkUoM5eqbUPfSU/GJIr/wbvD8bTUw==}
 
-  '@tanstack/react-query@5.90.2':
-    resolution: {integrity: sha512-CLABiR+h5PYfOWr/z+vWFt5VsOA2ekQeRQBFSKlcoW6Ndx/f8rfyVmq4LbgOM4GG2qtxAxjLYLOpCNTYm4uKzw==}
+  '@tanstack/query-persist-client-core@5.91.8':
+    resolution: {integrity: sha512-aee4w+piU37e9Xe3VIoyE/T1ovKPJurRPTgZrNLnP8ExIM6EgmfLgDIYIdz69EUgVlaXOIwJH70dX2wo/TgKTQ==}
+
+  '@tanstack/query-sync-storage-persister@5.90.11':
+    resolution: {integrity: sha512-P1yGv/3cxAIHh6+Nle1tvkFkyvKtcRKKJi/Vw95u15p+V0GBLAw0lSppSkGCw9kEHPLaMmWmdZwUnj5pSmOoTw==}
+
+  '@tanstack/react-query-persist-client@5.90.11':
+    resolution: {integrity: sha512-AI4QWvzuxNG8akMTxvVyYY61NqfA45PCmyiER0pNyuHH5l/3TwudSzN00I25kjMcu9ZpD8OIlYfsmg36L8Olwg==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.90.9
+      react: ^18 || ^19
+
+  '@tanstack/react-query@5.90.9':
+    resolution: {integrity: sha512-Zke2AaXiaSfnG8jqPZR52m8SsclKT2d9//AgE/QIzyNvbpj/Q2ln+FsZjb1j69bJZUouBvX2tg9PHirkTm8arw==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -3508,11 +3526,26 @@ snapshots:
       tailwindcss: 4.1.14
       vite: 7.1.7(@types/node@16.18.11)(jiti@2.6.1)(lightningcss@1.30.1)
 
-  '@tanstack/query-core@5.90.2': {}
+  '@tanstack/query-core@5.90.9': {}
 
-  '@tanstack/react-query@5.90.2(react@19.1.1)':
+  '@tanstack/query-persist-client-core@5.91.8':
     dependencies:
-      '@tanstack/query-core': 5.90.2
+      '@tanstack/query-core': 5.90.9
+
+  '@tanstack/query-sync-storage-persister@5.90.11':
+    dependencies:
+      '@tanstack/query-core': 5.90.9
+      '@tanstack/query-persist-client-core': 5.91.8
+
+  '@tanstack/react-query-persist-client@5.90.11(@tanstack/react-query@5.90.9(react@19.1.1))(react@19.1.1)':
+    dependencies:
+      '@tanstack/query-persist-client-core': 5.91.8
+      '@tanstack/react-query': 5.90.9(react@19.1.1)
+      react: 19.1.1
+
+  '@tanstack/react-query@5.90.9(react@19.1.1)':
+    dependencies:
+      '@tanstack/query-core': 5.90.9
       react: 19.1.1
 
   '@tootallnate/once@2.0.0': {}

@@ -5,9 +5,12 @@
  * - React Query context for data fetching and caching
  * - React Router for client-side navigation
  * - Centralized page prefetching for instant navigation
+ * - Local storage persistence for offline-first experience
  */
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient } from '@tanstack/react-query';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -17,8 +20,76 @@ import PressPage from './pages/PressPage';
 import ProjectPage from './pages/ProjectPage';
 import { useSmartPrefetch } from './hooks/usePrefetchPages';
 
-// Create a client
-const queryClient = new QueryClient();
+// Import cache utilities (dev only - makes them available in console)
+if (import.meta.env.DEV) {
+  import('./utils/cacheUtils');
+}
+
+/**
+ * Create a QueryClient with optimized cache settings
+ * - Longer stale times to reduce unnecessary refetches
+ * - Automatic retries with exponential backoff
+ * - Keeps data in cache even when unused
+ */
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 60 * 24, // 24 hours - data stays fresh for a day
+      gcTime: 1000 * 60 * 60 * 24 * 7, // 7 days - keep unused data for a week
+      retry: 3,
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+      refetchOnWindowFocus: false, // Don't refetch when user tabs back
+      refetchOnReconnect: true, // Refetch when connection is restored
+      refetchOnMount: false, // Don't refetch on component mount if data exists
+    },
+  },
+});
+
+/**
+ * Cache version control
+ * Increment this version number whenever you make breaking changes to:
+ * - API response structures
+ * - Populate parameters
+ * - Data schemas
+ * 
+ * This will automatically invalidate old caches and force fresh data fetch
+ */
+const CACHE_VERSION = 'v5'; // Fixed: Don't populate simple fields (colors), only relations/media
+
+/**
+ * Create a localStorage persister with version control
+ * This saves the React Query cache to localStorage so it persists across page reloads
+ * The version is included in the key so old caches are automatically ignored
+ */
+const persister = createSyncStoragePersister({
+  storage: window.localStorage,
+  key: `beckwithbarrow-cache-${CACHE_VERSION}`, // Versioned key
+  serialize: JSON.stringify,
+  deserialize: JSON.parse,
+});
+
+/**
+ * Clean up old cache versions on startup
+ * This removes outdated cache entries to save space
+ */
+const cleanupOldCaches = () => {
+  const allKeys = Object.keys(localStorage);
+  const oldCacheKeys = allKeys.filter(
+    key => key.startsWith('beckwithbarrow-cache-') && key !== `beckwithbarrow-cache-${CACHE_VERSION}`
+  );
+  
+  oldCacheKeys.forEach(key => {
+    localStorage.removeItem(key);
+    console.log(`🧹 Cleaned up old cache: ${key}`);
+  });
+  
+  if (oldCacheKeys.length > 0) {
+    console.log(`✨ Cache updated to ${CACHE_VERSION}`);
+  }
+};
+
+// Run cleanup on app initialization
+cleanupOldCaches();
 
 /**
  * AppContent - Internal component that has access to QueryClient context
@@ -49,11 +120,14 @@ function AppContent() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{ persister, maxAge: 1000 * 60 * 60 * 24 * 7 }} // 7 days max age
+    >
       <Router>
         <AppContent />
       </Router>
-    </QueryClientProvider>
+    </PersistQueryClientProvider>
   );
 }
 

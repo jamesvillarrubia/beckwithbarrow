@@ -264,16 +264,16 @@ const BlockRenderer = ({ blocks }: BlockRendererProps) => {
         // Render the appropriate component based on block type
         switch (block.__component) {
           case 'shared.media':
-            return <MediaBlockRenderer key={block.id} block={block as MediaBlock} />;
+            return <MediaBlockRenderer key={block.id} block={block as unknown as MediaBlock} />;
           
           case 'shared.quote':
-            return <QuoteBlockRenderer key={block.id} block={block as QuoteBlock} />;
+            return <QuoteBlockRenderer key={block.id} block={block as unknown as QuoteBlock} />;
           
           case 'shared.rich-text':
-            return <RichTextBlockRenderer key={block.id} block={block as RichTextBlock} />;
+            return <RichTextBlockRenderer key={block.id} block={block as unknown as RichTextBlock} />;
           
           case 'shared.slider':
-            return <SliderBlockRenderer key={block.id} block={block as SliderBlock} />;
+            return <SliderBlockRenderer key={block.id} block={block as unknown as SliderBlock} />;
           
           default:
             // Log unknown block types for debugging
