@@ -125,6 +125,22 @@ const ImageGrid = ({ images, projectTitle, className = '' }: ImageGridProps) => 
               return 4; // Desktop: 4 columns
             }}
             onClick={({ index }) => openLightbox(index)}
+            renderPhoto={({ photo, imageProps, wrapperStyle, renderDefaultPhoto }) => {
+              // Add fetchpriority="high" to the first image for LCP optimization
+              const index = photos.indexOf(photo);
+              const isFirstImage = index === 0;
+              
+              return (
+                <div style={wrapperStyle}>
+                  <img
+                    {...imageProps}
+                    loading={isFirstImage ? 'eager' : 'lazy'}
+                    fetchPriority={isFirstImage ? 'high' : undefined}
+                    alt={photo.alt || ''}
+                  />
+                </div>
+              );
+            }}
           />
         </div>
       </section>

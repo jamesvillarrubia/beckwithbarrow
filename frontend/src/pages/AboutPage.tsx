@@ -57,10 +57,12 @@ interface AboutContent {
  */
 const ImageWithPlaceholder = ({ 
   src, 
-  alt 
+  alt,
+  priority = false
 }: { 
   src: string; 
   alt: string;
+  priority?: boolean;
 }) => {
   const [imageState, setImageState] = useState<'loading' | 'loaded' | 'error'>('loading');
 
@@ -102,6 +104,8 @@ const ImageWithPlaceholder = ({
         width={600}
         quality="auto:good"
         sizes="(max-width: 768px) 100vw, 50vw"
+        loading={priority ? 'eager' : 'lazy'}
+        fetchpriority={priority ? 'high' : undefined}
         className={`w-full h-full object-cover transition-opacity duration-300 ${
           imageState === 'loaded' ? 'opacity-100' : 'opacity-0'
         }`}
@@ -257,6 +261,7 @@ const AboutPage = () => {
                 <ImageWithPlaceholder
                   src={getImageUrl(aboutContent.topLeftImage) || ''}
                   alt={aboutContent.topLeftImage.alternativeText || 'About image'}
+                  priority={true}
                 />
               </div>
             ) : (

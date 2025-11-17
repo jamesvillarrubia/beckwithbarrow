@@ -141,6 +141,7 @@ const HomePage = () => {
             quality="auto:good"
             sizes="50vw"
             loading="eager"
+            fetchpriority="high"
           />
         </div>
 
@@ -155,6 +156,7 @@ const HomePage = () => {
             quality="auto:good"
             sizes="50vw"
             loading="eager"
+            fetchpriority="high"
           />
         </div>
 
