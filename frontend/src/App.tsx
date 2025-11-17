@@ -12,13 +12,16 @@ import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import ApproachPage from './pages/ApproachPage';
-import ConnectPage from './pages/ConnectPage';
-import PressPage from './pages/PressPage';
-import ProjectPage from './pages/ProjectPage';
+import { lazy, Suspense } from 'react';
 import { useSmartPrefetch } from './hooks/usePrefetchPages';
+
+// Lazy load pages for better code splitting
+const HomePage = lazy(() => import('./pages/HomePage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ApproachPage = lazy(() => import('./pages/ApproachPage'));
+const ConnectPage = lazy(() => import('./pages/ConnectPage'));
+const PressPage = lazy(() => import('./pages/PressPage'));
+const ProjectPage = lazy(() => import('./pages/ProjectPage'));
 
 // Import cache utilities (dev only - makes them available in console)
 if (import.meta.env.DEV) {
@@ -103,16 +106,25 @@ function AppContent() {
   return (
     <div className="min-h-screen">
       <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/approach" element={<ApproachPage />} />
-          <Route path="/connect" element={<ConnectPage />} />
-          <Route path="/press" element={<PressPage />} />
-          <Route path="/project/:slug" element={<ProjectPage />} />
-          {/* Catch-all route for 404s */}
-          <Route path="*" element={<HomePage />} />
-        </Routes>
+        <Suspense fallback={
+          <div className="h-screen flex items-center justify-center bg-white">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+              <p className="mt-4 text-gray-600">Loading...</p>
+            </div>
+          </div>
+        }>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/approach" element={<ApproachPage />} />
+            <Route path="/connect" element={<ConnectPage />} />
+            <Route path="/press" element={<PressPage />} />
+            <Route path="/project/:slug" element={<ProjectPage />} />
+            {/* Catch-all route for 404s */}
+            <Route path="*" element={<HomePage />} />
+          </Routes>
+        </Suspense>
       </main>
     </div>
   );
