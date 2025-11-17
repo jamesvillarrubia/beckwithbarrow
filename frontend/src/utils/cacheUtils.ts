@@ -154,7 +154,7 @@ export const isLocalStorageAvailable = (): boolean => {
     localStorage.setItem(test, test);
     localStorage.removeItem(test);
     return true;
-  } catch (error) {
+  } catch {
     return false;
   }
 };
@@ -172,7 +172,7 @@ export const getStorageStats = (): {
   
   try {
     for (const key in localStorage) {
-      if (localStorage.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(localStorage, key)) {
         const value = localStorage.getItem(key);
         if (value) {
           totalSize += new Blob([value]).size;
@@ -189,7 +189,7 @@ export const getStorageStats = (): {
       available: isLocalStorageAvailable(),
       totalItems: itemCount,
     };
-  } catch (error) {
+  } catch {
     return {
       used: 'Error',
       available: false,
