@@ -8,6 +8,7 @@
  * - Quality optimization
  * - Lazy loading
  * - Proper aspect ratio preservation
+ * - Optional fade-in effect with background
  * 
  * For non-Cloudinary images, falls back to standard <img> behavior.
  * 
@@ -20,16 +21,18 @@
  *   sizes="(max-width: 768px) 100vw, 800px"
  *   quality="auto:good"
  *   className="rounded-lg"
+ *   fadeIn={true}
+ *   fadeInBg="bg-black"
  * />
  * ```
  */
 
-import { ImgHTMLAttributes } from 'react';
+import { ImgHTMLAttributes, useState } from 'react';
 import { 
   getResponsiveImageProps, 
-  CloudinaryTransformOptions,
   isCloudinaryUrl 
 } from '../utils/cloudinary';
+import type { CloudinaryTransformOptions } from '../utils/cloudinary';
 
 interface OptimizedImageProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, 'srcSet'> {
   src: string;
@@ -44,6 +47,12 @@ interface OptimizedImageProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, 
   loading?: 'lazy' | 'eager';
   // fetchpriority hint for browser resource prioritization
   fetchpriority?: 'high' | 'low' | 'auto';
+  // Enable fade-in effect (default: false)
+  fadeIn?: boolean;
+  // Background color while loading (default: 'bg-black')
+  fadeInBg?: string;
+  // Fade duration in ms (default: 500)
+  fadeDuration?: number;
 }
 
 /**
@@ -54,6 +63,7 @@ interface OptimizedImageProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, 
  * - Responsive srcset
  * - Quality optimization
  * - Lazy loading
+ * - Optional fade-in effect
  */
 const OptimizedImage = ({
   src,
@@ -65,43 +75,55 @@ const OptimizedImage = ({
   sizes = '100vw',
   loading = 'lazy',
   fetchpriority,
+  fadeIn = false,
+  fadeInBg = 'bg-black',
+  fadeDuration = 500,
   className = '',
   ...props
 }: OptimizedImageProps) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  
   // Check if this is a Cloudinary URL
   const isCloudinary = isCloudinaryUrl(src);
 
-  if (!isCloudinary) {
-    // For non-Cloudinary images, render standard img tag
+  // Get optimized src and srcset for Cloudinary images
+  const { src: optimizedSrc, srcset } = isCloudinary 
+    ? getResponsiveImageProps(src, width, { quality, crop, gravity })
+    : { src, srcset: '' };
+
+  // If fade-in is enabled, wrap in a container with background
+  if (fadeIn) {
     return (
-      <img
-        src={src}
-        alt={alt}
-        className={className}
-        loading={loading}
-        fetchPriority={fetchpriority}
-        {...props}
-      />
+      <div className={`relative overflow-hidden ${fadeInBg} ${className}`}>
+        <img
+          src={optimizedSrc}
+          srcSet={isCloudinary ? srcset : undefined}
+          sizes={isCloudinary ? sizes : undefined}
+          alt={alt}
+          loading={loading}
+          fetchPriority={fetchpriority}
+          onLoad={() => setIsLoaded(true)}
+          className={`w-full h-full object-cover transition-opacity ${
+            isLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{ transitionDuration: `${fadeDuration}ms` }}
+          {...props}
+        />
+      </div>
     );
   }
 
-  // Get optimized src and srcset for Cloudinary images
-  const { src: optimizedSrc, srcset } = getResponsiveImageProps(
-    src,
-    width,
-    { quality, crop, gravity }
-  );
-
+  // Standard rendering without fade-in
   return (
     <img
       src={optimizedSrc}
-      srcSet={srcset}
-      sizes={sizes}
+      srcSet={isCloudinary ? srcset : undefined}
+      sizes={isCloudinary ? sizes : undefined}
       alt={alt}
       className={className}
       loading={loading}
       fetchPriority={fetchpriority}
-      {...props}
+      {...props} // This includes onLoad and other event handlers
     />
   );
 };
