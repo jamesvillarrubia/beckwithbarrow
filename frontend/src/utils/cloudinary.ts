@@ -307,6 +307,7 @@ export const getResponsiveImageProps = (
 
 /**
  * Common presets for different use cases
+ * Optimized for performance and quality balance
  */
 export const CloudinaryPresets = {
   // Thumbnail images (small, highly optimized)
@@ -320,14 +321,14 @@ export const CloudinaryPresets = {
   // Card/Grid images (medium size, balanced quality)
   card: {
     width: 600,
-    quality: 'auto' as const,
+    quality: 'auto:good' as const, // Upgraded from 'auto' for better visual quality
     format: 'auto' as const,
     crop: 'limit' as const,
   },
   
   // Hero images (large, high quality)
   hero: {
-    width: 1920,
+    width: 1200, // Reduced from 1920 - adequate for 50vw at 2x DPR
     quality: 'auto:good' as const,
     format: 'auto' as const,
     crop: 'limit' as const,
@@ -335,7 +336,7 @@ export const CloudinaryPresets = {
   
   // Lightbox/Full size (very large, best quality)
   lightbox: {
-    width: 2400,
+    width: 1600, // Reduced from 2400 - still high quality, better performance
     quality: 'auto:best' as const,
     format: 'auto' as const,
     crop: 'limit' as const,

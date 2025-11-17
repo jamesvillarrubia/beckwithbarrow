@@ -1,8 +1,10 @@
 /// <reference types="vite/client" />
 
 /**
- * Global type declarations for Google reCAPTCHA
+ * Global type declarations for browser APIs
  */
+
+// Google reCAPTCHA
 interface Window {
   grecaptcha: {
     render: (container: string | HTMLElement, parameters: {
@@ -18,3 +20,22 @@ interface Window {
     getResponse: (widgetId?: number) => string;
   };
 }
+
+// requestIdleCallback API
+interface IdleDeadline {
+  didTimeout: boolean;
+  timeRemaining: () => number;
+}
+
+type IdleRequestCallback = (deadline: IdleDeadline) => void;
+
+interface IdleRequestOptions {
+  timeout?: number;
+}
+
+declare function requestIdleCallback(
+  callback: IdleRequestCallback,
+  options?: IdleRequestOptions
+): number;
+
+declare function cancelIdleCallback(handle: number): void;

@@ -144,7 +144,7 @@ const HomePage = () => {
             className={`w-full h-full object-cover transition-opacity duration-700 ${
               bothImagesLoaded ? 'opacity-100' : 'opacity-0'
             }`}
-            width={1920}
+            width={1200}
             quality="auto:good"
             sizes="50vw"
             loading="eager"
@@ -162,7 +162,7 @@ const HomePage = () => {
             className={`w-full h-full object-cover transition-opacity duration-700 ${
               bothImagesLoaded ? 'opacity-100' : 'opacity-0'
             }`}
-            width={1920}
+            width={1200}
             quality="auto:good"
             sizes="50vw"
             loading="eager"

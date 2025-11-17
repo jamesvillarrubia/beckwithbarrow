@@ -35,6 +35,10 @@ interface PrefetchConfig {
 
 /**
  * Configuration for all pages that should be prefetched
+ * 
+ * IMPORTANT: Only include frequently-visited pages with fast response times
+ * to avoid slowing down initial page load. Slow or rarely-visited pages should
+ * be loaded on-demand.
  */
 const PREFETCH_CONFIGS: PrefetchConfig[] = [
   {
@@ -61,25 +65,15 @@ const PREFETCH_CONFIGS: PrefetchConfig[] = [
     staleTime: 5 * 60 * 1000, // 5 minutes
     name: 'About Page',
   },
-  {
-    queryKey: ['approach'],
-    queryFn: () => apiService.getSingleType('approach'),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    name: 'Approach Page',
-  },
-  {
-    queryKey: ['connect'],
-    queryFn: () => apiService.getSingleType('connect'),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    name: 'Connect Page',
-  },
+  // REMOVED: approach - slow endpoint, rarely visited, load on-demand
+  // REMOVED: connect - form page, doesn't need prefetch
   {
     queryKey: ['press'],
     queryFn: () => apiService.getSingleType('press', 'pressItems,pressItems.image'),
     staleTime: 5 * 60 * 1000, // 5 minutes
     name: 'Press Page',
   },
-  // Add more pages here as needed:
+  // Add more HIGH-TRAFFIC, FAST pages here as needed:
   // {
   //   queryKey: ['projects'],
   //   queryFn: () => apiService.getCollection('projects', 'cover'),
@@ -122,6 +116,18 @@ export function usePrefetchPages(options?: {
     hasRun.current = true;
 
     const prefetchAll = async () => {
+      // Wait for page to be fully interactive before prefetching
+      // This ensures we never block initial render
+      if (document.readyState !== 'complete') {
+        console.log('⏳ Waiting for page to be fully loaded before prefetching...');
+        await new Promise(resolve => {
+          window.addEventListener('load', resolve, { once: true });
+        });
+      }
+      
+      // Additional delay to ensure main content has rendered
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
       // If waitForQuery is specified, wait for that query to have data before prefetching
       if (waitForQuery) {
         console.log(`⏳ Waiting for ${JSON.stringify(waitForQuery)} to load before prefetching...`);
@@ -147,6 +153,16 @@ export function usePrefetchPages(options?: {
         }
       }
       
+      // Use requestIdleCallback if available to only prefetch when browser is idle
+      const runPrefetch = () => new Promise<void>(resolve => {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(() => resolve(), { timeout: 5000 });
+        } else {
+          setTimeout(resolve, 0);
+        }
+      });
+      
+      await runPrefetch();
       console.log('🚀 Starting sequential background prefetch of other pages...');
       
       // Run prefetches SEQUENTIALLY to avoid overwhelming backend
@@ -169,7 +185,7 @@ export function usePrefetchPages(options?: {
           console.log(`✅ ${config.name} prefetched successfully`);
           
           // Small delay before next prefetch to be gentle on backend
-          await new Promise(resolve => setTimeout(resolve, 200));
+          await new Promise(resolve => setTimeout(resolve, 500));
         } catch (error) {
           const err = error as Error;
           console.error(`❌ Failed to prefetch ${config.name}:`, err.message);

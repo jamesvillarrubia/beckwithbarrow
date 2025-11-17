@@ -108,9 +108,9 @@ const ProjectBlock = ({ project, className = '', number, numberColor }: ProjectB
             className="w-full h-auto transition-transform duration-700 ease-in-out group-hover:scale-102"
             src={project.cover.url}
             alt={project.cover.alternativeText || project.Title}
-            width={800}
-            quality="auto"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
+            width={600}
+            quality="auto:good"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"
             loading="lazy"
           />
         ) : (
