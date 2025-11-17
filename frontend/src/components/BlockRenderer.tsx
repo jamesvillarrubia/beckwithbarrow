@@ -238,8 +238,8 @@ const SliderBlockRenderer = ({ block }: { block: SliderBlock }) => {
                   src={file.url}
                   alt={file.alternativeText || 'Gallery image'}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  width={800}
-                  quality="auto"
+                  width={600}
+                  quality="auto:good"
                   sizes={
                     files.length === 1 ? '(max-width: 1200px) 100vw, 1200px' :
                     files.length === 2 ? '(max-width: 768px) 100vw, 50vw' :

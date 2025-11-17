@@ -194,6 +194,7 @@ export const transformCloudinaryUrl = (
 
   const parsed = parseCloudinaryUrl(url);
   if (!parsed) {
+    console.warn('[Cloudinary] Failed to parse URL:', url);
     return url; // Return original if parsing fails
   }
 
@@ -213,6 +214,15 @@ export const transformCloudinaryUrl = (
   // Add original format if it exists (f_auto will override for supported browsers)
   if (format) {
     newUrl += `.${format}`;
+  }
+
+  // Debug logging in development
+  if (import.meta.env.DEV) {
+    console.log('[Cloudinary Transform]', {
+      original: url,
+      transformed: newUrl,
+      options
+    });
   }
 
   return newUrl;
