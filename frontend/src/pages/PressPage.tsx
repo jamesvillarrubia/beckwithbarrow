@@ -63,7 +63,7 @@ const PressPage = () => {
     queryFn: async () => {
       try {
         return await apiService.getSingleType('press');
-      } catch (err) {
+      } catch {
         // Press intro is optional - return null if not configured
         return null;
       }

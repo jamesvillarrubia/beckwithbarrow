@@ -35,9 +35,10 @@ export function inspectLocalStorageCache() {
     // List all query keys in cache
     if (parsed.clientState?.queries) {
       console.log('\n📋 Cached queries:');
-      Object.entries(parsed.clientState.queries).forEach(([key, value]: [string, any]) => {
-        const queryKey = value.queryKey;
-        const dataUpdatedAt = value.state?.dataUpdatedAt;
+      Object.values(parsed.clientState.queries).forEach((value: unknown) => {
+        const query = value as { queryKey: unknown; state?: { dataUpdatedAt?: number } };
+        const queryKey = query.queryKey;
+        const dataUpdatedAt = query.state?.dataUpdatedAt;
         const age = dataUpdatedAt ? Math.round((Date.now() - dataUpdatedAt) / 1000 / 60) : '?';
         console.log(`  - ${JSON.stringify(queryKey)} (${age} minutes old)`);
       });
@@ -67,8 +68,9 @@ export function clearPressCache() {
     if (parsed.clientState?.queries) {
       const keysToRemove: string[] = [];
       
-      Object.entries(parsed.clientState.queries).forEach(([key, value]: [string, any]) => {
-        const queryKey = JSON.stringify(value.queryKey);
+      Object.entries(parsed.clientState.queries).forEach(([key, value]) => {
+        const query = value as { queryKey: unknown };
+        const queryKey = JSON.stringify(query.queryKey);
         if (queryKey.includes('press')) {
           keysToRemove.push(key);
         }
@@ -105,22 +107,30 @@ export function showPressCache() {
       console.log('📰 Press-related cache entries:');
       let found = false;
       
-      Object.entries(parsed.clientState.queries).forEach(([key, value]: [string, any]) => {
-        const queryKey = JSON.stringify(value.queryKey);
+      Object.values(parsed.clientState.queries).forEach((value: unknown) => {
+        const query = value as { 
+          queryKey: unknown; 
+          state?: { 
+            dataUpdatedAt?: number; 
+            data?: { data?: unknown };
+            status?: string;
+          } 
+        };
+        const queryKey = JSON.stringify(query.queryKey);
         if (queryKey.includes('press')) {
           found = true;
-          const dataUpdatedAt = value.state?.dataUpdatedAt;
+          const dataUpdatedAt = query.state?.dataUpdatedAt;
           const age = dataUpdatedAt ? Math.round((Date.now() - dataUpdatedAt) / 1000 / 60) : '?';
-          const hasData = !!value.state?.data;
+          const hasData = !!query.state?.data;
           
           console.log(`\n  🔑 Key: ${queryKey}`);
           console.log(`     Age: ${age} minutes`);
           console.log(`     Has Data: ${hasData ? '✅' : '❌'}`);
-          console.log(`     Status: ${value.state?.status || 'unknown'}`);
+          console.log(`     Status: ${query.state?.status || 'unknown'}`);
           
-          if (hasData && value.state.data.data) {
-            const count = Array.isArray(value.state.data.data) 
-              ? value.state.data.data.length 
+          if (hasData && query.state?.data?.data) {
+            const count = Array.isArray(query.state.data.data) 
+              ? query.state.data.data.length 
               : 'N/A';
             console.log(`     Item Count: ${count}`);
           }
@@ -152,9 +162,13 @@ export function showAllStorageKeys() {
 
 // Make these available globally in dev mode
 if (import.meta.env.DEV) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (window as any).inspectCache = inspectLocalStorageCache;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (window as any).clearPressCache = clearPressCache;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (window as any).showPressCache = showPressCache;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (window as any).showAllStorageKeys = showAllStorageKeys;
   
   console.log('🛠️  Cache debug tools loaded. Available commands:');

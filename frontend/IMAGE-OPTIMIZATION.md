@@ -381,3 +381,4 @@ const fullImage = transformCloudinaryUrl(url, CloudinaryPresets.hero);
 **Maintained By:** Development Team
 **Version:** 1.0.0
 
+

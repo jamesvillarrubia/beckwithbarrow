@@ -179,7 +179,7 @@ const PressArticlePage = () => {
                 alt={article.cover.alternativeText || article.title}
                 className="w-full h-full object-cover"
                 width={1200}
-                quality="high"
+                quality="auto:best"
                 sizes="(max-width: 768px) 100vw, 1200px"
               />
             </div>
@@ -318,7 +318,7 @@ const PressArticlePage = () => {
                   alt={article.images[selectedImage]?.alternativeText || `Image ${selectedImage + 1}`}
                   className="w-full h-full object-cover"
                   width={1200}
-                  quality="high"
+                  quality="auto:best"
                   sizes="(max-width: 768px) 100vw, 1200px"
                 />
               </div>
