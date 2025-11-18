@@ -119,6 +119,25 @@ const ImageWithPlaceholder = ({
 const AboutPage = () => {
   const { lightThemeColor } = useGlobalSettings();
   
+  // Fetch home page data to get numberColors for consistent styling
+  const { data: homeData } = useQuery({
+    queryKey: ['home'],
+    queryFn: async () => {
+      try {
+        const result = await apiService.getSingleType('home', 'leftImage,rightImage,quote');
+        return result;
+      } catch (err) {
+        console.error('Home API Error:', err);
+        throw err;
+      }
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+  
+  const homeContent = homeData?.data as { numberColors?: string };
+  // Use numberColors from home content (same as project numbers), fallback to lightThemeColor
+  const svgColor = homeContent?.numberColors || lightThemeColor;
+  
   // Fetch about page content from Strapi
   const { data: aboutData, isLoading, error } = useQuery({
     queryKey: ['about'],
@@ -219,7 +238,7 @@ const AboutPage = () => {
             y1="12"
             x2="105"
             y2="12"
-            stroke={lightThemeColor}
+            stroke={svgColor}
             strokeWidth="1.5"
             vectorEffect="non-scaling-stroke"
           />
@@ -230,7 +249,7 @@ const AboutPage = () => {
             y1="0"
             x2="15"
             y2="100"
-            stroke={lightThemeColor}
+            stroke={svgColor}
             strokeWidth="1.5"
             vectorEffect="non-scaling-stroke"
           />
@@ -240,7 +259,7 @@ const AboutPage = () => {
             cx="46"
             cy="43"
             r="31"
-            stroke={lightThemeColor}
+            stroke={svgColor}
             strokeWidth="1.5"
             fill="none"
             vectorEffect="non-scaling-stroke"
