@@ -65,8 +65,13 @@ const PREFETCH_CONFIGS: PrefetchConfig[] = [
     staleTime: 5 * 60 * 1000, // 5 minutes
     name: 'About Page',
   },
+  {
+    queryKey: ['connect'],
+    queryFn: () => apiService.getSingleType('connect'),
+    staleTime: 10 * 60 * 1000, // 10 minutes - contact info changes rarely
+    name: 'Connect Page',
+  },
   // REMOVED: approach - slow endpoint, rarely visited, load on-demand
-  // REMOVED: connect - form page, doesn't need prefetch
   {
     queryKey: ['press-page'],
     queryFn: async () => {
