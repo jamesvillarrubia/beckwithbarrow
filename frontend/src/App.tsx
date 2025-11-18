@@ -29,6 +29,7 @@ const ProjectPage = lazy(() => import('./pages/ProjectPage'));
 // Import cache utilities (dev only - makes them available in console)
 if (import.meta.env.DEV) {
   import('./utils/cacheUtils');
+  import('./utils/cacheDebug');
 }
 
 /**

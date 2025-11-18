@@ -68,10 +68,22 @@ const PREFETCH_CONFIGS: PrefetchConfig[] = [
   // REMOVED: approach - slow endpoint, rarely visited, load on-demand
   // REMOVED: connect - form page, doesn't need prefetch
   {
-    queryKey: ['press'],
-    queryFn: () => apiService.getSingleType('press', 'pressItems,pressItems.image'),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    name: 'Press Page',
+    queryKey: ['press-page'],
+    queryFn: async () => {
+      try {
+        return await apiService.getSingleType('press');
+      } catch {
+        return null; // Optional - press intro might not be configured
+      }
+    },
+    staleTime: 10 * 60 * 1000, // 10 minutes - intro content changes rarely
+    name: 'Press Page Intro (optional)',
+  },
+  {
+    queryKey: ['press-articles'],
+    queryFn: () => apiService.getCollection('press-articles', 'cover'),
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    name: 'Press Articles',
   },
   // Add more HIGH-TRAFFIC, FAST pages here as needed:
   // {
@@ -242,7 +254,7 @@ export function useSmartPrefetch(options?: { skip?: boolean; delay?: number }) {
     '/about': ['about'],
     '/approach': ['approach'],
     '/connect': ['connect'],
-    '/press': ['press'],
+    '/press': ['press-articles'], // Only wait for articles (intro is optional)
     // Add more route mappings as needed
   };
   

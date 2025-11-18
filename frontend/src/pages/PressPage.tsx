@@ -56,47 +56,36 @@ interface PressPageData {
 }
 
 const PressPage = () => {
-  // Fetch press page intro content
-  const { data: pressPageData, isLoading: isLoadingPage } = useQuery({
+  // Fetch press page intro content (optional - page works without it)
+  // Uses global cache settings (24 hours) for fast subsequent loads
+  const { data: pressPageData } = useQuery({
     queryKey: ['press-page'],
     queryFn: async () => {
-      console.log('Fetching press page intro from API...');
       try {
-        const result = await apiService.getSingleType('press');
-        console.log('Press Page API Response:', result);
-        return result;
+        return await apiService.getSingleType('press');
       } catch (err) {
-        console.error('Press Page API Error:', err);
-        throw err;
+        // Press intro is optional - return null if not configured
+        return null;
       }
     },
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
-    staleTime: 5 * 60 * 1000,
+    retry: false, // Don't retry if intro doesn't exist
   });
 
   // Fetch press articles collection
-  const { data: articlesData, isLoading: isLoadingArticles, error } = useQuery({
+  // Uses global cache settings (24 hours) for fast subsequent loads
+  const { 
+    data: articlesData, 
+    isLoading: isLoadingArticles, 
+    error
+  } = useQuery({
     queryKey: ['press-articles'],
-    queryFn: async () => {
-      console.log('Fetching press articles from API...');
-      try {
-        const result = await apiService.getCollection('press-articles', 'cover');
-        console.log('Press Articles API Response:', result);
-        return result;
-      } catch (err) {
-        console.error('Press Articles API Error:', err);
-        throw err;
-      }
-    },
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
-    staleTime: 5 * 60 * 1000,
+    queryFn: () => apiService.getCollection('press-articles', 'cover'),
   });
 
   const pressPage = pressPageData?.data as PressPageData;
   const articles = (articlesData?.data || []) as PressArticle[];
-  const isLoading = isLoadingPage || isLoadingArticles;
+  // Only show loading state while articles are loading (intro is optional)
+  const isLoading = isLoadingArticles;
 
   /**
    * Helper function to format date strings
@@ -221,7 +210,7 @@ const PressPage = () => {
                         <div className="md:col-span-3">
                           <Link to={articleLink}>
                             <div 
-                              className="aspect-[4/3] rounded-sm overflow-hidden group-hover:opacity-90 transition-opacity"
+                              className="flex items-center justify-center"
                               style={{
                                 borderLeft: article.color ? `4px solid ${article.color}` : undefined
                               }}
@@ -229,7 +218,7 @@ const PressPage = () => {
                               <OptimizedImage 
                                 src={getImageUrl(article.cover) || ''}
                                 alt={article.cover.alternativeText || article.title}
-                                className="w-full h-full object-cover"
+                                className="max-w-full max-h-full border border-gray-200 rounded-sm group-hover:opacity-90 transition-opacity"
                                 width={400}
                                 quality="auto"
                                 sizes="(max-width: 768px) 100vw, 25vw"
@@ -263,25 +252,20 @@ const PressPage = () => {
                         </div>
 
                         {/* Title */}
-                        <h2 
-                          className="text-2xl md:text-3xl font-serif font-light text-gray-900 mb-3"
-                          style={{
-                            color: article.color || undefined
-                          }}
-                        >
+                        <h2 className="text-2xl md:text-3xl font-serif font-light text-gray-900 mb-3">
                           {isExternal ? (
                             <a 
                               href={articleLink}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="hover:opacity-70 transition-opacity"
+                              className="text-gray-900 hover:opacity-70 transition-opacity"
                             >
                               {article.title}
                             </a>
                           ) : (
                             <Link 
                               to={articleLink}
-                              className="hover:opacity-70 transition-opacity"
+                              className="text-gray-900 hover:opacity-70 transition-opacity"
                             >
                               {article.title}
                             </Link>

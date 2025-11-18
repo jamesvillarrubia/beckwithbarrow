@@ -69,6 +69,7 @@ const PressArticlePage = () => {
   const [selectedImage, setSelectedImage] = useState<number>(0);
 
   // Fetch press article from Strapi
+  // Uses global cache settings (24 hours) for instant subsequent loads
   const { data: articleData, isLoading, error } = useQuery({
     queryKey: ['press-article', slug],
     queryFn: async () => {
@@ -83,9 +84,7 @@ const PressArticlePage = () => {
         throw err;
       }
     },
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
-    staleTime: 5 * 60 * 1000,
+    // Removed staleTime override - uses global 24-hour cache
     enabled: !!slug,
   });
 
@@ -213,10 +212,7 @@ const PressArticlePage = () => {
           </div>
 
           {/* Title */}
-          <h1 
-            className="text-4xl md:text-5xl lg:text-6xl font-serif font-light text-gray-900 mb-6"
-            style={{ color: article.color || undefined }}
-          >
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-light text-gray-900 mb-6">
             {article.title}
           </h1>
 

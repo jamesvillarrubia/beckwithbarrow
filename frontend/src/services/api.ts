@@ -173,6 +173,35 @@ export const apiService = {
     const response = await api.get(url);
     return response.data;
   },
+
+  // Get item by slug (for projects, press articles, etc.)
+  async getBySlug<T>(endpoint: string, slug: string, populate = ''): Promise<StrapiResponse<T[]>> {
+    let url = `/${endpoint}?filters[slug][$eq]=${encodeURIComponent(slug)}`;
+    
+    if (populate) {
+      // Handle wildcard populate
+      if (populate === '*') {
+        url += '&populate=*';
+      } else {
+        // Convert populate syntax for specific fields
+        const fields = populate.split(',');
+        
+        fields.forEach(field => {
+          if (field.includes('.')) {
+            // Handle nested populate
+            const [parent, child] = field.split('.');
+            url += `&populate[${parent}][populate][${child}]=true`;
+          } else {
+            // Handle simple populate
+            url += `&populate[${field}]=true`;
+          }
+        });
+      }
+    }
+    
+    const response = await api.get(url);
+    return response.data;
+  },
 };
 
 export default api;
