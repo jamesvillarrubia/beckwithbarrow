@@ -615,11 +615,54 @@ export interface ApiMenuMenu extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiPressArticlePressArticle
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'press_articles';
+  info: {
+    description: 'Individual press articles, media mentions, and publications';
+    displayName: 'Press Article';
+    pluralName: 'press-articles';
+    singularName: 'press-article';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    articleContent: Schema.Attribute.RichText;
+    color: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'plugin::color-picker.color'>;
+    cover: Schema.Attribute.Media<'images'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    excerpt: Schema.Attribute.Text;
+    externalLink: Schema.Attribute.String;
+    images: Schema.Attribute.Media<'images', true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::press-article.press-article'
+    > &
+      Schema.Attribute.Private;
+    publicationDate: Schema.Attribute.Date;
+    publishedAt: Schema.Attribute.DateTime;
+    showExternal: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<true>;
+    slug: Schema.Attribute.UID<'title'>;
+    source: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiPressPress extends Struct.SingleTypeSchema {
   collectionName: 'presses';
   info: {
-    description: 'Press coverage, media mentions, awards, and publications';
-    displayName: 'Press & Media';
+    description: 'Press page landing content (intro and settings)';
+    displayName: 'Press & Media Page';
     pluralName: 'presses';
     singularName: 'press';
   };
@@ -634,7 +677,6 @@ export interface ApiPressPress extends Struct.SingleTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::press.press'> &
       Schema.Attribute.Private;
-    pressItems: Schema.Attribute.Component<'shared.press-item', true>;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Press & Media'>;
@@ -1199,6 +1241,7 @@ declare module '@strapi/strapi' {
       'api::global.global': ApiGlobalGlobal;
       'api::home.home': ApiHomeHome;
       'api::menu.menu': ApiMenuMenu;
+      'api::press-article.press-article': ApiPressArticlePressArticle;
       'api::press.press': ApiPressPress;
       'api::project.project': ApiProjectProject;
       'plugin::content-releases.release': PluginContentReleasesRelease;

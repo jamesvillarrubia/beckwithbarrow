@@ -50,7 +50,8 @@ const Logo = ({ size = 'md', color = 'black', className = '' }: LogoProps) => {
         viewBox="200 320 400 150"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="logo-svg"
+        className="logo-svg w-full h-auto"
+        style={{ maxWidth: `${dimensions.width}px` }}
       >
         <g>
           <path 

@@ -69,8 +69,28 @@ const ProjectBlock = ({ project, className = '', number, numberColor }: ProjectB
 
   return (
     <div className={`group break-inside-avoid mb-24 ${className}`}>
-      {/* Title and Number Row - Above Image */}
-      <div className="flex items-center gap-4 mb-4">
+      {/* Mobile/Tablet Layout: Number above title, stacked (below lg breakpoint) */}
+      <div className="block lg:hidden mb-4">
+        {/* Number - smaller size, left aligned */}
+        {number && (
+          <div className="mb-2">
+            <span className="lato-thin" style={{ fontSize: '72px', lineHeight: '0.9', display: 'block', color: finalNumberColor }}>
+              {formattedNumber}
+            </span>
+          </div>
+        )}
+        
+        {/* Project title - left aligned, below number */}
+        <h5 
+          className="text-xl font-normal text-gray-900 cursor-pointer hover:text-gray-700 transition-colors"
+          onClick={handleProjectClick}
+        >
+          {project.Title}
+        </h5>
+      </div>
+
+      {/* Desktop Layout: Title on left, line, number on right (lg and above) */}
+      <div className="hidden lg:flex items-center gap-4 mb-4">
         {/* Project title - left justified */}
         <h5 
           className="text-2xl font-normal text-gray-900 cursor-pointer hover:text-gray-700 transition-colors flex-shrink-0"

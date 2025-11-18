@@ -134,7 +134,7 @@ const ProjectGrid = ({ className = '', limit, featured, featuredProjects, number
     return (
       <section className={`py-16 px-10 ${className}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-          <div className="columns-2 gap-16">
+          <div className="columns-1 md:columns-2 gap-16">
             {Array.from({ length: 6 }).map((_, index) => {
               // Random heights for more natural masonry layout - all h-64 or larger
               const imageHeights = ['h-100', 'h-172', 'h-100',  'h-80',   'h-100', 'h-150'];
@@ -194,7 +194,7 @@ const ProjectGrid = ({ className = '', limit, featured, featuredProjects, number
     <section className={`py-16 px-10 ${className}`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
         {/* Masonry Grid */}
-        <div ref={gridRef} className="columns-2 gap-16">
+        <div ref={gridRef} className="columns-1 md:columns-2 gap-16">
           {displayProjects
             .filter(project => project.cover?.url) // Only show projects with cover images
             .map((project, index) => (

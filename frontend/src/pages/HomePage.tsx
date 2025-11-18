@@ -10,7 +10,7 @@
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Footer from '../components/Footer';
 import Logo from '../components/Logo';
 import Navigation from '../components/Navigation';
@@ -66,8 +66,21 @@ const HomePage = () => {
   const [leftImageLoaded, setLeftImageLoaded] = useState(false);
   const [rightImageLoaded, setRightImageLoaded] = useState(false);
   
-  // Both images loaded - trigger fade in
-  const bothImagesLoaded = leftImageLoaded && rightImageLoaded;
+  // Check if we're on mobile (under md breakpoint)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  
+  // Both images loaded - trigger fade in (on mobile, only need left image)
+  const bothImagesLoaded = isMobile ? leftImageLoaded : (leftImageLoaded && rightImageLoaded);
+  
+  // Handle window resize to update mobile state
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   // Fetch global settings
   const { globalSettings } = useGlobalSettings();
@@ -136,7 +149,7 @@ const HomePage = () => {
       {/* Hero Section - 100vh with dual images and centered text */}
       <section className="relative h-screen flex bg-black">
         {/* Left Image */}
-        <div className="w-1/2 relative overflow-hidden">
+        <div className="w-full md:w-1/2 relative overflow-hidden">
           <div className="absolute inset-0 bg-black/40 z-10"></div>
           <OptimizedImage
             src={homeContent?.leftImage?.url || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2053&q=80"}
@@ -146,7 +159,7 @@ const HomePage = () => {
             }`}
             width={1200}
             quality="auto:good"
-            sizes="50vw"
+            sizes="(max-width: 768px) 100vw, 50vw"
             loading="eager"
             fetchpriority="high"
             onLoad={() => setLeftImageLoaded(true)}
@@ -154,7 +167,7 @@ const HomePage = () => {
         </div>
 
         {/* Right Image */}
-        <div className="w-1/2 relative overflow-hidden">
+        <div className="hidden md:block md:w-1/2 relative overflow-hidden">
           <div className="absolute inset-0 bg-black/40 z-10"></div>
           <OptimizedImage
             src={homeContent?.rightImage?.url || "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"}
@@ -172,9 +185,11 @@ const HomePage = () => {
         </div>
 
         {/* Centered Text Overlay */}
-        <div className="absolute w-full h-full z-20 flex items-center justify-center">
+        <div className="absolute w-full h-full z-20 flex items-center justify-center px-6 md:px-12">
           <AnimatedSection delay={500} duration={800}>
-            <Logo size="hero" color="white" />
+            <div className="w-full max-w-[500px]">
+              <Logo size="hero" color="white" />
+            </div>
           </AnimatedSection>
         </div>
       </section>

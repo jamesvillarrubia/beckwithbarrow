@@ -4,8 +4,8 @@
   "info": {
     "singularName": "press",
     "pluralName": "presses",
-    "displayName": "Press & Media",
-    "description": "Press coverage, media mentions, awards, and publications"
+    "displayName": "Press & Media Page",
+    "description": "Press page landing content (intro and settings)"
   },
   "options": {
     "draftAndPublish": false
@@ -18,11 +18,6 @@
     },
     "introduction": {
       "type": "richtext"
-    },
-    "pressItems": {
-      "type": "component",
-      "repeatable": true,
-      "component": "shared.press-item"
     }
   }
 }

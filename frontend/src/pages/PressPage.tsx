@@ -2,15 +2,17 @@
  * Press Page Component
  * 
  * Displays press coverage, media mentions, awards, and publications.
- * Features dynamic content from Strapi Press singleton.
+ * Features dynamic content from Strapi Press Articles collection.
  * 
  * Content Structure:
- * - Title and introduction
- * - List of press items (articles, awards, publications)
- * - Each item includes: title, source, date, description, link, optional image
+ * - Title and introduction from Press singleton
+ * - Grid of press articles from Press Article collection
+ * - Each article: title, source, date, excerpt, cover image
+ * - Click to view full article (internal) or link to external source
  */
 
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Navigation from '../components/Navigation';
@@ -20,58 +22,81 @@ import OptimizedImage from '../components/OptimizedImage';
 import { apiService } from '../services/api';
 
 /**
- * Type definition for a single press item
+ * Type definition for a press article
  */
-interface PressItem {
+interface PressArticle {
   id: number;
+  documentId: string;
   title: string;
-  text?: string;
-  color?: string;
+  slug: string;
   source?: string;
-  date?: string;
-  link?: string;
-  image?: {
+  publicationDate?: string;
+  excerpt?: string;
+  externalLink?: string;
+  showExternal: boolean;
+  color?: string;
+  cover?: {
     url: string;
     alternativeText?: string;
     formats?: {
       small?: { url: string };
       medium?: { url: string };
+      large?: { url: string };
     };
   };
 }
 
 /**
- * Type definition for the Press page content from Strapi
+ * Type definition for the Press page intro content from Strapi
  */
-interface PressData {
+interface PressPageData {
   title?: string;
   introduction?: string;
-  pressItems?: PressItem[];
   [key: string]: unknown;
 }
 
 const PressPage = () => {
-  // Fetch press data from Strapi
-  const { data: pressData, isLoading, error } = useQuery({
-    queryKey: ['press'],
+  // Fetch press page intro content
+  const { data: pressPageData, isLoading: isLoadingPage } = useQuery({
+    queryKey: ['press-page'],
     queryFn: async () => {
-      console.log('Fetching press page data from API...');
+      console.log('Fetching press page intro from API...');
       try {
-        // Populate press items with images
-        const result = await apiService.getSingleType('press', 'pressItems,pressItems.image');
-        console.log('Press API Response:', result);
+        const result = await apiService.getSingleType('press');
+        console.log('Press Page API Response:', result);
         return result;
       } catch (err) {
-        console.error('Press API Error:', err);
+        console.error('Press Page API Error:', err);
         throw err;
       }
     },
-    retry: 3, // Increase retries for cold starts
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000), // Exponential backoff
-    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+    staleTime: 5 * 60 * 1000,
   });
 
-  const press = pressData?.data as PressData;
+  // Fetch press articles collection
+  const { data: articlesData, isLoading: isLoadingArticles, error } = useQuery({
+    queryKey: ['press-articles'],
+    queryFn: async () => {
+      console.log('Fetching press articles from API...');
+      try {
+        const result = await apiService.getCollection('press-articles', 'cover');
+        console.log('Press Articles API Response:', result);
+        return result;
+      } catch (err) {
+        console.error('Press Articles API Error:', err);
+        throw err;
+      }
+    },
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const pressPage = pressPageData?.data as PressPageData;
+  const articles = (articlesData?.data || []) as PressArticle[];
+  const isLoading = isLoadingPage || isLoadingArticles;
 
   /**
    * Helper function to format date strings
@@ -91,7 +116,7 @@ const PressPage = () => {
    * Helper function to get the image URL
    * Returns original URL - OptimizedImage component handles transformations
    */
-  const getImageUrl = (image?: PressItem['image']) => {
+  const getImageUrl = (image?: PressArticle['cover']) => {
     if (!image) return null;
     return image.url;
   };
@@ -151,11 +176,11 @@ const PressPage = () => {
       <section className="py-16 px-6 md:px-12 lg:px-16">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-serif font-light text-gray-900 mb-6">
-            {press?.title || 'Press & Media'}
+            {pressPage?.title || 'Press & Media'}
           </h1>
           
           {/* Introduction Text */}
-          {press?.introduction && (
+          {pressPage?.introduction && (
             <div className="prose prose-lg max-w-3xl mx-auto">
               <ReactMarkdown 
                 remarkPlugins={[remarkGfm]}
@@ -167,148 +192,164 @@ const PressPage = () => {
                   ),
                 }}
               >
-                {press.introduction}
+                {pressPage.introduction}
               </ReactMarkdown>
             </div>
           )}
         </div>
       </section>
 
-      {/* Press Items Grid */}
+      {/* Press Articles Grid */}
       <section className="py-10 px-6 md:px-12 lg:px-16">
         <div className="max-w-6xl mx-auto">
-          {press?.pressItems && press.pressItems.length > 0 ? (
+          {articles && articles.length > 0 ? (
             <div className="space-y-8">
-              {press.pressItems.map((item) => (
-                <article 
-                  key={item.id}
-                  className="border-b border-gray-200 pb-8 last:border-b-0 group"
-                >
-                  <div className="grid md:grid-cols-12 gap-6">
-                    {/* Optional Image */}
-                    {item.image && (
-                      <div className="md:col-span-3">
-                        <div 
-                          className="aspect-[4/3] rounded-sm overflow-hidden"
-                          style={{
-                            borderLeft: item.color ? `4px solid ${item.color}` : undefined
-                          }}
-                        >
-                          <OptimizedImage 
-                            src={getImageUrl(item.image) || ''}
-                            alt={item.image.alternativeText || item.title}
-                            className="w-full h-full object-cover"
-                            width={400}
-                            quality="auto"
-                            sizes="(max-width: 768px) 100vw, 25vw"
-                          />
-                        </div>
-                      </div>
-                    )}
+              {articles.map((article) => {
+                const articleLink = article.showExternal && article.externalLink 
+                  ? article.externalLink 
+                  : `/press/${article.slug}`;
+                const isExternal = article.showExternal && article.externalLink;
 
-                    {/* Content */}
-                    <div className={item.image ? 'md:col-span-9' : 'md:col-span-12'}>
-                      {/* Color Accent Bar (if no image) */}
-                      {!item.image && item.color && (
-                        <div 
-                          className="h-1 w-20 mb-4 rounded-full"
-                          style={{ backgroundColor: item.color }}
-                        />
+                return (
+                  <article 
+                    key={article.id}
+                    className="border-b border-gray-200 pb-8 last:border-b-0 group"
+                  >
+                    <div className="grid md:grid-cols-12 gap-6">
+                      {/* Cover Image */}
+                      {article.cover && (
+                        <div className="md:col-span-3">
+                          <Link to={articleLink}>
+                            <div 
+                              className="aspect-[4/3] rounded-sm overflow-hidden group-hover:opacity-90 transition-opacity"
+                              style={{
+                                borderLeft: article.color ? `4px solid ${article.color}` : undefined
+                              }}
+                            >
+                              <OptimizedImage 
+                                src={getImageUrl(article.cover) || ''}
+                                alt={article.cover.alternativeText || article.title}
+                                className="w-full h-full object-cover"
+                                width={400}
+                                quality="auto"
+                                sizes="(max-width: 768px) 100vw, 25vw"
+                              />
+                            </div>
+                          </Link>
+                        </div>
                       )}
 
-                      {/* Meta Information */}
-                      <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 mb-3">
-                        {item.source && (
-                          <span className="font-medium text-gray-700">{item.source}</span>
+                      {/* Content */}
+                      <div className={article.cover ? 'md:col-span-9' : 'md:col-span-12'}>
+                        {/* Color Accent Bar (if no cover image) */}
+                        {!article.cover && article.color && (
+                          <div 
+                            className="h-1 w-20 mb-4 rounded-full"
+                            style={{ backgroundColor: article.color }}
+                          />
                         )}
-                        {item.date && (
-                          <>
-                            {item.source && <span>•</span>}
-                            <time>{formatDate(item.date)}</time>
-                          </>
-                        )}
-                      </div>
 
-                      {/* Title */}
-                      <h2 
-                        className="text-2xl md:text-3xl font-serif font-light text-gray-900 mb-3"
-                        style={{
-                          color: item.color || undefined
-                        }}
-                      >
-                        {item.link ? (
+                        {/* Meta Information */}
+                        <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 mb-3">
+                          {article.source && (
+                            <span className="font-medium text-gray-700">{article.source}</span>
+                          )}
+                          {article.publicationDate && (
+                            <>
+                              {article.source && <span>•</span>}
+                              <time>{formatDate(article.publicationDate)}</time>
+                            </>
+                          )}
+                        </div>
+
+                        {/* Title */}
+                        <h2 
+                          className="text-2xl md:text-3xl font-serif font-light text-gray-900 mb-3"
+                          style={{
+                            color: article.color || undefined
+                          }}
+                        >
+                          {isExternal ? (
+                            <a 
+                              href={articleLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="hover:opacity-70 transition-opacity"
+                            >
+                              {article.title}
+                            </a>
+                          ) : (
+                            <Link 
+                              to={articleLink}
+                              className="hover:opacity-70 transition-opacity"
+                            >
+                              {article.title}
+                            </Link>
+                          )}
+                        </h2>
+
+                        {/* Excerpt */}
+                        {article.excerpt && (
+                          <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
+                            {article.excerpt}
+                          </p>
+                        )}
+
+                        {/* Read More Link */}
+                        {isExternal ? (
                           <a 
-                            href={item.link}
+                            href={articleLink}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hover:opacity-70 transition-opacity"
-                          >
-                            {item.title}
-                          </a>
-                        ) : (
-                          item.title
-                        )}
-                      </h2>
-
-                      {/* Text Content */}
-                      {item.text && (
-                        <div className="prose prose-lg max-w-none">
-                          <ReactMarkdown 
-                            remarkPlugins={[remarkGfm]}
-                            components={{
-                              p: ({ children }) => (
-                                <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-4">
-                                  {children}
-                                </p>
-                              ),
-                              a: ({ href, children }) => (
-                                <a 
-                                  href={href}
-                                  className="text-gray-900 underline hover:text-gray-600 transition-colors"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  {children}
-                                </a>
-                              ),
+                            className="inline-flex items-center font-medium transition-colors"
+                            style={{
+                              color: article.color || '#111827'
                             }}
                           >
-                            {item.text}
-                          </ReactMarkdown>
-                        </div>
-                      )}
-
-                      {/* Read More Link */}
-                      {item.link && (
-                        <a 
-                          href={item.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center font-medium transition-colors"
-                          style={{
-                            color: item.color || '#111827'
-                          }}
-                        >
-                          Read more
-                          <svg 
-                            className="w-4 h-4 ml-2" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            viewBox="0 0 24 24"
+                            Read article
+                            <svg 
+                              className="w-4 h-4 ml-2" 
+                              fill="none" 
+                              stroke="currentColor" 
+                              viewBox="0 0 24 24"
+                            >
+                              <path 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round" 
+                                strokeWidth={2} 
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" 
+                              />
+                            </svg>
+                          </a>
+                        ) : (
+                          <Link 
+                            to={articleLink}
+                            className="inline-flex items-center font-medium transition-colors"
+                            style={{
+                              color: article.color || '#111827'
+                            }}
                           >
-                            <path 
-                              strokeLinecap="round" 
-                              strokeLinejoin="round" 
-                              strokeWidth={2} 
-                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" 
-                            />
-                          </svg>
-                        </a>
-                      )}
+                            View article
+                            <svg 
+                              className="w-4 h-4 ml-2" 
+                              fill="none" 
+                              stroke="currentColor" 
+                              viewBox="0 0 24 24"
+                            >
+                              <path 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round" 
+                                strokeWidth={2} 
+                                d="M9 5l7 7-7 7" 
+                              />
+                            </svg>
+                          </Link>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                );
+              })}
             </div>
           ) : (
             <div className="text-center py-12">

@@ -23,6 +23,7 @@ const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ApproachPage = lazy(() => import('./pages/ApproachPage'));
 const ConnectPage = lazy(() => import('./pages/ConnectPage'));
 const PressPage = lazy(() => import('./pages/PressPage'));
+const PressArticlePage = lazy(() => import('./pages/PressArticlePage'));
 const ProjectPage = lazy(() => import('./pages/ProjectPage'));
 
 // Import cache utilities (dev only - makes them available in console)
@@ -116,6 +117,7 @@ function AppContent() {
             <Route path="/approach" element={<ApproachPage />} />
             <Route path="/connect" element={<ConnectPage />} />
             <Route path="/press" element={<PressPage />} />
+            <Route path="/press/:slug" element={<PressArticlePage />} />
             <Route path="/project/:slug" element={<ProjectPage />} />
             {/* Catch-all route for 404s */}
             <Route path="*" element={<HomePage />} />
