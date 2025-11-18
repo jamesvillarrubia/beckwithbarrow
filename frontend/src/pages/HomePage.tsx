@@ -79,12 +79,12 @@ const HomePage = () => {
       console.log('Fetching home page data from API...');
       try {
         // Only populate relations and media - simple fields like numberColors are returned automatically
-        const result = await apiService.getSingleType('home', 'leftImage,rightImage,projects.cover,quote');
+        // Note: No longer populating projects since ProjectGrid fetches all projects independently
+        const result = await apiService.getSingleType('home', 'leftImage,rightImage,quote');
         console.log('Home API Response:', result);
         const data = result.data as HomeContent;
         console.log('Number Colors:', data.numberColors);
         console.log('Quote BG Color:', data.quoteBgColor);
-        console.log('Projects:', data.projects);
         return result;
       } catch (err) {
         console.error('Home API Error:', err);
@@ -200,9 +200,8 @@ const HomePage = () => {
         </AnimatedSection>
       </section>
 
-      {/* Projects Grid */}
+      {/* Projects Grid - Show all projects */}
       <ProjectGrid 
-        featuredProjects={homeContent?.projects} 
         numberColor={homeContent?.numberColors}
       />
 

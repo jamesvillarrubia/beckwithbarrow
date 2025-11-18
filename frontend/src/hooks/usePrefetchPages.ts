@@ -55,7 +55,7 @@ const PREFETCH_CONFIGS: PrefetchConfig[] = [
   },
   {
     queryKey: ['home'],
-    queryFn: () => apiService.getSingleType('home', 'leftImage,rightImage,projects.cover,quote'),
+    queryFn: () => apiService.getSingleType('home', 'leftImage,rightImage,quote'),
     staleTime: 5 * 60 * 1000, // 5 minutes
     name: 'Home Page',
   },
