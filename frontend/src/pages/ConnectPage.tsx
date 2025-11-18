@@ -139,21 +139,8 @@ const ConnectPage = () => {
     }));
   };
 
-  // Show loading state
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Navigation />
-        <div className="h-screen flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading contact information...</p>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
+  // Don't show full-page loader - render the page structure immediately
+  // Contact info will appear once loaded (progressive enhancement)
 
   return (
     <div className="min-h-screen bg-white">
@@ -184,6 +171,25 @@ const ConnectPage = () => {
             <div>
               <h2 className="text-3xl font-semibold text-gray-900 mb-8">Get In Touch</h2>
               
+              {/* Show loading skeleton while fetching */}
+              {isLoading && (
+                <div className="space-y-6">
+                  <div className="animate-pulse">
+                    <div className="h-4 bg-gray-200 rounded w-16 mb-2"></div>
+                    <div className="h-6 bg-gray-200 rounded w-48"></div>
+                  </div>
+                  <div className="animate-pulse">
+                    <div className="h-4 bg-gray-200 rounded w-16 mb-2"></div>
+                    <div className="h-6 bg-gray-200 rounded w-32"></div>
+                  </div>
+                  <div className="animate-pulse">
+                    <div className="h-4 bg-gray-200 rounded w-20 mb-2"></div>
+                    <div className="h-6 bg-gray-200 rounded w-40"></div>
+                  </div>
+                </div>
+              )}
+              
+              {!isLoading && (
               <div className="space-y-6">
                 {connect?.email && (
                   <div>
@@ -236,6 +242,7 @@ const ConnectPage = () => {
                   </>
                 )}
               </div>
+              )}
             </div>
 
             {/* Contact Form */}
@@ -300,14 +307,14 @@ const ConnectPage = () => {
                 
                 <button
                   type="submit"
-                  disabled={isSubmitting || !recaptchaLoaded}
+                  disabled={isSubmitting}
                   className={`w-full py-3 px-6 rounded-lg transition-colors ${
-                    isSubmitting || !recaptchaLoaded
+                    isSubmitting
                       ? 'bg-gray-400 cursor-not-allowed text-white'
                       : 'bg-gray-900 hover:bg-gray-800 text-white'
                   }`}
                 >
-                  {isSubmitting ? 'Sending...' : !recaptchaLoaded ? 'Loading...' : 'Send Message'}
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
 
                 {/* reCAPTCHA Error Message */}
