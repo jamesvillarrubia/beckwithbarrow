@@ -90,32 +90,32 @@ export interface StrapiItem {
 // Generic API functions
 export const apiService = {
   // Get all items from a collection
-  async getCollection<T>(endpoint: string, populate = ''): Promise<StrapiResponse<T[]>> {
-    let url = `/${endpoint}`;
+  async getCollection<T>(endpoint: string, populate = '', sort?: string): Promise<StrapiResponse<T[]>> {
+    const params = new URLSearchParams();
+    
+    // Handle populate
     if (populate) {
-      // Handle wildcard populate (Strapi v5 syntax)
       if (populate === '*') {
-        url += '?populate=*';
+        params.append('populate', '*');
       } else {
-        // Convert Strapi v5 populate syntax for specific fields
-        const populateParams = new URLSearchParams();
         const fields = populate.split(',');
-        
         fields.forEach(field => {
           if (field.includes('.')) {
-            // Handle nested populate like "projects.cover"
             const [parent, child] = field.split('.');
-            populateParams.append(`populate[${parent}][populate][${child}]`, 'true');
+            params.append(`populate[${parent}][populate][${child}]`, 'true');
           } else {
-            // Handle simple populate like "cover"
-            populateParams.append(`populate[${field}]`, 'true');
+            params.append(`populate[${field}]`, 'true');
           }
         });
-        
-        url += `?${populateParams.toString()}`;
       }
     }
     
+    // Handle sorting (e.g., 'createdAt:desc' or 'Title:asc')
+    if (sort) {
+      params.append('sort', sort);
+    }
+    
+    const url = `/${endpoint}${params.toString() ? `?${params.toString()}` : ''}`;
     const response = await api.get(url);
     return response.data;
   },
@@ -205,3 +205,4 @@ export const apiService = {
 };
 
 export default api;
+

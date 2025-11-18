@@ -1,27 +1,38 @@
 /**
  * ProjectGrid Component
  * 
- * A grid layout component that displays multiple projects using ProjectBlock components.
- * Fetches the list of projects and renders them in a masonry-style grid.
+ * A masonry grid layout for displaying project collections using react-photo-album.
+ * Projects are numbered sequentially (1, 2, 3...) and positioned optimally to minimize gaps.
  * 
  * Features:
- * - Fetches project list using React Query
- * - Renders projects in responsive masonry grid
- * - Handles loading and error states
- * - Configurable grid layout
+ * - True masonry layout (shortest column gets next item)
+ * - Sequential numbering based on data order (not visual position)
+ * - Responsive: 1 column mobile, 2 columns desktop
+ * - Automatic image dimension loading for optimal layout
+ * - Scroll-triggered animations
+ * - Loading and error states
+ * 
+ * Technical Notes:
+ * - Uses react-photo-album's masonry layout engine
+ * - Disables CSS columns-specific styles in ProjectBlock (break-inside-avoid)
+ * - Loads actual image dimensions for accurate masonry calculations
  */
 
 import { useQuery } from '@tanstack/react-query';
 import { apiService } from '../services/api';
 import ProjectBlock from './ProjectBlock';
+import PhotoAlbum, { type RenderPhotoProps, type RenderPhotoContext } from 'react-photo-album';
+import 'react-photo-album/masonry.css';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
-import { useEffect, useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Project {
   id: number;
   Title: string;
   cover?: {
     url: string;
+    width?: number;
+    height?: number;
   };
   [key: string]: unknown;
 }
@@ -34,12 +45,25 @@ interface ProjectGridProps {
   numberColor?: string;
 }
 
-// Animated project wrapper component
+/**
+ * Extended photo type that includes project data and sequential number
+ */
+interface PhotoWithProject {
+  src: string;
+  width: number;
+  height: number;
+  project: Project;
+  number: number;
+}
+
+/**
+ * Wrapper component for scroll-triggered fade-in animations
+ */
 const AnimatedProject = ({ children }: { children: React.ReactNode }) => {
   const { elementRef, animationStyle } = useScrollAnimation({
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px',
-    delay: 0, // No artificial delay - trigger when in view
+    delay: 0,
     duration: 400
   });
 
@@ -51,120 +75,109 @@ const AnimatedProject = ({ children }: { children: React.ReactNode }) => {
 };
 
 const ProjectGrid = ({ className = '', limit, featured, featuredProjects, numberColor }: ProjectGridProps) => {
-  const [visualOrder, setVisualOrder] = useState<number[]>([]);
-  const gridRef = useRef<HTMLDivElement>(null);
+  const [photos, setPhotos] = useState<PhotoWithProject[]>([]);
 
-  // Fetch projects list using React Query (always call hooks)
+  // Fetch projects from API
   const { data: projectsResponse, isLoading, error } = useQuery({
     queryKey: ['projects', { limit, featured }],
-    queryFn: async () => {
-      console.log('Fetching projects from API...');
-      try {
-        const result = await apiService.getCollection('projects', '*');
-        console.log('API Response:', result);
-        return result;
-      } catch (err) {
-        console.error('API Error:', err);
-        throw err;
-      }
-    },
-    retry: 3, // Increase retries for cold starts
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000), // Exponential backoff: 1s, 2s, 4s
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    enabled: !featuredProjects, // Only fetch if no featured projects provided
+    queryFn: () => apiService.getCollection('projects', '*'),
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+    staleTime: 5 * 60 * 1000,
+    enabled: !featuredProjects,
   });
 
   const projects = projectsResponse?.data as Project[];
   const displayProjects = featuredProjects && featuredProjects.length > 0 ? featuredProjects : projects;
 
-  // Calculate visual order after layout is complete
+  /**
+   * Load actual image dimensions for accurate masonry layout calculations.
+   * Projects are numbered sequentially (1, 2, 3...) regardless of their visual position.
+   */
   useEffect(() => {
     if (!displayProjects || displayProjects.length === 0) return;
 
-    const calculateVisualOrder = () => {
-      if (!gridRef.current) return;
+    const loadImageDimensions = async () => {
+      const photosWithDimensions = await Promise.all(
+        displayProjects
+          .filter(project => project.cover?.url)
+          .map((project, index) => 
+            new Promise<PhotoWithProject>((resolve) => {
+              const img = new Image();
+              
+              img.onload = () => {
+                resolve({
+                  src: project.cover!.url,
+                  width: img.naturalWidth || 800,
+                  height: img.naturalHeight || 600,
+                  project,
+                  number: index + 1 // Sequential numbering
+                });
+              };
+              
+              img.onerror = () => {
+                // Fallback to 4:3 aspect ratio if image fails to load
+                resolve({
+                  src: project.cover!.url,
+                  width: 800,
+                  height: 600,
+                  project,
+                  number: index + 1
+                });
+              };
+              
+              img.src = project.cover!.url;
+            })
+          )
+      );
 
-      const projectElements = gridRef.current.querySelectorAll('[data-project-id]');
-      const positions: { id: number; top: number; left: number }[] = [];
-
-      projectElements.forEach((element) => {
-        const rect = element.getBoundingClientRect();
-        const projectId = parseInt(element.getAttribute('data-project-id') || '0');
-        positions.push({
-          id: projectId,
-          top: rect.top,
-          left: rect.left
-        });
-      });
-
-      // For CSS columns layout, sort by left position (column) first, then by top position within column
-      // This gives us the proper reading order: down column 1, then down column 2
-      positions.sort((a, b) => {
-        // Determine which column each element is in (threshold of 50px for column detection)
-        const leftDiff = Math.abs(a.left - b.left);
-        
-        if (leftDiff > 50) {
-          // Different columns - sort by left position (left column comes first)
-          return a.left - b.left;
-        } else {
-          // Same column - sort by top position (higher items come first)
-          return a.top - b.top;
-        }
-      });
-
-      // Create mapping from project ID to visual order
-      const visualOrderMap = new Map<number, number>();
-      positions.forEach((pos, index) => {
-        visualOrderMap.set(pos.id, index + 1);
-      });
-
-      // Convert to array in original project order
-      const filteredProjects = displayProjects.filter(project => project.cover?.url);
-      const order = filteredProjects.map(project => visualOrderMap.get(project.id) || 0);
-      setVisualOrder(order);
+      setPhotos(photosWithDimensions);
     };
 
-    // Calculate after images load and layout stabilizes
-    // Use multiple attempts to ensure we catch the final layout state
-    const timeoutId1 = setTimeout(calculateVisualOrder, 200);
-    const timeoutId2 = setTimeout(calculateVisualOrder, 500);
-    const timeoutId3 = setTimeout(calculateVisualOrder, 1000);
-    
-    // Also recalculate on window resize
-    window.addEventListener('resize', calculateVisualOrder);
-    
-    return () => {
-      clearTimeout(timeoutId1);
-      clearTimeout(timeoutId2);
-      clearTimeout(timeoutId3);
-      window.removeEventListener('resize', calculateVisualOrder);
-    };
+    loadImageDimensions();
   }, [displayProjects]);
 
-  // Always show loading state for now (placeholder boxes)
-  if (isLoading) {
+  /**
+   * Custom render function for each photo in the masonry grid.
+   * Wraps ProjectBlock with animation and proper spacing.
+   */
+  const renderPhoto = (_: RenderPhotoProps, context: RenderPhotoContext<PhotoWithProject>) => {
+    const { photo } = context;
+    
+    return (
+      <div style={{ marginBottom: '2rem' }}>
+        <AnimatedProject>
+          <ProjectBlock 
+            project={photo.project}
+            number={photo.number}
+            numberColor={numberColor}
+            disableColumnStyles={true}
+          />
+        </AnimatedProject>
+      </div>
+    );
+  };
+
+  if (isLoading || photos.length === 0) {
     return (
       <section className={`py-16 px-10 ${className}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="columns-1 md:columns-2 gap-16">
             {Array.from({ length: 6 }).map((_, index) => {
-              // Random heights for more natural masonry layout - all h-64 or larger
-              const imageHeights = ['h-100', 'h-172', 'h-100',  'h-80',   'h-100', 'h-150'];
+              const imageHeights = ['h-100', 'h-172', 'h-100', 'h-80', 'h-100', 'h-150'];
               const imageHeight = imageHeights[index % imageHeights.length];
               
               return (
                 <div key={`loading-${index}`} className="group break-inside-avoid mb-24">
-                   <div className="overflow-hidden rounded-lg border border-gray-100">
-                     <div className="w-full bg-white">
-                       <div className={`${imageHeight} bg-gray-50`}
-                        //    style={{ backgroundColor: '#fdfdfd' }}
-                        ></div>
-                     </div>
-                   </div>
+                  <div className="overflow-hidden rounded-lg border border-gray-100">
+                    <div className="w-full bg-white">
+                      <div className={`${imageHeight} bg-gray-50`}></div>
+                    </div>
+                  </div>
                   <div className="pt-4">
-                    <div className={`h-6 bg-gray-100 rounded mb-2`}></div>
-                    <div className={`h-4 bg-gray-100 rounded w-3/4 mb-1`}></div>
-                    <div className={`h-4 bg-gray-100 rounded w-1/2`}></div>
+                    <div className="h-6 bg-gray-100 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-100 rounded w-3/4 mb-1"></div>
+                    <div className="h-4 bg-gray-100 rounded w-1/2"></div>
                   </div>
                 </div>
               );
@@ -175,7 +188,6 @@ const ProjectGrid = ({ className = '', limit, featured, featuredProjects, number
     );
   }
 
-  // Error state
   if (error) {
     return (
       <section className={`py-16 px-10 ${className}`}>
@@ -189,7 +201,6 @@ const ProjectGrid = ({ className = '', limit, featured, featuredProjects, number
     );
   }
 
-  // No projects
   if (!displayProjects || !Array.isArray(displayProjects) || displayProjects.length === 0) {
     return (
       <section className={`py-16 px-10 ${className}`}>
@@ -203,24 +214,18 @@ const ProjectGrid = ({ className = '', limit, featured, featuredProjects, number
   }
 
   return (
-    <section className={`py-16 px-10 ${className}`}>
+    <section className={`py-24 px-10 ${className}`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-        {/* Masonry Grid */}
-        <div ref={gridRef} className="columns-1 md:columns-2 gap-16">
-          {displayProjects
-            .filter(project => project.cover?.url) // Only show projects with cover images
-            .map((project, index) => (
-              <AnimatedProject key={project.id}>
-                <div data-project-id={project.id}>
-                  <ProjectBlock 
-                    project={project}
-                    number={visualOrder[index] || index + 1}
-                    numberColor={numberColor}
-                  />
-                </div>
-              </AnimatedProject>
-            ))}
-        </div>
+        <PhotoAlbum
+          layout="masonry"
+          photos={photos}
+          render={{ photo: renderPhoto }}
+          spacing={64}
+          columns={(containerWidth) => {
+            if (containerWidth < 768) return 1;
+            return 2;
+          }}
+        />
       </div>
     </section>
   );

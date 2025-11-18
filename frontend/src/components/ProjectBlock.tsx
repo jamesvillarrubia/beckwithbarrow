@@ -32,19 +32,27 @@ interface ProjectBlockProps {
   className?: string;
   number?: number;
   numberColor?: string;
+  disableColumnStyles?: boolean; // Disable CSS columns-specific styles (for masonry layouts)
 }
 
-const ProjectBlock = ({ project, className = '', number, numberColor }: ProjectBlockProps) => {
+const ProjectBlock = ({ project, className = '', number, numberColor, disableColumnStyles = false }: ProjectBlockProps) => {
   const navigate = useNavigate();
   const { lightThemeColor } = useGlobalSettings();
   
   // Use numberColor prop first, then global settings, then fallback
   const finalNumberColor = numberColor || lightThemeColor;
 
+  // Build wrapper classes conditionally
+  const wrapperClasses = [
+    'group',
+    !disableColumnStyles && 'break-inside-avoid mb-24',
+    className
+  ].filter(Boolean).join(' ');
+
   // No project data
   if (!project) {
     return (
-      <div className={`group break-inside-avoid mb-24 ${className}`}>
+      <div className={wrapperClasses}>
         <div className="overflow-hidden rounded-sm bg-gray-50 border border-gray-200 p-4">
           <p className="text-gray-600 text-sm">Project not found</p>
         </div>
@@ -68,7 +76,7 @@ const ProjectBlock = ({ project, className = '', number, numberColor }: ProjectB
   const lineExtension = startsWithO ? '65px' : '0px';
 
   return (
-    <div className={`group break-inside-avoid mb-24 ${className}`}>
+    <div className={wrapperClasses}>
       {/* Mobile/Tablet Layout: Number above title, stacked (below lg breakpoint) */}
       <div className="block lg:hidden mb-4">
         {/* Number - smaller size, left aligned */}

@@ -91,13 +91,13 @@ const HomePage = () => {
     queryFn: async () => {
       console.log('Fetching home page data from API...');
       try {
-        // Only populate relations and media - simple fields like numberColors are returned automatically
-        // Note: No longer populating projects since ProjectGrid fetches all projects independently
-        const result = await apiService.getSingleType('home', 'leftImage,rightImage,quote');
+        // Populate projects with cover images to get the ordered list from Strapi
+        const result = await apiService.getSingleType('home', 'leftImage,rightImage,quote,projects.cover');
         console.log('Home API Response:', result);
         const data = result.data as HomeContent;
         console.log('Number Colors:', data.numberColors);
         console.log('Quote BG Color:', data.quoteBgColor);
+        console.log('Ordered Projects Count:', data.projects?.length);
         return result;
       } catch (err) {
         console.error('Home API Error:', err);
@@ -215,8 +215,9 @@ const HomePage = () => {
         </AnimatedSection>
       </section>
 
-      {/* Projects Grid - Show all projects */}
+      {/* Projects Grid - Show ordered projects from home page */}
       <ProjectGrid 
+        featuredProjects={homeContent?.projects}
         numberColor={homeContent?.numberColors}
       />
 
@@ -241,6 +242,7 @@ const HomePage = () => {
                         title: homeContent?.title,
                         leftImage: homeContent?.leftImage,
                         rightImage: homeContent?.rightImage,
+                        projects: homeContent?.projects,
                         quote: homeContent?.quote,
                         numberColors: homeContent?.numberColors,
                         quoteBgColor: homeContent?.quoteBgColor,
