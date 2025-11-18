@@ -6,11 +6,20 @@ export default ({ env }) => ({
                 cloud_name: env('CLOUDINARY_NAME'),
                 api_key: env('CLOUDINARY_KEY'),
                 api_secret: env('CLOUDINARY_SECRET'),
+                // Enable CORS for image manipulation in Strapi admin
+                secure: true,
+                cors: 'anonymous',
             },
             actionOptions: {
-                upload: {},
+                upload: {
+                    tags: ['strapi'],
+                    // Add CORS headers to uploaded images
+                    context: 'cors=anonymous',
+                },
                 uploadStream: {
                     folder: 'direct_uploads',
+                    tags: ['strapi'],
+                    context: 'cors=anonymous',
                 },
                 delete: {},
             },
