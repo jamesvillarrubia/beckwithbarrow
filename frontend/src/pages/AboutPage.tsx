@@ -235,9 +235,9 @@ const AboutPage = () => {
           {/* Horizontal line - starts 5% left, extends to 80% */}
           <line
             x1="5"
-            y1="12"
+            y1="12.5"
             x2="105"
-            y2="12"
+            y2="12.5"
             stroke={svgColor}
             strokeWidth="1.5"
             vectorEffect="non-scaling-stroke"
@@ -257,22 +257,31 @@ const AboutPage = () => {
           {/* Circle tangent to both lines - diameter is 70% of horizontal line width */}
           <circle
             cx="46"
-            cy="43"
+            cy="43.5"
             r="31"
             stroke={svgColor}
             strokeWidth="1.5"
             fill="none"
             vectorEffect="non-scaling-stroke"
           />
+           {/* <circle
+            cx="45.5"
+            cy="45"
+            r="33"
+            stroke={svgColor}
+            strokeWidth="1.5"
+            fill="none"
+            vectorEffect="non-scaling-stroke"
+          /> */}
           </svg>
         </div>
       </section>
 
       {/* 2x2 Grid Layout */}
-      <section className="pb-16 pt-8 relative">
+      <section className="pb-16 pt-0 relative">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 relative">
           {/* Desktop: 2x2 Grid, Mobile: Stacked */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14">
             
             {/* Top Left: Vertical Image */}
             {aboutContent?.topLeftImage ? (
