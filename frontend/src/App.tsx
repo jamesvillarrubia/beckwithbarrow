@@ -14,6 +14,8 @@ import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persist
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { useSmartPrefetch } from './hooks/usePrefetchPages';
+import { useCacheClear } from './hooks/useCacheClear';
+import { CACHE_KEY, CACHE_VERSION } from './constants/cache';
 
 // Lazy load pages for better code splitting
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -49,24 +51,15 @@ const queryClient = new QueryClient({
 });
 
 /**
- * Cache version control
- * Increment this version number whenever you make breaking changes to:
- * - API response structures
- * - Populate parameters
- * - Data schemas
- * 
- * This will automatically invalidate old caches and force fresh data fetch
- */
-const CACHE_VERSION = 'v5'; // Fixed: Don't populate simple fields (colors), only relations/media
-
-/**
  * Create a localStorage persister with version control
  * This saves the React Query cache to localStorage so it persists across page reloads
  * The version is included in the key so old caches are automatically ignored
+ * 
+ * Cache version is managed in /constants/cache.ts
  */
 const persister = createSyncStoragePersister({
   storage: window.localStorage,
-  key: `beckwithbarrow-cache-${CACHE_VERSION}`, // Versioned key
+  key: CACHE_KEY, // Versioned key from constants
   serialize: JSON.stringify,
   deserialize: JSON.parse,
 });
@@ -78,7 +71,7 @@ const persister = createSyncStoragePersister({
 const cleanupOldCaches = () => {
   const allKeys = Object.keys(localStorage);
   const oldCacheKeys = allKeys.filter(
-    key => key.startsWith('beckwithbarrow-cache-') && key !== `beckwithbarrow-cache-${CACHE_VERSION}`
+    key => key.startsWith('beckwithbarrow-cache-') && key !== CACHE_KEY
   );
   
   oldCacheKeys.forEach(key => {
@@ -102,6 +95,9 @@ cleanupOldCaches();
 function AppContent() {
   // Smart prefetch: waits for current page to load, then prefetches others
   useSmartPrefetch();
+  
+  // Enable keyboard shortcut (Ctrl + Shift + K) to clear cache
+  useCacheClear();
 
   return (
     <div className="min-h-screen">

@@ -5,14 +5,33 @@
  * and localStorage persistence.
  */
 
+import { CACHE_KEY, CACHE_VERSION } from '../constants/cache';
+
 /**
  * Clear all cached data from localStorage
  * Useful for debugging or forcing a fresh data fetch
+ * 
+ * This clears both the versioned cache and any old cache versions,
+ * then forces a page reload to refetch all data fresh from Strapi.
  */
 export const clearCache = (): void => {
   try {
-    localStorage.removeItem('beckwithbarrow-cache');
-    console.log('✅ Cache cleared successfully');
+    // Clear current versioned cache
+    localStorage.removeItem(CACHE_KEY);
+    
+    // Also clear any old cache versions that might be lingering
+    const allKeys = Object.keys(localStorage);
+    const oldCacheKeys = allKeys.filter(key => 
+      key.startsWith('beckwithbarrow-cache-') && key !== CACHE_KEY
+    );
+    
+    oldCacheKeys.forEach(key => {
+      localStorage.removeItem(key);
+    });
+    
+    console.log(`✅ Cache cleared successfully (${CACHE_VERSION})`);
+    console.log('🔄 Reloading page to fetch fresh data...');
+    
     // Reload page to refetch all data
     window.location.reload();
   } catch (error) {
@@ -25,7 +44,7 @@ export const clearCache = (): void => {
  */
 export const getCacheSize = (): { bytes: number; readable: string } => {
   try {
-    const cache = localStorage.getItem('beckwithbarrow-cache');
+    const cache = localStorage.getItem(CACHE_KEY);
     if (!cache) {
       return { bytes: 0, readable: '0 KB' };
     }
@@ -56,11 +75,12 @@ export const getCacheInfo = (): {
   queryCount: number;
   timestamp: number | null;
   age: string | null;
+  version: string;
 } => {
   try {
-    const cache = localStorage.getItem('beckwithbarrow-cache');
+    const cache = localStorage.getItem(CACHE_KEY);
     if (!cache) {
-      return { exists: false, queryCount: 0, timestamp: null, age: null };
+      return { exists: false, queryCount: 0, timestamp: null, age: null, version: CACHE_VERSION };
     }
     
     const parsed = JSON.parse(cache);
@@ -88,10 +108,11 @@ export const getCacheInfo = (): {
       queryCount: queries.length,
       timestamp,
       age,
+      version: CACHE_VERSION,
     };
   } catch (error) {
     console.error('Failed to get cache info:', error);
-    return { exists: false, queryCount: 0, timestamp: null, age: null };
+    return { exists: false, queryCount: 0, timestamp: null, age: null, version: CACHE_VERSION };
   }
 };
 
@@ -100,7 +121,7 @@ export const getCacheInfo = (): {
  */
 export const getCachedQueries = (): string[] => {
   try {
-    const cache = localStorage.getItem('beckwithbarrow-cache');
+    const cache = localStorage.getItem(CACHE_KEY);
     if (!cache) return [];
     
     const parsed = JSON.parse(cache);
@@ -120,7 +141,7 @@ export const getCachedQueries = (): string[] => {
  */
 export const exportCache = (): void => {
   try {
-    const cache = localStorage.getItem('beckwithbarrow-cache');
+    const cache = localStorage.getItem(CACHE_KEY);
     if (!cache) {
       console.log('No cache to export');
       return;
@@ -133,7 +154,7 @@ export const exportCache = (): void => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `beckwithbarrow-cache-${Date.now()}.json`;
+    a.download = `beckwithbarrow-cache-${CACHE_VERSION}-${Date.now()}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -205,6 +226,7 @@ export const logCacheInfo = (): void => {
   console.group('🗄️ Cache Information');
   
   const info = getCacheInfo();
+  console.log('Cache version:', info.version);
   console.log('Cache exists:', info.exists);
   console.log('Cached queries:', info.queryCount);
   console.log('Cache age:', info.age || 'N/A');
