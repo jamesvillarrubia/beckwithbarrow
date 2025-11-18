@@ -147,9 +147,11 @@ Cache size: 156.32 KB
 
 ### Force Fresh Data
 
+**Cache Clear Shortcut**: Ctrl+Shift+K (all platforms)
+
 **Hard Refresh**: Cmd+Shift+R (Mac) or Ctrl+Shift+R (Windows)
 
-**Or clear cache**:
+**Or clear cache via console**:
 ```javascript
 window.cacheUtils.clearCache()
 ```
@@ -161,7 +163,9 @@ window.cacheUtils.clearCache()
 - Users see old content briefly, then it updates
 - No action needed from users
 
-**For immediate updates**: Users can hard refresh (Cmd+Shift+R)
+**For immediate updates**: 
+- Press **Ctrl+Shift+K** to clear cache and reload (all platforms)
+- Or do a hard refresh: Cmd+Shift+R (Mac) / Ctrl+Shift+R (Windows)
 
 ## 🚨 Important Notes
 
