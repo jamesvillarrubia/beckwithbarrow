@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_shared_timeline_stages",
+  "info": {
+    "displayName": "Timeline Stage",
+    "icon": "bulletList",
+    "description": "Individual stage in a process timeline (e.g., Discovery, Research, Direction)"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "richtext",
+      "required": false
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}
+

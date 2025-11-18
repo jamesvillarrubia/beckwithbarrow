@@ -5,3 +5,4 @@ node_modules
 .nx/
 uploads/
 frontend/.env.local.backup
+.pnpm-store/

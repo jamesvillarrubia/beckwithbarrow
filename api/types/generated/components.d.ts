@@ -1,5 +1,17 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface SharedListItem extends Struct.ComponentSchema {
+  collectionName: 'components_shared_list_items';
+  info: {
+    description: 'Simple text item for lists';
+    displayName: 'List Item';
+    icon: 'bulletList';
+  };
+  attributes: {
+    text: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface SharedMedia extends Struct.ComponentSchema {
   collectionName: 'components_shared_media';
   info: {
@@ -105,9 +117,24 @@ export interface SharedSlider extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedTimelineStage extends Struct.ComponentSchema {
+  collectionName: 'components_shared_timeline_stages';
+  info: {
+    description: 'Individual stage in a process timeline (e.g., Discovery, Research, Direction)';
+    displayName: 'Timeline Stage';
+    icon: 'bulletList';
+  };
+  attributes: {
+    description: Schema.Attribute.RichText;
+    image: Schema.Attribute.Media<'images'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'shared.list-item': SharedListItem;
       'shared.media': SharedMedia;
       'shared.navigation-link': SharedNavigationLink;
       'shared.press-item': SharedPressItem;
@@ -115,6 +142,7 @@ declare module '@strapi/strapi' {
       'shared.rich-text': SharedRichText;
       'shared.seo': SharedSeo;
       'shared.slider': SharedSlider;
+      'shared.timeline-stage': SharedTimelineStage;
     }
   }
 }

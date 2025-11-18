@@ -65,6 +65,7 @@ const HomePage = () => {
   const [showDebug, setShowDebug] = useState(false);
   const [leftImageLoaded, setLeftImageLoaded] = useState(false);
   const [rightImageLoaded, setRightImageLoaded] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   
   // Check if we're on mobile (under md breakpoint)
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -80,6 +81,23 @@ const HomePage = () => {
     
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  // Parallax effect: track scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      // Only calculate parallax for the hero section (first viewport height)
+      const scrollPosition = window.scrollY;
+      const heroHeight = window.innerHeight;
+      
+      // Only apply parallax while in hero section
+      if (scrollPosition <= heroHeight) {
+        setScrollY(scrollPosition);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
   // Fetch global settings
@@ -147,7 +165,7 @@ const HomePage = () => {
       <Navigation />
       
       {/* Hero Section - 100vh with dual images and centered text */}
-      <section className="relative h-screen flex bg-black">
+      <section className="relative h-screen flex bg-black overflow-hidden">
         {/* Left Image */}
         <div className="w-full md:w-1/2 relative overflow-hidden">
           <div className="absolute inset-0 bg-black/30 z-10"></div>
@@ -157,6 +175,10 @@ const HomePage = () => {
             className={`w-full h-full object-cover transition-opacity duration-300 ${
               bothImagesLoaded ? 'opacity-100' : 'opacity-0'
             }`}
+            style={{
+              transform: `translateY(${scrollY * 0.15}px)`,
+              willChange: 'transform',
+            }}
             width={1200}
             quality="auto:good"
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -175,6 +197,10 @@ const HomePage = () => {
             className={`w-full h-full object-cover transition-opacity duration-300 ${
               bothImagesLoaded ? 'opacity-100' : 'opacity-0'
             }`}
+            style={{
+              transform: `translateY(${scrollY * 0.15}px)`,
+              willChange: 'transform',
+            }}
             width={1200}
             quality="auto:good"
             sizes="50vw"
@@ -184,7 +210,7 @@ const HomePage = () => {
           />
         </div>
 
-        {/* Centered Text Overlay */}
+        {/* Centered Text Overlay - Stationary */}
         <div className="absolute w-full h-full z-20 flex items-center justify-center px-6 md:px-12">
           <AnimatedSection delay={500} duration={800}>
             <div className="w-full max-w-[500px]">

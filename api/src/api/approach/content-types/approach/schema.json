@@ -1,0 +1,48 @@
+{
+  "kind": "singleType",
+  "collectionName": "approaches",
+  "info": {
+    "singularName": "approach",
+    "pluralName": "approaches",
+    "displayName": "Approach",
+    "description": "Our approach page with vertical timeline of process stages"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Our Approach"
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "quote": {
+      "type": "text",
+      "required": false
+    },
+    "quoteBgColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+      "required": false
+    },
+    "servicesList": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.list-item",
+      "required": false
+    },
+    "stages": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.timeline-stage"
+    }
+  }
+}
+

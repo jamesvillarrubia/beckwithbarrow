@@ -152,7 +152,7 @@ const ConnectPage = () => {
       
       {/* Hero Section */}
       <section className="py-16 px-6 md:px-12 lg:px-16">
-        <div className="max-w-6xl mx-auto text-center">
+        <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl text-gray-900 mb-6">
             Let's Connect
           </h1>
@@ -164,7 +164,7 @@ const ConnectPage = () => {
 
       {/* Contact Information */}
       <section className="py-10 px-6 md:px-12 lg:px-16">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <div className="grid md:grid-cols-3 gap-12">
             
             {/* Contact Details */}
