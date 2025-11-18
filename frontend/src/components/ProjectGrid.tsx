@@ -97,12 +97,19 @@ const ProjectGrid = ({ className = '', limit, featured, featuredProjects, number
         });
       });
 
-      // Sort by top position first, then by left position
+      // For CSS columns layout, sort by left position (column) first, then by top position within column
+      // This gives us the proper reading order: down column 1, then down column 2
       positions.sort((a, b) => {
-        if (Math.abs(a.top - b.top) < 10) { // Same row (within 10px)
-          return a.left - b.left; // Sort by left position
+        // Determine which column each element is in (threshold of 50px for column detection)
+        const leftDiff = Math.abs(a.left - b.left);
+        
+        if (leftDiff > 50) {
+          // Different columns - sort by left position (left column comes first)
+          return a.left - b.left;
+        } else {
+          // Same column - sort by top position (higher items come first)
+          return a.top - b.top;
         }
-        return a.top - b.top; // Sort by top position
       });
 
       // Create mapping from project ID to visual order
@@ -117,14 +124,19 @@ const ProjectGrid = ({ className = '', limit, featured, featuredProjects, number
       setVisualOrder(order);
     };
 
-    // Calculate after a short delay to ensure layout is complete
-    const timeoutId = setTimeout(calculateVisualOrder, 100);
+    // Calculate after images load and layout stabilizes
+    // Use multiple attempts to ensure we catch the final layout state
+    const timeoutId1 = setTimeout(calculateVisualOrder, 200);
+    const timeoutId2 = setTimeout(calculateVisualOrder, 500);
+    const timeoutId3 = setTimeout(calculateVisualOrder, 1000);
     
     // Also recalculate on window resize
     window.addEventListener('resize', calculateVisualOrder);
     
     return () => {
-      clearTimeout(timeoutId);
+      clearTimeout(timeoutId1);
+      clearTimeout(timeoutId2);
+      clearTimeout(timeoutId3);
       window.removeEventListener('resize', calculateVisualOrder);
     };
   }, [displayProjects]);
