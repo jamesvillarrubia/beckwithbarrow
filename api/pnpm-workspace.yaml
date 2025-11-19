@@ -1,6 +1,7 @@
 onlyBuiltDependencies:
   - '@swc/core'
   - better-sqlite3
+  - core-js
   - core-js-pure
   - esbuild
   - sharp
