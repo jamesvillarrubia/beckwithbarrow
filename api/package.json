@@ -60,11 +60,11 @@
     "restore": "strapi import --no-encrypt"
   },
   "dependencies": {
-    "@strapi/plugin-cloud": "5.31.0",
+    "@strapi/plugin-cloud": "5.31.1",
     "@strapi/plugin-color-picker": "^5.31.1",
-    "@strapi/plugin-users-permissions": "5.31.0",
+    "@strapi/plugin-users-permissions": "5.31.1",
     "@strapi/provider-upload-cloudinary": "^5.31.1",
-    "@strapi/strapi": "5.31.0",
+    "@strapi/strapi": "5.31.1",
     "axios": "^1.13.2",
     "better-sqlite3": "12.4.1",
     "cloudinary": "^2.8.0",

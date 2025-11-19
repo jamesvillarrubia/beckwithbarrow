@@ -5,7 +5,14 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(git fetch:*)"
+      "Bash(git fetch:*)",
+      "Bash(test:*)",
+      "Bash(cat:*)",
+      "Bash(node --version)",
+      "Bash(nvm use:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm rebuild:*)",
+      "Bash(npx strapi version)"
     ],
     "deny": [],
     "ask": []
