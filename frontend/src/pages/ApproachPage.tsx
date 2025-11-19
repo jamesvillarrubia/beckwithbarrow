@@ -85,16 +85,17 @@ const ApproachPage = () => {
     retry: false, // Don't retry if content doesn't exist yet
     staleTime: 5 * 60 * 1000,
   });
+  
 
   const approach = approachData?.data as ApproachData;
   const stages = approach?.stages || [];
   const servicesList = approach?.servicesList || [];
 
   /**
-   * Helper function to format stage numbers with leading zeros
+   * Helper function to format stage numbers with leading zeros (replaced with O's)
    */
   const formatStageNumber = (index: number): string => {
-    return String(index + 1).padStart(2, '0');
+    return String(index + 1).padStart(2, '0').replace(/0/g, 'O');
   };
 
   /**
@@ -103,6 +104,95 @@ const ApproachPage = () => {
   const getImageUrl = (image?: TimelineStage['image'] | ApproachData['coverImage']) => {
     if (!image) return null;
     return image.url;
+  };
+
+  /**
+   * Snake connector SVG for the \"How We Do It\" timeline
+   * 
+   * Renders a snaking horizontal line with alternating semi-circles
+   * based on the number of stages. The radius is controlled by a single
+   * constant so it is easy to tweak.
+   */
+  const renderSnakeConnector = (count: number) => {
+    if (!count || count < 1) return null;
+
+    const RADIUS = 40; // uniform radius for all semi-circles (scaled up)
+    const STEP_Y = 280; // vertical spacing between nodes (scaled up to match stage spacing)
+
+    const width = RADIUS * 20; // enough horizontal room for arcs (4x wider)
+    const height = (count - 1) * STEP_Y + RADIUS * 2;
+
+    let path = '';
+    let dir = -1; // Start with -1 so first circle is on LEFT, then line goes right
+
+    // Start near the left edge (where first circle will be)
+    let x = RADIUS;
+    let y = RADIUS;
+    path += `M ${x} ${y}`;
+    const offset = 100;
+
+
+    for (let i = 0; i <= count; i++) {
+      // Only draw horizontal line if not the last iteration
+      if(i === 0) {
+        path += ` M ${x + offset} ${y}`;
+      } 
+      if (i < count - 1) {
+        const xLineEnd = dir === -1 ? width - RADIUS : RADIUS;
+        path += ` H ${xLineEnd}`;
+
+        // Draw a downward semi-circle that flips direction
+        const sweepFlag = dir === -1 ? 1 : 0;
+        const nextY = y + STEP_Y;
+        path += ` A ${RADIUS} ${RADIUS} 0 0 ${sweepFlag} ${xLineEnd} ${nextY}`;
+
+        y = nextY;
+        dir *= -1;
+      }
+      if(i === count - 1) {
+        // Draw final short horizontal segment to the last circle
+        const finalX = dir === -1 ? RADIUS + offset : width - RADIUS - offset;
+        path += ` H ${finalX}`;
+      }
+    }
+
+    // Nodes at each horizontal segment START (circles on left/right alternating)
+    const circles = [];
+    dir = -1; // Start with -1 to match path logic
+    x = RADIUS;
+    y = RADIUS;
+    for (let i = 0; i < count; i++) {
+      const cx = dir === -1 ? RADIUS+offset : width - RADIUS - offset;
+      circles.push(
+        <circle
+          key={i}
+          cx={cx}
+          cy={y}
+          r={RADIUS / 3}
+          stroke="#333333"
+          strokeWidth={1}
+          fill="white"
+        />,
+      );
+
+      if (i < count - 1) {
+        y += STEP_Y;
+        dir *= -1;
+      }
+    }
+
+    return (
+      <svg
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+        className="overflow-visible"
+        aria-hidden="true"
+      >
+        <path d={path} stroke="#333333" strokeWidth={1} fill="none" />
+        {circles}
+      </svg>
+    );
   };
 
   // Show loading state
@@ -146,7 +236,7 @@ const ApproachPage = () => {
 
           {/* Light gray background panel behind image */}
           <div
-            className="pointer-events-none hidden md:block absolute left-0 right-1/2 top-[220px] h-[590px] bg-gray-100"
+            className="pointer-events-none hidden md:block absolute left-0 right-1/2 top-[215px] h-[525px] bg-gray-100"
             aria-hidden="true"
           />
 
@@ -221,97 +311,80 @@ const ApproachPage = () => {
 
       {/* SECTION 2: How We Do It - Flowing Timeline (using stages) */}
       {stages && stages.length > 0 && (
-        <section className="py-16 px-6 md:px-12 lg:px-16 bg-gray-50">
+        <section className="py-16 px-6 md:px-12 lg:px-16 bg-white">
           <div className="max-w-7xl mx-auto">
             {/* Title for timeline section */}
-            <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-16 font-light">
+            <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-24 text-center font-light">
               How We Do It
             </h2>
 
             {/* Flowing Timeline Stages */}
-            <div className="space-y-16">
-              {stages.map((stage, index) => {
-                const isEven = index % 2 === 0;
-                
-                return (
-                  <div 
-                    key={stage.id || index}
-                    className={`relative ${isEven ? 'md:pr-12' : 'md:pl-12'}`}
-                  >
-                    {/* Flowing Line - SVG curves between stages */}
-                    {index < stages.length - 1 && (
-                      <svg 
-                        className="absolute left-0 right-0 top-full h-24 w-full pointer-events-none hidden md:block"
-                        style={{ zIndex: 0 }}
+            <div className="relative">
+              {/* Snake connector positioned as background - centered */}
+              <div className="absolute left-1/2 -translate-x-1/2 top-[-80px] pointer-events-none hidden md:block" style={{ zIndex: 0 }}>
+                {renderSnakeConnector(stages.length)}
+              </div>
+
+              {/* Main centered container for stages */}
+              <div className="max-w-3xl mx-auto relative" style={{ zIndex: 1 }}>
+                {stages.map((stage, index) => {
+                  const isEven = index % 2 === 0;
+                  
+                  return (
+                    <div 
+                      key={stage.id || index}
+                      className="relative"
+                      style={{ height: '280px', marginBottom: index < stages.length - 1 ? '0' : '0' }}
+                    >
+                      {/* Absolutely positioned number - alternating left/right */}
+                      <span 
+                        className={`absolute top-[-80px] text-7xl font-light lato-thin text-gray-900 ${isEven ? 'left-[0px]' : 'right-[0px]'}`}
                       >
-                        <path
-                          d={isEven 
-                            ? "M 50 0 Q 50 60, 950 120"
-                            : "M 950 0 Q 950 60, 50 120"
-                          }
-                          stroke="#D1D5DB"
-                          strokeWidth="2"
-                          fill="none"
-                        />
-                      </svg>
-                    )}
+                        {formatStageNumber(index)}
+                      </span>
 
-                    {/* Stage Content */}
-                    <div className="relative">
-                      <div className="flex items-start gap-6">
-                        {/* Large Number */}
-                        <div className="flex-shrink-0">
-                          <div className="w-20 flex items-center justify-start">
-                            <span className="text-5xl font-light text-gray-900">
-                              {formatStageNumber(index)}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Stage Content */}
-                        <div className="flex-1">
-                          {/* Stage Title */}
-                          <h3 className="text-2xl md:text-3xl font-serif text-gray-900 mb-4 font-light">
-                            {stage.title}
-                          </h3>
-
-                          {/* Stage Description */}
-                          {stage.description && (
-                            <div className="prose prose-base max-w-none">
-                              <ReactMarkdown 
-                                remarkPlugins={[remarkGfm]}
-                                components={{
-                                  p: ({ children }) => (
-                                    <p className="text-gray-700 text-base leading-relaxed mb-4">
-                                      {children}
-                                    </p>
-                                  ),
-                                }}
-                              >
-                                {stage.description}
-                              </ReactMarkdown>
-                            </div>
-                          )}
-
-                          {/* Stage Image (optional) */}
-                          {stage.image && getImageUrl(stage.image) && (
-                            <div className="mt-6">
-                              <OptimizedImage 
-                                src={getImageUrl(stage.image) || ''}
-                                alt={stage.image.alternativeText || stage.title}
-                                className="w-full rounded-sm shadow-sm"
-                                width={800}
-                                quality="auto"
-                                sizes="(max-width: 768px) 100vw, 800px"
-                              />
-                            </div>
-                          )}
-                        </div>
+                      {/* Title - alternating alignment */}
+                      <div className={`mb-6 ${isEven ? 'text-left' : 'text-right'}`}>
+                        <h3 className="text-2xl md:text-3xl font-serif text-gray-900 font-light pt-4">
+                          {stage.title}
+                        </h3>
                       </div>
+
+                      {/* Centered Description */}
+                      {stage.description && (
+                        <div className="prose prose-base max-w-none text-center mb-6">
+                          <ReactMarkdown 
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              p: ({ children }) => (
+                                <p className="text-gray-700 text-base leading-relaxed mb-4 text-center">
+                                  {children}
+                                </p>
+                              ),
+                            }}
+                          >
+                            {stage.description}
+                          </ReactMarkdown>
+                        </div>
+                      )}
+
+                      {/* Centered Stage Image (optional) */}
+                      {stage.image && getImageUrl(stage.image) && (
+                        <div className="flex justify-center">
+                          <OptimizedImage 
+                            src={getImageUrl(stage.image) || ''}
+                            alt={stage.image.alternativeText || stage.title}
+                            className="rounded-sm shadow-sm"
+                            width={800}
+                            quality="auto"
+                            sizes="(max-width: 768px) 100vw, 800px"
+                          />
+                        </div>
+                      )}
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>
