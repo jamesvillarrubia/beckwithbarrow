@@ -117,9 +117,7 @@ export default {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
-    // Fix mainField for projects content type — ensures the relation widget
-    // displays project titles instead of document IDs.
-    // The DB setting was cached as "Title" (capital T) after the column rename.
+    // Fix mainField for projects content type
     try {
       const store = strapi.store({ type: 'plugin', name: 'content_manager' });
       const key = 'configuration_content_types::api::project.project';
@@ -135,6 +133,49 @@ export default {
       }
     } catch (err) {
       strapi.log.warn('Could not fix project mainField setting:', err);
+    }
+
+    // Fix join table: some entries reference published rows instead of draft rows.
+    // The relations endpoint returns different fields depending on which row is hit.
+    // All entries should reference draft rows (published_at IS NULL).
+    try {
+      const knex = strapi.db.connection;
+
+      // Find the join table name dynamically
+      const tables = await knex.raw(
+        `SELECT table_name FROM information_schema.tables
+         WHERE table_name LIKE '%home%project%lnk%' OR table_name LIKE '%home%project%link%'
+         ORDER BY table_name LIMIT 1`
+      );
+      const joinTable = tables?.rows?.[0]?.table_name;
+
+      if (joinTable) {
+        // Get column names to find the project FK column
+        const cols = await knex.raw(
+          `SELECT column_name FROM information_schema.columns WHERE table_name = ?`,
+          [joinTable]
+        );
+        const colNames = cols.rows.map((r: any) => r.column_name);
+        const projectCol = colNames.find((c: string) => c.includes('project'));
+
+        if (projectCol) {
+          // Find join entries pointing to published rows and fix them
+          const fixed = await knex.raw(`
+            UPDATE "${joinTable}" AS lnk
+            SET "${projectCol}" = draft.id
+            FROM projects AS pub, projects AS draft
+            WHERE lnk."${projectCol}" = pub.id
+              AND pub.published_at IS NOT NULL
+              AND draft.document_id = pub.document_id
+              AND draft.published_at IS NULL
+          `);
+          if (fixed?.rowCount > 0) {
+            strapi.log.info(`Fixed ${fixed.rowCount} join table entries: published → draft row IDs`);
+          }
+        }
+      }
+    } catch (err) {
+      strapi.log.warn('Could not fix join table references:', err);
     }
   },
 };
