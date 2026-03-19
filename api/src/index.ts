@@ -7,7 +7,9 @@ interface ProjectRelationItem {
   documentId: number;
   isTemporary: boolean;
   locale?: string;
-  localizations?: any;
+  localizations?: unknown;
+  position?: { before?: string; after?: string; end?: boolean; start?: boolean };
+  [key: string]: unknown;
 }
 
 interface ProjectRelations {
@@ -57,13 +59,7 @@ export default {
           console.log('🔍 MIDDLEWARE: Found projects.connect, cleaning locale data');
           console.log('🔍 MIDDLEWARE: Original connect data:', JSON.stringify(body.projects.connect, null, 2));
           
-          body.projects.connect = body.projects.connect.map((item: ProjectRelationItem) => ({
-            id: item.id,
-            documentId: item.documentId,
-            isTemporary: item.isTemporary,
-            locale: undefined,
-            localizations: undefined
-          }));
+          body.projects.connect = body.projects.connect.map(({ locale, localizations, ...rest }: ProjectRelationItem) => rest);
           
           console.log('🔍 MIDDLEWARE: Cleaned connect data:', JSON.stringify(body.projects.connect, null, 2));
         }
@@ -72,13 +68,7 @@ export default {
           console.log('🔍 MIDDLEWARE: Found projects.disconnect, cleaning locale data');
           console.log('🔍 MIDDLEWARE: Original disconnect data:', JSON.stringify(body.projects.disconnect, null, 2));
           
-          body.projects.disconnect = body.projects.disconnect.map((item: ProjectRelationItem) => ({
-            id: item.id,
-            documentId: item.documentId,
-            isTemporary: item.isTemporary,
-            locale: undefined,
-            localizations: undefined
-          }));
+          body.projects.disconnect = body.projects.disconnect.map(({ locale, localizations, ...rest }: ProjectRelationItem) => rest);
           
           console.log('🔍 MIDDLEWARE: Cleaned disconnect data:', JSON.stringify(body.projects.disconnect, null, 2));
         }
