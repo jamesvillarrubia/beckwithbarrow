@@ -1,10 +1,7 @@
 {
   "name": "beckwithbarrow-infra",
   "version": "0.0.0",
-  "main": "index.js",
-  "devDependencies": {
-    "@types/node": "^22"
-  },
+  "main": "bin/index.js",
   "dependencies": {
     "@pulumi/pulumi": "^3",
     "@pulumiverse/vercel": "^4"
