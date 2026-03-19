@@ -1,6 +1,7 @@
 packages:
   - api
   - frontend
+  - infra
   - packages/*
 onlyBuiltDependencies:
   - '@swc/core'
