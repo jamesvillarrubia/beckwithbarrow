@@ -30,10 +30,32 @@ export default {
    * This gives you an opportunity to extend code.
    */
   register({ strapi }: { strapi: Core.Strapi }) {
-    // Add middleware to handle locale issues at the server level
+    // Patch relations endpoint: fill in missing titles from the DB
     strapi.server.use(async (ctx, next) => {
-      // Check if this is a request to the home content type
-      if (ctx.path.includes('/content-manager/single-types/api::home.home') && 
+      if (ctx.path.includes('/content-manager/relations/') &&
+          ctx.path.includes('/projects') &&
+          ctx.method === 'GET') {
+        await next();
+        if (ctx.body?.results) {
+          const missing = ctx.body.results.filter((r: any) => !r.title);
+          if (missing.length > 0) {
+            const ids = missing.map((r: any) => r.id);
+            const rows = await strapi.db.connection('projects')
+              .select('id', 'title')
+              .whereIn('id', ids);
+            const titleMap = new Map(rows.map((r: any) => [r.id, r.title]));
+            for (const item of ctx.body.results) {
+              if (!item.title && titleMap.has(item.id)) {
+                item.title = titleMap.get(item.id);
+              }
+            }
+          }
+        }
+        return;
+      }
+
+      // Handle locale issues for home content type
+      if (ctx.path.includes('/content-manager/single-types/api::home.home') &&
           (ctx.method === 'PUT' || ctx.method === 'POST')) {
         console.log('🔍 MIDDLEWARE: Intercepting request to home content type');
         console.log('🔍 MIDDLEWARE: Path:', ctx.path);
