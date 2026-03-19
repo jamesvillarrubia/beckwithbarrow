@@ -1,0 +1,26 @@
+diff --git a/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.js b/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.js
+index 47f27c93935d309c6713fc5b41f0dba053e03950..970c8a2f23cdf9706dc5b386366b888d3b63e522 100644
+--- a/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.js
++++ b/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.js
+@@ -78,7 +78,7 @@ var React__namespace = /*#__PURE__*/_interopNamespaceDefault(React);
+ }
+ /* -------------------------------------------------------------------------------------------------
+  * RelationsField
+- * -----------------------------------------------------------------------------------------------*/ const RELATIONS_TO_DISPLAY = 5;
++ * -----------------------------------------------------------------------------------------------*/ const RELATIONS_TO_DISPLAY = 50;
+ const ONE_WAY_RELATIONS = [
+     'oneWay',
+     'oneToOne',
+diff --git a/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.mjs b/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.mjs
+index cf785a9396224160e100946b376a51235c038555..040127546b88ff41355a733f9e1ff8e86099dd84 100644
+--- a/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.mjs
++++ b/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.mjs
+@@ -57,7 +57,7 @@ import { RelationModalRenderer, getCollectionType } from './RelationModal.mjs';
+ }
+ /* -------------------------------------------------------------------------------------------------
+  * RelationsField
+- * -----------------------------------------------------------------------------------------------*/ const RELATIONS_TO_DISPLAY = 5;
++ * -----------------------------------------------------------------------------------------------*/ const RELATIONS_TO_DISPLAY = 50;
+ const ONE_WAY_RELATIONS = [
+     'oneWay',
+     'oneToOne',
