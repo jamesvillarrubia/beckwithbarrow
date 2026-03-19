@@ -95,5 +95,10 @@
   "strapi": {
     "uuid": "85303aae-2e14-4214-a473-c74bff36f56c",
     "installId": "74e1c263007dea05ab286cd06c882964ea8f705730a5da0bf23806e87964aac7"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@strapi/content-manager@5.31.1": "patches/@strapi__content-manager@5.31.1.patch"
+    }
   }
 }
