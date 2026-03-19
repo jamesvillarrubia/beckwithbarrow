@@ -116,7 +116,25 @@ export default {
    * This gives you an opportunity to set up your data model,
    * run jobs, or perform some special logic.
    */
-  bootstrap(/* { strapi }: { strapi: Core.Strapi } */) {
-    // Bootstrap logic can be added here if needed
+  async bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    // Fix mainField for projects content type — ensures the relation widget
+    // displays project titles instead of document IDs.
+    // The DB setting was cached as "Title" (capital T) after the column rename.
+    try {
+      const store = strapi.store({ type: 'plugin', name: 'content_manager' });
+      const key = 'configuration_content_types::api::project.project';
+      const config = await store.get({ key }) as any;
+      if (config?.settings?.mainField === 'Title') {
+        config.settings.mainField = 'title';
+        if (config.metadatas?.Title) {
+          config.metadatas.title = config.metadatas.Title;
+          delete config.metadatas.Title;
+        }
+        await store.set({ key, value: config });
+        strapi.log.info('Fixed project mainField: Title → title');
+      }
+    } catch (err) {
+      strapi.log.warn('Could not fix project mainField setting:', err);
+    }
   },
 };
