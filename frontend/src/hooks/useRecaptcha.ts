@@ -84,17 +84,25 @@ export function useRecaptcha() {
         reject(err);
       }, RECAPTCHA_TIMEOUT);
 
-      // Create and inject the script
-      const script = document.createElement('script');
-      script.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
-      script.async = true;
-      script.defer = true;
-
-      script.onload = () => {
+      // Set up global callback for reCAPTCHA explicit render mode
+      const callbackName = '__recaptchaOnLoad__';
+      (window as any)[callbackName] = () => {
         clearTimeout(timeoutId);
         scriptLoadingState = 'loaded';
         setIsLoaded(true);
         resolve();
+        delete (window as any)[callbackName];
+      };
+
+      // Create and inject the script
+      const script = document.createElement('script');
+      script.src = `https://www.google.com/recaptcha/api.js?onload=${callbackName}&render=explicit`;
+      script.async = true;
+      script.defer = true;
+
+      script.onload = () => {
+        // Script downloaded, but grecaptcha.render isn't ready yet.
+        // The onload callback above will fire when the API is ready.
       };
 
       script.onerror = () => {
