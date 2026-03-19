@@ -187,6 +187,16 @@ jobs:
           cache: "pnpm"
           cache-dependency-path: infra/pnpm-lock.yaml
 
+      - name: Install frontend dependencies
+        run: pnpm install
+        working-directory: frontend
+
+      - name: Build frontend (validates before deploy)
+        run: pnpm build
+        working-directory: frontend
+        env:
+          VITE_USE_PROD_API: "true"
+
       - name: Install infra dependencies
         run: pnpm install
         working-directory: infra
@@ -286,8 +296,8 @@ Move off Strapi Cloud to a platform Pulumi can fully manage.
 
 ---
 
-## Open Questions
+## Decisions
 
-- [ ] Is Pulumi Cloud (app.pulumi.com) acceptable for state backend, or prefer self-hosted (S3 bucket)?
-- [ ] Should the GitHub Actions workflow also run `pnpm build` to validate the build before Pulumi deploys?
-- [ ] Does `beckwithbarrow.com` DNS currently point to Vercel, or does it need to be updated?
+- **State backend:** Pulumi Cloud free tier (app.pulumi.com)
+- **Build validation:** GitHub Actions runs `pnpm build` before `pulumi up` — deploy blocked if build fails
+- **DNS:** `beckwithbarrow.com` already points to Vercel — no DNS changes needed
