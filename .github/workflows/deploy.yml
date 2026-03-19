@@ -1,0 +1,56 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "frontend/**"
+      - "infra/**"
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+          cache-dependency-path: |
+            frontend/pnpm-lock.yaml
+            infra/pnpm-lock.yaml
+
+      # --- Build frontend (validates before deploy) ---
+      - name: Install frontend dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: frontend
+
+      - name: Build frontend
+        run: pnpm build
+        working-directory: frontend
+        env:
+          VITE_USE_PROD_API: "true"
+          VITE_PROD_API_URL: ${{ vars.VITE_PROD_API_URL }}
+          VITE_RECAPTCHA_SITE_KEY: ${{ vars.VITE_RECAPTCHA_SITE_KEY }}
+
+      # --- Pulumi (syncs Vercel config) ---
+      - name: Install infra dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: infra
+
+      - uses: pulumi/actions@v5
+        with:
+          command: up
+          stack-name: prod
+          work-dir: infra
+          refresh: true
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          VERCEL_API_TOKEN: ${{ secrets.VERCEL_API_TOKEN }}
