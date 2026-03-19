@@ -28,7 +28,7 @@ import { useState, useEffect } from 'react';
 
 interface Project {
   id: number;
-  Title: string;
+  title: string;
   cover?: {
     url: string;
     width?: number;

@@ -22,7 +22,7 @@ import { useGlobalSettings } from '../hooks/useGlobalSettings';
 
 interface Project {
   id: number;
-  Title: string;
+  title: string;
   cover?: {
     url: string;
     formats?: {
