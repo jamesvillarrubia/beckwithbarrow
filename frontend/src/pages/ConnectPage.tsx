@@ -28,7 +28,9 @@ const ConnectPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const recaptchaRef = useRef<number | null>(null);
-  
+  const formDataRef = useRef(formData);
+  formDataRef.current = formData;
+
   // Lazy load reCAPTCHA only on this page
   const { isLoaded: recaptchaLoaded, error: recaptchaError } = useRecaptcha();
 
@@ -44,24 +46,24 @@ const ConnectPage = () => {
         throw err;
       }
     },
-    retry: 3, // Increase retries for cold starts
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000), // Exponential backoff: 1s, 2s, 4s
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
+    staleTime: 5 * 60 * 1000,
   });
 
   const connect = connectData?.data as ConnectData;
 
-  // Handle reCAPTCHA success callback
+  // Handle reCAPTCHA success callback — uses ref to avoid stale closure
   const handleRecaptchaSuccess = useCallback(async (token: string) => {
+    const currentFormData = formDataRef.current;
     try {
-      // Send form data with reCAPTCHA token to API server
       const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...formData,
+          ...currentFormData,
           recaptchaToken: token,
         }),
       });
@@ -69,10 +71,8 @@ const ConnectPage = () => {
       const result = await response.json();
 
       if (response.ok) {
-        console.log('Email sent successfully:', result);
         setSubmitStatus('success');
         setFormData({ name: '', email: '', message: '' });
-        // Reset reCAPTCHA for next submission
         if (recaptchaRef.current !== null) {
           window.grecaptcha.reset(recaptchaRef.current);
         }
@@ -86,11 +86,11 @@ const ConnectPage = () => {
     } finally {
       setIsSubmitting(false);
     }
-  }, [formData]);
+  }, []);
 
   // Render reCAPTCHA widget once loaded
   useEffect(() => {
-    if (recaptchaLoaded && window.grecaptcha && !recaptchaRef.current) {
+    if (recaptchaLoaded && window.grecaptcha?.render && !recaptchaRef.current) {
       try {
         recaptchaRef.current = window.grecaptcha.render('recaptcha-container', {
           sitekey: import.meta.env.VITE_RECAPTCHA_SITE_KEY,
