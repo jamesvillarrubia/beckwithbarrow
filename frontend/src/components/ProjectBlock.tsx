@@ -20,7 +20,7 @@ import OptimizedImage from './OptimizedImage';
 interface ProjectBlockProps {
   project: {
     id: number;
-    Title: string;
+    title: string;
     description?: string;
     slug?: string;
     cover?: {
@@ -93,7 +93,7 @@ const ProjectBlock = ({ project, className = '', number, numberColor, disableCol
           className="text-xl font-normal text-gray-900 cursor-pointer hover:text-gray-700 transition-colors"
           onClick={handleProjectClick}
         >
-          {project.Title}
+          {project.title}
         </h5>
       </div>
 
@@ -104,7 +104,7 @@ const ProjectBlock = ({ project, className = '', number, numberColor, disableCol
           className="text-2xl font-normal text-gray-900 cursor-pointer hover:text-gray-700 transition-colors flex-shrink-0"
           onClick={handleProjectClick}
         >
-          {project.Title}
+          {project.title}
         </h5>
         
         {/* Horizontal line connecting title to number */}
@@ -135,7 +135,7 @@ const ProjectBlock = ({ project, className = '', number, numberColor, disableCol
           <OptimizedImage 
             className="w-full h-auto transition-transform duration-700 ease-in-out group-hover:scale-102"
             src={project.cover.url}
-            alt={project.cover.alternativeText || project.Title}
+            alt={project.cover.alternativeText || project.title}
             width={600}
             quality="auto:good"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 600px"

@@ -43,7 +43,7 @@ interface ProjectImage {
 
 interface Project {
   id: number;
-  Title: string;
+  title: string;
   description?: string;
   slug?: string;
   cover?: {
@@ -173,7 +173,7 @@ const ProjectPage = () => {
     allImages.push({
       id: 0,
       url: project.cover.url,
-      alternativeText: project.cover.alternativeText || project.Title,
+      alternativeText: project.cover.alternativeText || project.title,
       width: project.cover.width,
       height: project.cover.height,
       formats: project.cover.formats,
@@ -225,7 +225,7 @@ const ProjectPage = () => {
             {/* Project Title */}
             <div className="relative flex-1 pt-6 md:pt-0">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-light leading-tight text-gray-900">
-                {project.Title}
+                {project.title}
               </h1>
               
               {/* Decorative line under title - starts at right of numbers, extends 20% past container (hidden on mobile) */}
@@ -291,7 +291,7 @@ const ProjectPage = () => {
 
       {/* Image Grid */}
       {allImages.length > 0 && (
-        <ImageGrid images={allImages} projectTitle={project.Title} />
+        <ImageGrid images={allImages} projectTitle={project.title} />
       )}
 
       {/* Footer */}
