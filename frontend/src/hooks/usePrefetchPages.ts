@@ -86,7 +86,7 @@ const PREFETCH_CONFIGS: PrefetchConfig[] = [
   },
   {
     queryKey: ['press-articles'],
-    queryFn: () => apiService.getCollection('press-articles', 'cover'),
+    queryFn: () => apiService.getCollection('press-articles', 'cover', 'sortOrder:asc'),
     staleTime: 10 * 60 * 1000, // 10 minutes
     name: 'Press Articles',
   },

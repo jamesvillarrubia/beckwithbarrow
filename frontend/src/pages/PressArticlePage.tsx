@@ -173,11 +173,11 @@ const PressArticlePage = () => {
       {article.cover && (
         <section className="py-8 px-6 md:px-12 lg:px-16">
           <div className="max-w-6xl mx-auto">
-            <div className="aspect-[16/9] rounded-sm overflow-hidden">
-              <OptimizedImage 
+            <div className="flex justify-center">
+              <OptimizedImage
                 src={getImageUrl(article.cover) || ''}
                 alt={article.cover.alternativeText || article.title}
-                className="w-full h-full object-cover"
+                className="max-w-full h-auto rounded-sm"
                 width={1200}
                 quality="auto:best"
                 sizes="(max-width: 768px) 100vw, 1200px"

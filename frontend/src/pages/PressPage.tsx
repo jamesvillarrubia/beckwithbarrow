@@ -32,6 +32,7 @@ interface PressArticle {
   source?: string;
   publicationDate?: string;
   excerpt?: string;
+  articleContent?: string;
   externalLink?: string;
   showExternal: boolean;
   color?: string;
@@ -79,7 +80,7 @@ const PressPage = () => {
     error
   } = useQuery({
     queryKey: ['press-articles'],
-    queryFn: () => apiService.getCollection('press-articles', 'cover'),
+    queryFn: () => apiService.getCollection('press-articles', 'cover', 'sortOrder:asc'),
   });
 
   const pressPage = pressPageData?.data as PressPageData;
@@ -194,10 +195,12 @@ const PressPage = () => {
           {articles && articles.length > 0 ? (
             <div className="space-y-8">
               {articles.map((article) => {
-                const articleLink = article.showExternal && article.externalLink 
-                  ? article.externalLink 
-                  : `/press/${article.slug}`;
                 const isExternal = article.showExternal && article.externalLink;
+                const hasContent = !!article.articleContent;
+                const hasLink = isExternal || hasContent;
+                const articleLink = isExternal
+                  ? article.externalLink!
+                  : `/press/${article.slug}`;
 
                 return (
                   <article 
@@ -208,23 +211,41 @@ const PressPage = () => {
                       {/* Cover Image */}
                       {article.cover && (
                         <div className="md:col-span-3">
-                          <Link to={articleLink}>
-                            <div 
+                          {hasLink ? (
+                            <Link to={articleLink}>
+                              <div
+                                className="flex items-center justify-center"
+                                style={{
+                                  borderLeft: article.color ? `4px solid ${article.color}` : undefined
+                                }}
+                              >
+                                <OptimizedImage
+                                  src={getImageUrl(article.cover) || ''}
+                                  alt={article.cover.alternativeText || article.title}
+                                  className="max-w-full max-h-full border border-gray-200 rounded-sm group-hover:opacity-90 transition-opacity"
+                                  width={400}
+                                  quality="auto"
+                                  sizes="(max-width: 768px) 100vw, 25vw"
+                                />
+                              </div>
+                            </Link>
+                          ) : (
+                            <div
                               className="flex items-center justify-center"
                               style={{
                                 borderLeft: article.color ? `4px solid ${article.color}` : undefined
                               }}
                             >
-                              <OptimizedImage 
+                              <OptimizedImage
                                 src={getImageUrl(article.cover) || ''}
                                 alt={article.cover.alternativeText || article.title}
-                                className="max-w-full max-h-full border border-gray-200 rounded-sm group-hover:opacity-90 transition-opacity"
+                                className="max-w-full max-h-full border border-gray-200 rounded-sm"
                                 width={400}
                                 quality="auto"
                                 sizes="(max-width: 768px) 100vw, 25vw"
                               />
                             </div>
-                          </Link>
+                          )}
                         </div>
                       )}
 
@@ -253,22 +274,26 @@ const PressPage = () => {
 
                         {/* Title */}
                         <h2 className="text-2xl md:text-3xl font-serif font-light text-gray-900 mb-3">
-                          {isExternal ? (
-                            <a 
-                              href={articleLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-gray-900 hover:opacity-70 transition-opacity"
-                            >
-                              {article.title}
-                            </a>
+                          {hasLink ? (
+                            isExternal ? (
+                              <a
+                                href={articleLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-gray-900 hover:opacity-70 transition-opacity"
+                              >
+                                {article.title}
+                              </a>
+                            ) : (
+                              <Link
+                                to={articleLink}
+                                className="text-gray-900 hover:opacity-70 transition-opacity"
+                              >
+                                {article.title}
+                              </Link>
+                            )
                           ) : (
-                            <Link 
-                              to={articleLink}
-                              className="text-gray-900 hover:opacity-70 transition-opacity"
-                            >
-                              {article.title}
-                            </Link>
+                            article.title
                           )}
                         </h2>
 
@@ -280,54 +305,56 @@ const PressPage = () => {
                         )}
 
                         {/* Read More Link */}
-                        {isExternal ? (
-                          <a 
-                            href={articleLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center font-medium transition-colors"
-                            style={{
-                              color: article.color || '#111827'
-                            }}
-                          >
-                            Read article
-                            <svg 
-                              className="w-4 h-4 ml-2" 
-                              fill="none" 
-                              stroke="currentColor" 
-                              viewBox="0 0 24 24"
+                        {hasLink && (
+                          isExternal ? (
+                            <a
+                              href={articleLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center font-medium transition-colors"
+                              style={{
+                                color: article.color || '#111827'
+                              }}
                             >
-                              <path 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" 
-                              />
-                            </svg>
-                          </a>
-                        ) : (
-                          <Link 
-                            to={articleLink}
-                            className="inline-flex items-center font-medium transition-colors"
-                            style={{
-                              color: article.color || '#111827'
-                            }}
-                          >
-                            View article
-                            <svg 
-                              className="w-4 h-4 ml-2" 
-                              fill="none" 
-                              stroke="currentColor" 
-                              viewBox="0 0 24 24"
+                              Read article
+                              <svg
+                                className="w-4 h-4 ml-2"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                />
+                              </svg>
+                            </a>
+                          ) : (
+                            <Link
+                              to={articleLink}
+                              className="inline-flex items-center font-medium transition-colors"
+                              style={{
+                                color: article.color || '#111827'
+                              }}
                             >
-                              <path 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M9 5l7 7-7 7" 
-                              />
-                            </svg>
-                          </Link>
+                              View article
+                              <svg
+                                className="w-4 h-4 ml-2"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M9 5l7 7-7 7"
+                                />
+                              </svg>
+                            </Link>
+                          )
                         )}
                       </div>
                     </div>
