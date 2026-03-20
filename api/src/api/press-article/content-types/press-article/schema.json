@@ -62,11 +62,6 @@
       "customField": "plugin::color-picker.color",
       "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
       "required": false
-    },
-    "sortOrder": {
-      "type": "integer",
-      "default": 0,
-      "required": false
     }
   }
 }

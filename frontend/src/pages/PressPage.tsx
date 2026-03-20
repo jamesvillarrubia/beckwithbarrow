@@ -53,40 +53,23 @@ interface PressArticle {
 interface PressPageData {
   title?: string;
   introduction?: string;
+  pressArticles?: PressArticle[];
   [key: string]: unknown;
 }
 
 const PressPage = () => {
-  // Fetch press page intro content (optional - page works without it)
-  // Uses global cache settings (24 hours) for fast subsequent loads
-  const { data: pressPageData } = useQuery({
-    queryKey: ['press-page'],
-    queryFn: async () => {
-      try {
-        return await apiService.getSingleType('press');
-      } catch {
-        // Press intro is optional - return null if not configured
-        return null;
-      }
-    },
-    retry: false, // Don't retry if intro doesn't exist
-  });
-
-  // Fetch press articles collection
-  // Uses global cache settings (24 hours) for fast subsequent loads
-  const { 
-    data: articlesData, 
-    isLoading: isLoadingArticles, 
+  // Fetch press page content including ordered press articles relation
+  const {
+    data: pressPageData,
+    isLoading,
     error
   } = useQuery({
-    queryKey: ['press-articles'],
-    queryFn: () => apiService.getCollection('press-articles', 'cover', 'sortOrder:asc'),
+    queryKey: ['press-page'],
+    queryFn: () => apiService.getSingleType('press', 'pressArticles.cover'),
   });
 
   const pressPage = pressPageData?.data as PressPageData;
-  const articles = (articlesData?.data || []) as PressArticle[];
-  // Only show loading state while articles are loading (intro is optional)
-  const isLoading = isLoadingArticles;
+  const articles = (pressPage?.pressArticles || []) as PressArticle[];
 
   /**
    * Helper function to format date strings

@@ -18,6 +18,11 @@
     },
     "introduction": {
       "type": "richtext"
+    },
+    "pressArticles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::press-article.press-article"
     }
   }
 }

@@ -76,19 +76,13 @@ const PREFETCH_CONFIGS: PrefetchConfig[] = [
     queryKey: ['press-page'],
     queryFn: async () => {
       try {
-        return await apiService.getSingleType('press');
+        return await apiService.getSingleType('press', 'pressArticles.cover');
       } catch {
-        return null; // Optional - press intro might not be configured
+        return null; // Optional - press page might not be configured
       }
     },
-    staleTime: 10 * 60 * 1000, // 10 minutes - intro content changes rarely
-    name: 'Press Page Intro (optional)',
-  },
-  {
-    queryKey: ['press-articles'],
-    queryFn: () => apiService.getCollection('press-articles', 'cover', 'sortOrder:asc'),
     staleTime: 10 * 60 * 1000, // 10 minutes
-    name: 'Press Articles',
+    name: 'Press Page + Articles',
   },
   // Add more HIGH-TRAFFIC, FAST pages here as needed:
   // {
