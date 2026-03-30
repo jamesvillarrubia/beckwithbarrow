@@ -1,5 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as vercel from "@pulumiverse/vercel";
+import { VercelDeployHook, StrapiWebhook } from "./webhooks";
 
 const config = new pulumi.Config();
 
@@ -99,10 +100,45 @@ envVars.forEach(({ key, value, sensitive }) => {
 });
 
 // ---------------------------------------------------------------------------
+// Rebuild Webhook Pipeline
+// ---------------------------------------------------------------------------
+// When she publishes in Strapi → Strapi fires webhook → Vercel rebuilds →
+// build script re-fetches all Strapi data → static data is fresh on CDN.
+//
+// Required secrets (run once, then `pulumi up`):
+//   pulumi config set --secret strapiAdminEmail    admin@example.com
+//   pulumi config set --secret strapiAdminPassword mypassword
+//
+// The Vercel API token is read from VERCEL_API_TOKEN env var (already used
+// by the @pulumiverse/vercel provider).
+
+const vercelApiToken = process.env.VERCEL_API_TOKEN ?? "";
+const strapiBaseUrl = config.require("viteProdApiUrl").replace(/\/api$/, "");
+const strapiAdminEmail = config.requireSecret("strapiAdminEmail");
+const strapiAdminPassword = config.requireSecret("strapiAdminPassword");
+
+const deployHook = new VercelDeployHook("strapi-publish-hook", {
+  projectId: project.id,
+  name: "strapi-publish",
+  ref: "main",
+  apiToken: vercelApiToken,
+});
+
+new StrapiWebhook("vercel-rebuild-webhook", {
+  strapiBaseUrl,
+  adminEmail: strapiAdminEmail,
+  adminPassword: strapiAdminPassword,
+  webhookName: "vercel-rebuild",
+  targetUrl: deployHook.hookUrl,
+  events: ["entry.publish", "entry.unpublish", "media.create", "media.delete"],
+});
+
+// ---------------------------------------------------------------------------
 // Outputs
 // ---------------------------------------------------------------------------
 export const projectId = project.id;
 export const projectUrl = "https://beckwithbarrow.com";
+export const deployHookUrl = deployHook.hookUrl;
 
 // ---------------------------------------------------------------------------
 // STRAPI CLOUD — Manual configuration required
