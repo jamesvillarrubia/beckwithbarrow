@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 .vercel
 .env*.local
+
+# Build-time generated static data (regenerated on every deploy)
+src/generated/static-data.json
