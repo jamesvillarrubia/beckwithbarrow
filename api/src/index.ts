@@ -51,9 +51,13 @@ export default {
       strapi.log.warn('Could not fix project mainField setting:', err);
     }
 
-    // Fix join table: some entries reference published rows instead of draft rows.
+    // Fix home→projects join table so the published home row references published project rows.
+    // In Strapi 5 with draftAndPublish, the public API serves published content. The join table
+    // must reference published row IDs for populated relations to return results.
     try {
       const knex = strapi.db.connection;
+
+      // Find the join table for home→projects
       const tables = await knex.raw(
         `SELECT table_name FROM information_schema.tables
          WHERE table_name LIKE '%home%project%lnk%' OR table_name LIKE '%home%project%link%'
@@ -66,26 +70,77 @@ export default {
           `SELECT column_name FROM information_schema.columns WHERE table_name = ?`,
           [joinTable]
         );
-        const colNames = cols.rows.map((r: any) => r.column_name);
-        const projectCol = colNames.find((c: string) => c.includes('project'));
+        const colNames: string[] = cols.rows.map((r: any) => r.column_name);
+        const homeCol = colNames.find((c) => c.includes('home') && c.includes('id'));
+        const projectIdCol = colNames.find((c) => c.includes('project') && c.includes('id'));
+        const projectOrderCol = colNames.find((c) => c.includes('project') && c.includes('order'));
 
-        if (projectCol) {
-          const fixed = await knex.raw(`
+        strapi.log.info(`Join table: ${joinTable}, cols: ${colNames.join(', ')}`);
+
+        if (homeCol && projectIdCol) {
+          // Step 1: Ensure join table points to PUBLISHED project row IDs (not draft).
+          // The public API filters by publishedAt IS NOT NULL, so references must be published rows.
+          const fixedToPublished = await knex.raw(`
             UPDATE "${joinTable}" AS lnk
-            SET "${projectCol}" = draft.id
-            FROM projects AS pub, projects AS draft
-            WHERE lnk."${projectCol}" = pub.id
-              AND pub.published_at IS NOT NULL
-              AND draft.document_id = pub.document_id
+            SET "${projectIdCol}" = pub.id
+            FROM projects AS draft, projects AS pub
+            WHERE lnk."${projectIdCol}" = draft.id
               AND draft.published_at IS NULL
+              AND pub.document_id = draft.document_id
+              AND pub.published_at IS NOT NULL
           `);
-          if (fixed?.rowCount > 0) {
-            strapi.log.info(`Fixed ${fixed.rowCount} join table entries: published → draft row IDs`);
+          if (fixedToPublished?.rowCount > 0) {
+            strapi.log.info(`Fixed ${fixedToPublished.rowCount} join entries: draft → published project IDs`);
+          }
+
+          // Step 2: Ensure the PUBLISHED home row has join table entries.
+          // When the relation is configured in admin (on the draft home), and the home is then
+          // published, the published home row may not have matching join table entries.
+          const publishedHome = await knex('homes')
+            .select('id', 'document_id')
+            .whereNotNull('published_at')
+            .first();
+          const draftHome = publishedHome
+            ? await knex('homes')
+                .select('id')
+                .where('document_id', publishedHome.document_id)
+                .whereNull('published_at')
+                .first()
+            : null;
+
+          if (publishedHome && draftHome && publishedHome.id !== draftHome.id) {
+            // Check if published home has any join table entries
+            const pubEntries = await knex(joinTable).where(homeCol, publishedHome.id).count('* as cnt').first();
+            const draftEntries = await knex(joinTable).where(homeCol, draftHome.id).count('* as cnt').first();
+
+            const pubCount = parseInt(String(pubEntries?.cnt ?? 0));
+            const draftCount = parseInt(String(draftEntries?.cnt ?? 0));
+
+            strapi.log.info(`Home join entries — published (id=${publishedHome.id}): ${pubCount}, draft (id=${draftHome.id}): ${draftCount}`);
+
+            if (draftCount > 0 && pubCount === 0) {
+              // Copy draft home's join entries to published home, preserving order
+              const draftRows = await knex(joinTable)
+                .where(homeCol, draftHome.id)
+                .orderBy(projectOrderCol ?? 'id', 'asc');
+
+              const toInsert = draftRows.map((row: any) => ({
+                ...row,
+                id: undefined, // let DB assign new ID
+                [homeCol]: publishedHome.id,
+              }));
+
+              // Remove undefined id key
+              const cleanInsert = toInsert.map(({ id: _id, ...rest }: any) => rest);
+
+              await knex(joinTable).insert(cleanInsert);
+              strapi.log.info(`Copied ${cleanInsert.length} join entries from draft home to published home`);
+            }
           }
         }
       }
     } catch (err) {
-      strapi.log.warn('Could not fix join table references:', err);
+      strapi.log.warn('Could not fix home→projects join table:', err);
     }
   },
 };
