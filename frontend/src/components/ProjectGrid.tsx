@@ -84,7 +84,7 @@ const ProjectGrid = ({ className = '', limit, featured, featuredProjects, number
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 10000),
     staleTime: 5 * 60 * 1000,
-    enabled: !featuredProjects,
+    enabled: !featuredProjects || featuredProjects.length === 0,
   });
 
   const projects = projectsResponse?.data as Project[];
