@@ -6,7 +6,7 @@ import { writeFile, mkdir } from 'node:fs/promises';
 import { createWriteStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
 import path from 'node:path';
-import { buildManifest, buildUploadPlan } from './lib/build-manifest.mjs';
+import { buildManifest, buildUploadPlan, buildFullRestorePlan } from './lib/build-manifest.mjs';
 
 const DRY = process.argv.includes('--dry-run');
 const STAMP = process.env.BACKUP_STAMP || new Date().toISOString().replace(/[:.]/g, '-');
@@ -23,13 +23,17 @@ const CLOUD = {
   secret: process.env.CLOUDINARY_SECRET,
 };
 
+// Cloudinary creds are REQUIRED (the binaries are the irreplaceable data).
+// Strapi creds are OPTIONAL: with them we enrich the public_id->record mapping;
+// without them we still back up every binary (Cloudinary-only mode).
 function requireEnv() {
   const missing = [
-    ['STRAPI_CLOUD_BASE_URL', STRAPI_URL], ['STRAPI_CLOUD_API_TOKEN', STRAPI_TOKEN],
     ['CLOUDINARY_NAME', CLOUD.name], ['CLOUDINARY_KEY', CLOUD.key], ['CLOUDINARY_SECRET', CLOUD.secret],
   ].filter(([, v]) => !v).map(([k]) => k);
-  if (missing.length) { console.error(`Missing env: ${missing.join(', ')}`); process.exit(1); }
+  if (missing.length) { console.error(`Missing required env: ${missing.join(', ')}`); process.exit(1); }
 }
+
+const HAS_STRAPI = Boolean(STRAPI_URL && STRAPI_TOKEN);
 
 async function getJson(url, headers) {
   const res = await fetch(url, { headers });
@@ -84,14 +88,23 @@ async function main() {
   requireEnv();
   console.log(`Backup ${STAMP}${DRY ? ' (dry-run)' : ''}`);
 
-  const [files, resources] = await Promise.all([fetchStrapiFiles(), fetchCloudinaryResources()]);
+  if (!HAS_STRAPI) {
+    console.log('No Strapi token — running CLOUDINARY-ONLY backup (no record mapping; every asset still restorable).');
+  }
+  const [files, resources] = await Promise.all([
+    HAS_STRAPI ? fetchStrapiFiles() : Promise.resolve([]),
+    fetchCloudinaryResources(),
+  ]);
   console.log(`Strapi files: ${files.length}, Cloudinary assets: ${resources.length}`);
 
   const manifest = buildManifest(resources, files);
   // local_path must be repo-root-relative so restore-cloudinary.py (run from repo root) finds binaries.
-  const plan = buildUploadPlan(resources, files, 'api/backups/assets');
+  // With Strapi data, split referenced/orphan; without it, make every asset restorable.
+  const plan = HAS_STRAPI
+    ? buildUploadPlan(resources, files, 'api/backups/assets')
+    : buildFullRestorePlan(resources, 'api/backups/assets');
   const orphans = manifest.filter((m) => !m.referenced).length;
-  console.log(`Referenced: ${manifest.length - orphans}, Orphans: ${orphans}, Unmatched in plan: ${plan.unmatched.length}`);
+  console.log(`Referenced: ${manifest.length - orphans}, Orphans: ${orphans}, Restorable in plan: ${plan.matched.length}, Unmatched: ${plan.unmatched.length}`);
 
   if (DRY) { console.log('Dry run — no files written, no binaries downloaded.'); return; }
 

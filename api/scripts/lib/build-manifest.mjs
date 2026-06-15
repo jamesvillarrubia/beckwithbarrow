@@ -25,6 +25,20 @@ export function buildManifest(cloudinaryResources, strapiFiles) {
   }));
 }
 
+/**
+ * Build a restore plan where EVERY cloudinary asset is restorable (all in `matched`),
+ * with project=null. Used when no Strapi record mapping is available (e.g. token-free
+ * Cloudinary-only backup) — the binaries are the irreplaceable data, so all must be
+ * recoverable regardless of which record references them.
+ */
+export function buildFullRestorePlan(cloudinaryResources, assetsDir) {
+  const matched = cloudinaryResources.map((r) => {
+    const ext = r.format ? `.${r.format}` : '';
+    return { public_id: r.public_id, local_path: `${assetsDir}/${r.public_id}${ext}`, project: null };
+  });
+  return { matched, unmatched: [] };
+}
+
 /** Build the restore-cloudinary.py compatible upload plan. */
 export function buildUploadPlan(cloudinaryResources, strapiFiles, assetsDir) {
   const refs = indexByPublicId(strapiFiles);

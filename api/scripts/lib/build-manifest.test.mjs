@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildManifest, buildUploadPlan } from './build-manifest.mjs';
+import { buildManifest, buildUploadPlan, buildFullRestorePlan } from './build-manifest.mjs';
 
 const cloudinaryResources = [
   { public_id: 'projects/hillside_a', secure_url: 'https://res.cloudinary.com/x/hillside_a.jpg', bytes: 1000, format: 'jpg', width: 800, height: 600 },
@@ -30,5 +30,18 @@ describe('buildUploadPlan', () => {
       local_path: 'api/backups/assets/projects/hillside_a.jpg',
     });
     expect(plan.unmatched.map((u) => u.public_id)).toContain('orphan_xyz');
+  });
+});
+
+describe('buildFullRestorePlan', () => {
+  it('makes EVERY cloudinary asset restorable (matched), with project null when unknown', () => {
+    const plan = buildFullRestorePlan(cloudinaryResources, 'api/backups/assets');
+    expect(plan.matched).toHaveLength(2);
+    expect(plan.unmatched).toEqual([]);
+    expect(plan.matched.map((m) => m.public_id).sort()).toEqual(['orphan_xyz', 'projects/hillside_a']);
+    expect(plan.matched.find((m) => m.public_id === 'projects/hillside_a')).toMatchObject({
+      local_path: 'api/backups/assets/projects/hillside_a.jpg',
+      project: null,
+    });
   });
 });
