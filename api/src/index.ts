@@ -1,4 +1,5 @@
 import type { Core } from '@strapi/strapi';
+import { wrapProviderNoDelete } from './safety/disable-upload-delete';
 
 export default {
   register({ strapi }: { strapi: Core.Strapi }) {
@@ -86,6 +87,23 @@ export default {
       }
     } catch (err) {
       strapi.log.warn('Could not fix join table references:', err);
+    }
+
+    // Disable Cloudinary auto-delete: deleting a Strapi file record now ORPHANS
+    // the Cloudinary asset instead of destroying it. This directly neutralises
+    // the 2026-03-19 failure mode where a strapi transfer destroyed 201 images.
+    try {
+      const uploadPlugin = strapi.plugin('upload') as unknown as { provider?: Record<string, unknown> } | undefined;
+      const provider = uploadPlugin?.provider;
+      if (provider && typeof provider['delete'] === 'function') {
+        const wrapped = wrapProviderNoDelete(provider, strapi.log);
+        provider['delete'] = wrapped.delete; // mutate in place so the upload service sees it
+        strapi.log.info('[safety] Cloudinary auto-delete disabled (records orphan, not destroy)');
+      } else {
+        strapi.log.error('[safety] Could not locate upload provider.delete — auto-delete NOT disabled. Investigate before any media deletion.');
+      }
+    } catch (err) {
+      strapi.log.error(`[safety] Failed to disable Cloudinary auto-delete: ${String(err)}`);
     }
   },
 };
