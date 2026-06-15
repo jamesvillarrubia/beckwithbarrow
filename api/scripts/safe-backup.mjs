@@ -58,19 +58,24 @@ async function fetchStrapiFiles() {
   return all;
 }
 
-// 2. Cloudinary resources (GET only, basic auth).
+// 2. Cloudinary resources (GET only, basic auth). Covers ALL asset classes
+// (image, raw=PDFs/docs, video) so no asset type is silently excluded from the backup.
+const CLOUDINARY_RESOURCE_TYPES = ['image', 'raw', 'video'];
+
 async function fetchCloudinaryResources() {
   const auth = Buffer.from(`${CLOUD.key}:${CLOUD.secret}`).toString('base64');
   const out = [];
-  let next;
-  do {
-    const u = new URL(`https://api.cloudinary.com/v1_1/${CLOUD.name}/resources/image`);
-    u.searchParams.set('max_results', '500');
-    if (next) u.searchParams.set('next_cursor', next);
-    const data = await getJson(u.toString(), { Authorization: `Basic ${auth}` });
-    out.push(...(data.resources ?? []));
-    next = data.next_cursor;
-  } while (next);
+  for (const type of CLOUDINARY_RESOURCE_TYPES) {
+    let next;
+    do {
+      const u = new URL(`https://api.cloudinary.com/v1_1/${CLOUD.name}/resources/${type}`);
+      u.searchParams.set('max_results', '500');
+      if (next) u.searchParams.set('next_cursor', next);
+      const data = await getJson(u.toString(), { Authorization: `Basic ${auth}` });
+      out.push(...(data.resources ?? []));
+      next = data.next_cursor;
+    } while (next);
+  }
   return out;
 }
 
