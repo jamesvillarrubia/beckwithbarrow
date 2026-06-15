@@ -51,7 +51,9 @@ def main():
     parser.add_argument("--verify-only", action="store_true", help="Check which images already exist on Cloudinary")
     args = parser.parse_args()
 
-    if not args.dry_run and not args.verify_only:
+    # Any path that calls the Cloudinary API (verify-only AND upload) needs creds.
+    # Only --dry-run is purely local (checks files on disk) and needs none.
+    if not args.dry_run:
         missing_creds = []
         if not CLOUD_NAME:
             missing_creds.append("CLOUDINARY_NAME")
@@ -70,7 +72,7 @@ def main():
     cloudinary.config(
         cloud_name=CLOUD_NAME,
         api_key=API_KEY,
-        api_secret=API_SECRET or "dummy",
+        api_secret=API_SECRET,
         secure=True,
     )
 

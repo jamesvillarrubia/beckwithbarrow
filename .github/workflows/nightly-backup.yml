@@ -28,10 +28,17 @@ jobs:
         run: |
           if grep -rIl -E "SECRET|TOKEN|PASSWORD|api_secret" api/backups/; then
             echo "Secrets found in backup output"; exit 1; fi
-      - name: Commit backup
+      # NOTE (decision for repo owner): this pushes backup commits to a dedicated
+      # `backups` branch, NOT main — main is protected and "never commit directly to
+      # main" per CLAUDE.md. The branch accumulates nightly backup commits; periodically
+      # prune old stamp dirs (see retention note in the Pillar 1 plan). Confirm branch
+      # protection / LFS quota are acceptable before enabling this workflow.
+      - name: Commit backup to dedicated branch
         run: |
           git config user.name "backup-bot"
           git config user.email "backup-bot@users.noreply.github.com"
+          git fetch origin backups || true
+          git checkout backups 2>/dev/null || git checkout -b backups
           git add api/backups api/.gitattributes
           git diff --cached --quiet || git commit -m "chore(backups): nightly $(date -u +%FT%TZ)"
-          git push
+          git push origin backups
