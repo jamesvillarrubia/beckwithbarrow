@@ -141,8 +141,12 @@ cloudinary.env
 *.env.local
 *.env.production
 
-# Backup files (optional - you may want to commit some backups)
-backups/
+# Backup files
+# Legacy tarball backups stay ignored. The structured safe-backups produced by
+# scripts/safe-backup.mjs (assets via git-lfs, manifest + upload-plan JSON) ARE
+# committed for disaster recovery — see reqts/website-management-agent.md.
+backups/**/*.tar.gz
+backups/cloud/
 *.tar.gz
 *-backup-*
 # NX
