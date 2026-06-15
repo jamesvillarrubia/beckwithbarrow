@@ -4,6 +4,8 @@
   "private": true,
   "description": "A Strapi application",
   "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
     "build": "strapi build",
     "console": "strapi console",
     "deploy": "strapi deploy",
@@ -86,7 +88,8 @@
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
     "husky": "^9.1.7",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.9"
   },
   "engines": {
     "node": ">=18.0.0 <=24.x.x",
