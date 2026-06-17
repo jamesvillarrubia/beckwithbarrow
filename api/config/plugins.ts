@@ -21,7 +21,9 @@ export default ({ env }) => ({
                     tags: ['strapi'],
                     context: 'cors=anonymous',
                 },
-                delete: {},
+                // `delete` action intentionally omitted (defense-in-depth alongside the
+                // runtime no-op in src/index.ts). Deleting a record orphans the Cloudinary
+                // asset instead of destroying it — see reqts/website-management-agent.md.
             },
         },
     },

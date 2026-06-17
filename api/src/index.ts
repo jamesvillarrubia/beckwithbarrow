@@ -1,4 +1,5 @@
 import type { Core } from '@strapi/strapi';
+import { installNoDeleteOverride } from './safety/disable-upload-delete';
 
 export default {
   register({ strapi }: { strapi: Core.Strapi }) {
@@ -142,5 +143,11 @@ export default {
     } catch (err) {
       strapi.log.warn('Could not fix home→projects join table:', err);
     }
+
+    // Disable Cloudinary auto-delete: deleting a Strapi file record now ORPHANS
+    // the Cloudinary asset instead of destroying it. This directly neutralises
+    // the 2026-03-19 failure mode where a strapi transfer destroyed 201 images.
+    // Fails closed in production (see installNoDeleteOverride).
+    installNoDeleteOverride(strapi as unknown as Parameters<typeof installNoDeleteOverride>[0]);
   },
 };
