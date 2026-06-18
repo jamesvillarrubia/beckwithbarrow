@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Beckwith Barrow Architecture Portfolio",
   "private": true,
+  "packageManager": "pnpm@10.6.2",
   "scripts": {
     "prepare": "husky",
     "build": "nx run-many --target=build --all",
