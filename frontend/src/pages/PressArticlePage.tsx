@@ -74,10 +74,8 @@ const PressArticlePage = () => {
     queryKey: ['press-article', slug],
     queryFn: async () => {
       if (!slug) throw new Error('No slug provided');
-      console.log('Fetching press article from API:', slug);
       try {
         const result = await apiService.getBySlug('press-articles', slug, 'cover,images');
-        console.log('Press Article API Response:', result);
         return result;
       } catch (err) {
         console.error('Press Article API Error:', err);

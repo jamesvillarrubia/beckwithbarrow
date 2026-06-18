@@ -38,10 +38,8 @@ export const useGlobalSettings = () => {
   const { data: globalData, isLoading: globalLoading, error: globalError } = useQuery({
     queryKey: ['global-settings'],
     queryFn: async () => {
-      console.log('Fetching global settings from API...');
       try {
         const result = await apiService.getSingleType('global');
-        console.log('Global settings response:', result);
         return result;
       } catch (err) {
         console.error('Error fetching global settings:', err);
@@ -57,10 +55,8 @@ export const useGlobalSettings = () => {
   const { data: menuData, isLoading: menuLoading, error: menuError } = useQuery({
     queryKey: ['menu'],
     queryFn: async () => {
-      console.log('Fetching menu from API...');
       try {
         const result = await apiService.getSingleType('menu', 'menuItem');
-        console.log('Menu response:', result);
         return result;
       } catch (err) {
         console.error('Error fetching menu:', err);
