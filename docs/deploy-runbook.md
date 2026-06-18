@@ -101,21 +101,24 @@ Both are org-level tokens with no expiry — set once, lasts for the life of the
 > `PULUMI_ACCESS_TOKEN` to read/write stack state. The `@pulumiverse/vercel` provider
 > uses `VERCEL_API_TOKEN` to manage Vercel resources via API.
 
-### Step 3 — Set Strapi admin creds in Pulumi config [YOU]
+### Step 3 — Register the Strapi webhook manually [YOU] — one-time only
 
-The webhook pipeline (`infra/webhooks.ts`) calls the Strapi admin API to register a
-webhook. It needs admin credentials. Run these once from the `infra/` directory:
+The Strapi admin login uses Google OAuth / email OTP (no password), so Pulumi cannot
+register the Strapi webhook automatically. Do this once after Step 6's `pulumi up` runs:
 
-```bash
-cd infra
-pulumi config set --secret strapiAdminEmail    <your-strapi-admin-email>
-pulumi config set --secret strapiAdminPassword <your-strapi-admin-password>
-```
+1. Get the deploy hook URL:
+   ```bash
+   cd infra
+   PULUMI_ACCESS_TOKEN=<token> pulumi stack output deployHookUrl --stack prod
+   ```
+2. Open https://striking-ball-b079f8c4b0.strapiapp.com/admin → **Settings → Webhooks → Add new webhook**
+3. Fill in:
+   - **Name:** `vercel-rebuild`
+   - **URL:** paste the deploy hook URL from step 1
+   - **Events:** check Entry (publish, unpublish) and Media (create, delete)
+4. Save.
 
-These get written to `infra/Pulumi.prod.yaml` as encrypted values and should be committed.
-
-The email + password are the credentials you use to log into
-https://striking-ball-b079f8c4b0.strapiapp.com/admin
+That's it — the URL never changes unless you run `pulumi destroy` and recreate the stack.
 
 ### Step 4 — Verify Pulumi stack exists [YOU or AGENT]
 
@@ -290,14 +293,11 @@ pulumi config get cloudinarySecret --stack prod
 ### Emergency: disable the Strapi→Vercel webhook
 
 If the publish webhook is causing problems (e.g. triggering excessive rebuilds):
-```bash
-# Disable in Strapi admin:
-# Settings → Webhooks → vercel-rebuild → toggle Enabled off
-#
-# Or remove via Pulumi (removes it from Strapi entirely):
-cd infra
-pulumi destroy --target 'urn:pulumi:prod::beckwithbarrow-infra::pulumi-nodejs:dynamic:Resource::vercel-rebuild-webhook' --stack prod
 ```
+Strapi admin → Settings → Webhooks → vercel-rebuild → toggle Enabled off
+```
+
+To re-enable: same path, toggle back on. The webhook URL is preserved.
 
 ---
 
