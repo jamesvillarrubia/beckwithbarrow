@@ -26,6 +26,26 @@ export function buildManifest(cloudinaryResources, strapiFiles) {
 }
 
 /**
+ * Given the current Cloudinary resources and the previous backup manifest,
+ * return only the resources that still need downloading: assets absent from
+ * the prior manifest (new), or whose byte count differs (the original was
+ * overwritten). Assets already backed up unchanged are skipped — this is what
+ * keeps recurring backup bandwidth near zero instead of re-pulling every
+ * full-resolution original on every run.
+ */
+export function selectResourcesToDownload(cloudinaryResources, previousManifest = []) {
+  const prev = new Map();
+  for (const row of previousManifest ?? []) {
+    if (row?.public_id) prev.set(row.public_id, row);
+  }
+  return cloudinaryResources.filter((r) => {
+    const known = prev.get(r.public_id);
+    if (!known) return true;                  // new asset
+    return known.bytes !== r.bytes;           // changed original (else skip)
+  });
+}
+
+/**
  * Build a restore plan where EVERY cloudinary asset is restorable (all in `matched`),
  * with project=null. Used when no Strapi record mapping is available (e.g. token-free
  * Cloudinary-only backup) — the binaries are the irreplaceable data, so all must be

@@ -2,17 +2,34 @@
 // Confirmed endpoint: GET /api/upload/files requires a token with Upload: find scope.
 // This script is READ-ONLY: it uses only GET requests against Strapi and Cloudinary.
 // It never calls strapi transfer, strapi import, or any Cloudinary delete/destroy API.
-import { writeFile, mkdir } from 'node:fs/promises';
-import { createWriteStream } from 'node:fs';
+import { writeFile, mkdir, readFile } from 'node:fs/promises';
+import { createWriteStream, existsSync } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
 import path from 'node:path';
-import { buildManifest, buildUploadPlan, buildFullRestorePlan } from './lib/build-manifest.mjs';
+import { buildManifest, buildUploadPlan, buildFullRestorePlan, selectResourcesToDownload } from './lib/build-manifest.mjs';
 
 const DRY = process.argv.includes('--dry-run');
 const STAMP = process.env.BACKUP_STAMP || new Date().toISOString().replace(/[:.]/g, '-');
 const ROOT = path.resolve('backups');                 // api/backups
 const OUT = path.join(ROOT, STAMP);
 const ASSETS = path.join(ROOT, 'assets');             // shared, content-addressed by public_id
+// Incremental baseline: absolute path to the PREVIOUS run's manifest, supplied
+// by the workflow via `git show origin/backups:.../cloudinary-manifest.json`
+// into a temp file OUTSIDE the repo (so it never interferes with the branch
+// switch in the commit step). When unset/missing we back up everything.
+const BASELINE_MANIFEST = process.env.BACKUP_BASELINE_MANIFEST;
+
+/** Load the previous manifest (array of asset rows) if present, else []. */
+async function loadPreviousManifest() {
+  if (!BASELINE_MANIFEST || !existsSync(BASELINE_MANIFEST)) return [];
+  try {
+    const parsed = JSON.parse(await readFile(BASELINE_MANIFEST, 'utf8'));
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    console.warn(`  baseline manifest unreadable (${e.message}); backing up everything`);
+    return [];
+  }
+}
 
 // --- Read-only config (tokens from env; NEVER written to disk) ---
 const STRAPI_URL = process.env.STRAPI_CLOUD_BASE_URL;
@@ -111,19 +128,29 @@ async function main() {
   const orphans = manifest.filter((m) => !m.referenced).length;
   console.log(`Referenced: ${manifest.length - orphans}, Orphans: ${orphans}, Restorable in plan: ${plan.matched.length}, Unmatched: ${plan.unmatched.length}`);
 
+  // Incremental: only fetch assets that are new or whose bytes changed since the
+  // last backup. Re-downloading all originals every run is what blew the Cloudinary
+  // bandwidth quota; the manifest below is the cheap (JSON, no bandwidth) baseline.
+  const previousManifest = await loadPreviousManifest();
+  const toDownload = selectResourcesToDownload(resources, previousManifest);
+  const skipped = resources.length - toDownload.length;
+  console.log(`Incremental: ${toDownload.length} to download, ${skipped} already backed up (skipped)`);
+
   if (DRY) { console.log('Dry run — no files written, no binaries downloaded.'); return; }
 
   await mkdir(OUT, { recursive: true });
   await writeFile(path.join(OUT, 'strapi-files.json'), JSON.stringify(files, null, 2));
+  // The per-stamp manifest committed here becomes the next run's baseline
+  // (the workflow hydrates it via `git show origin/backups:.../cloudinary-manifest.json`).
   await writeFile(path.join(OUT, 'cloudinary-manifest.json'), JSON.stringify(manifest, null, 2));
   await writeFile(path.join(ROOT, 'cloudinary-upload-plan.json'), JSON.stringify(plan, null, 2));
 
   let ok = 0;
-  for (const r of resources) {
+  for (const r of toDownload) {
     try { await downloadBinary(r); ok += 1; }
     catch (e) { console.error(`  download failed ${r.public_id}: ${e.message}`); }
   }
-  console.log(`Binaries downloaded: ${ok}/${resources.length} -> ${ASSETS}`);
+  console.log(`Binaries downloaded: ${ok}/${toDownload.length} new/changed -> ${ASSETS}`);
   console.log(`Done. Review 'git status' then commit the backup.`);
 }
 
