@@ -13,6 +13,8 @@
     "build:local": "VITE_USE_PROD_API=false tsc -b && vite build",
     "build:prod": "VITE_USE_PROD_API=true tsc -b && vite build",
     "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "preview": "vite preview",
     "deploy": "vercel --prod",
     "deploy:preview": "vercel"
@@ -28,6 +30,7 @@
     "express": "^5.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-helmet-async": "^3.0.0",
     "react-markdown": "^9.1.0",
     "react-photo-album": "^3.2.1",
     "react-router-dom": "^7.9.6",
@@ -36,6 +39,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/react": "^19.2.6",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
@@ -44,10 +49,12 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "jsdom": "^29.1.1",
     "tailwindcss": "^4.1.17",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.47.0",
     "vercel": "^48.10.3",
-    "vite": "^7.2.2"
+    "vite": "^7.2.2",
+    "vitest": "^4.1.10"
   }
 }
