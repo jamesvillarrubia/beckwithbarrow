@@ -27,33 +27,56 @@ interface StrapiEntry {
 
 interface StrapiCollectionResponse {
   data?: StrapiEntry[];
+  meta?: { pagination?: { pageCount?: number } };
 }
+
+const PAGE_SIZE = 100;
 
 /**
  * Fetch every slug from a Strapi collection. Strapi v5 returns flat entries
  * (`entry.slug`); older/v4 shapes nest under `attributes.slug`. Handle both.
- * On any failure, warn and return an empty array so the build proceeds.
+ *
+ * Follows `meta.pagination.pageCount` so the catalog can grow beyond one page
+ * without silently dropping entries. On any failure, warn and return whatever
+ * has been collected so far so the build proceeds.
  */
 async function fetchSlugs(collection: string): Promise<string[]> {
-  const url = `${API_BASE}/${collection}?fields[0]=slug&pagination[pageSize]=100`;
+  const slugs: string[] = [];
+  let page = 1;
+  let pageCount = 1;
+
   try {
-    const res = await fetch(url);
-    if (!res.ok) {
-      console.warn(
-        `[generate-sitemap] ${collection}: HTTP ${res.status} — skipping dynamic URLs for this collection`
-      );
-      return [];
-    }
-    const json = (await res.json()) as StrapiCollectionResponse;
-    const entries = json.data ?? [];
-    return entries
-      .map((entry) => entry.slug ?? entry.attributes?.slug)
-      .filter((slug): slug is string => typeof slug === 'string' && slug.length > 0);
+    do {
+      const url =
+        `${API_BASE}/${collection}?fields[0]=slug` +
+        `&pagination[page]=${page}&pagination[pageSize]=${PAGE_SIZE}`;
+      const res = await fetch(url);
+      if (!res.ok) {
+        console.warn(
+          `[generate-sitemap] ${collection}: HTTP ${res.status} on page ${page} — ` +
+            `returning ${slugs.length} slugs collected so far`
+        );
+        return slugs;
+      }
+      const json = (await res.json()) as StrapiCollectionResponse;
+      const entries = json.data ?? [];
+      for (const entry of entries) {
+        const slug = entry.slug ?? entry.attributes?.slug;
+        if (typeof slug === 'string' && slug.length > 0) {
+          slugs.push(slug);
+        }
+      }
+      pageCount = json.meta?.pagination?.pageCount ?? 1;
+      page += 1;
+    } while (page <= pageCount);
+
+    return slugs;
   } catch (error) {
     console.warn(
-      `[generate-sitemap] Failed to fetch ${collection} (${(error as Error).message}) — falling back to static URLs`
+      `[generate-sitemap] Failed to fetch ${collection} (${(error as Error).message}) — ` +
+        `returning ${slugs.length} slugs collected so far`
     );
-    return [];
+    return slugs;
   }
 }
 

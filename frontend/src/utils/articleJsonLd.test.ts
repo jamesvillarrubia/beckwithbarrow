@@ -33,4 +33,17 @@ describe('buildArticleJsonLd', () => {
     const result = buildArticleJsonLd({ title: 'A Lovely Home' }, url);
     expect('image' in result).toBe(false);
   });
+
+  it('includes datePublished when a publicationDate is present', () => {
+    const result = buildArticleJsonLd(
+      { title: 'A Lovely Home', publicationDate: '2024-05-01' },
+      url
+    );
+    expect(result.datePublished).toBe('2024-05-01');
+  });
+
+  it('omits datePublished when no publicationDate is present', () => {
+    const result = buildArticleJsonLd({ title: 'A Lovely Home' }, url);
+    expect('datePublished' in result).toBe(false);
+  });
 });

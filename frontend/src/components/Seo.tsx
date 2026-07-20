@@ -22,6 +22,11 @@ export interface SeoProps {
   type?: string;
   /** Structured data rendered as an application/ld+json script. */
   jsonLd?: object | object[];
+  /**
+   * When true, emit `<meta name="robots" content="noindex, follow" />` so
+   * crawlers skip indexing this view (e.g. not-found or external-redirect pages).
+   */
+  noindex?: boolean;
 }
 
 const Seo = ({
@@ -31,6 +36,7 @@ const Seo = ({
   ogImage = DEFAULT_OG_IMAGE,
   type = 'website',
   jsonLd,
+  noindex = false,
 }: SeoProps) => {
   const canonicalUrl = `${SITE_URL}${canonicalPath}`;
 
@@ -38,6 +44,7 @@ const Seo = ({
     <Helmet>
       <title>{title}</title>
       <meta name="description" content={description} />
+      {noindex && <meta name="robots" content="noindex, follow" />}
       <link rel="canonical" href={canonicalUrl} />
 
       {/* Open Graph */}

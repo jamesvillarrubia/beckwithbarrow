@@ -35,4 +35,30 @@ describe('Seo', () => {
     const parsed = JSON.parse(script?.textContent ?? '{}');
     expect(parsed['@type']).toBe('WebSite');
   });
+
+  it('does not emit a robots meta when noindex is not set', async () => {
+    render(
+      <HelmetProvider>
+        <Seo title="Home | X" description="d" canonicalPath="/" />
+      </HelmetProvider>
+    );
+
+    await waitFor(() => expect(document.title).toBe('Home | X'));
+
+    expect(document.querySelector('meta[name="robots"]')).toBeNull();
+  });
+
+  it('emits a noindex robots meta when noindex is set', async () => {
+    render(
+      <HelmetProvider>
+        <Seo title="Not Found | X" description="d" canonicalPath="/missing" noindex />
+      </HelmetProvider>
+    );
+
+    await waitFor(() => expect(document.title).toBe('Not Found | X'));
+
+    expect(
+      document.querySelector('meta[name="robots"]')?.getAttribute('content')
+    ).toBe('noindex, follow');
+  });
 });

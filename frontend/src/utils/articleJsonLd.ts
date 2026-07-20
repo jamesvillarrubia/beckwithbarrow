@@ -6,6 +6,7 @@ import { SITE_NAME } from '../config/site';
 
 interface ArticleInput {
   title: string;
+  publicationDate?: string;
   cover?: {
     url: string;
   };
@@ -21,11 +22,13 @@ export interface ArticleJsonLd {
     name: string;
   };
   image?: string;
+  datePublished?: string;
 }
 
 /**
  * Build an Article JSON-LD object for a press article.
- * Omits `image` when the article has no cover.
+ * Omits `image` when the article has no cover and `datePublished` when the
+ * article has no publication date.
  */
 export function buildArticleJsonLd(article: ArticleInput, url: string): ArticleJsonLd {
   const jsonLd: ArticleJsonLd = {
@@ -41,6 +44,10 @@ export function buildArticleJsonLd(article: ArticleInput, url: string): ArticleJ
 
   if (article.cover?.url) {
     jsonLd.image = article.cover.url;
+  }
+
+  if (article.publicationDate) {
+    jsonLd.datePublished = article.publicationDate;
   }
 
   return jsonLd;

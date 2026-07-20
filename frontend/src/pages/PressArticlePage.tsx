@@ -25,7 +25,7 @@ import Seo from '../components/Seo';
 import { apiService } from '../services/api';
 import { truncateForMeta } from '../utils/seoText';
 import { buildArticleJsonLd } from '../utils/articleJsonLd';
-import { SITE_URL } from '../config/site';
+import { SITE_URL, DEFAULT_DESCRIPTION } from '../config/site';
 import { useEffect, useState } from 'react';
 
 /**
@@ -142,6 +142,12 @@ const PressArticlePage = () => {
   if (error || !article) {
     return (
       <div className="min-h-screen bg-white">
+        <Seo
+          title="Not Found | Beckwith Barrow Interior Design"
+          description={DEFAULT_DESCRIPTION}
+          canonicalPath={`/press/${slug}`}
+          noindex
+        />
         <Navigation />
         <Breadcrumb />
         <section className="py-16 px-6 md:px-12 lg:px-16">
@@ -165,6 +171,11 @@ const PressArticlePage = () => {
     );
   }
 
+  // When the article redirects to an external URL, the effect above navigates
+  // away — but the full article briefly renders with an internal canonical.
+  // Mark it noindex so crawlers don't index this internal proxy of external content.
+  const redirectsExternally = Boolean(article.showExternal && article.externalLink);
+
   const articleDescription =
     truncateForMeta(article.excerpt || article.articleContent) ||
     'Beckwith Barrow in the press — featured interior design projects and recognition across The Berkshires and Boston.';
@@ -173,6 +184,7 @@ const PressArticlePage = () => {
   const articleJsonLd = buildArticleJsonLd(
     {
       title: article.title,
+      ...(article.publicationDate ? { publicationDate: article.publicationDate } : {}),
       ...(coverImage ? { cover: { url: coverImage } } : {}),
     },
     `${SITE_URL}/press/${slug}`
@@ -187,6 +199,7 @@ const PressArticlePage = () => {
         type="article"
         jsonLd={articleJsonLd}
         {...(coverImage ? { ogImage: coverImage } : {})}
+        {...(redirectsExternally ? { noindex: true } : {})}
       />
 
       {/* Navigation */}

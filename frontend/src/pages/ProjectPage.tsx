@@ -154,6 +154,12 @@ const ProjectPage = () => {
   if (error || !project) {
     return (
       <div className="bg-white text-black">
+        <Seo
+          title="Not Found | Beckwith Barrow Interior Design"
+          description={DEFAULT_DESCRIPTION}
+          canonicalPath={`/project/${slug}`}
+          noindex
+        />
         <Navigation />
         <Breadcrumb />
         <div className="h-screen flex items-center justify-center">

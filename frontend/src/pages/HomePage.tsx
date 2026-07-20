@@ -20,6 +20,7 @@ import OptimizedImage from '../components/OptimizedImage';
 import Seo from '../components/Seo';
 import { apiService } from '../services/api';
 import { useGlobalSettings } from '../hooks/useGlobalSettings';
+import { DEFAULT_DESCRIPTION } from '../config/site';
 
 interface Project {
   id: number;
@@ -149,6 +150,12 @@ const HomePage = () => {
   if (error) {
     return (
       <div className="bg-white text-black">
+        <Seo
+          title="Not Found | Beckwith Barrow Interior Design"
+          description={DEFAULT_DESCRIPTION}
+          canonicalPath="/"
+          noindex
+        />
         <Navigation />
         <div className="h-screen flex items-center justify-center">
           <div className="text-center">
@@ -164,7 +171,7 @@ const HomePage = () => {
     <div className="bg-white text-black">
       <Seo
         title="Beckwith Barrow Interior Design | The Berkshires & Boston"
-        description="A full-service, boutique interior design firm creating upscale, livable interiors across The Berkshires and Boston."
+        description={DEFAULT_DESCRIPTION}
         canonicalPath="/"
       />
 

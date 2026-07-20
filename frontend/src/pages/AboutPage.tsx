@@ -26,6 +26,7 @@ import OptimizedImage from '../components/OptimizedImage';
 import Seo from '../components/Seo';
 import { apiService } from '../services/api';
 import { useGlobalSettings } from '../hooks/useGlobalSettings';
+import { DEFAULT_DESCRIPTION } from '../config/site';
 
 /**
  * Type definitions for Strapi media
@@ -200,6 +201,12 @@ const AboutPage = () => {
   if (error) {
     return (
       <div className="bg-white text-black">
+        <Seo
+          title="Not Found | Beckwith Barrow Interior Design"
+          description={DEFAULT_DESCRIPTION}
+          canonicalPath="/about"
+          noindex
+        />
         <Navigation />
         <div className="h-screen flex items-center justify-center">
           <div className="text-center">
