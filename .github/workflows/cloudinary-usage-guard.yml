@@ -1,0 +1,40 @@
+name: Cloudinary Usage Guard
+on:
+  schedule:
+    - cron: '37 6 * * *'   # daily 06:37 UTC — catch a spike within a day, not a month
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  issues: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { lfs: false }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      # No install: the script uses only Node built-ins + the local lib.
+      - id: check
+        working-directory: api
+        env:
+          CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
+          CLOUDINARY_KEY: ${{ secrets.CLOUDINARY_KEY }}
+          CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
+          THRESHOLD_PCT: '80'
+        run: node scripts/check-cloudinary-usage.mjs
+      - name: Open issue if over threshold (deduped)
+        if: steps.check.outputs.over == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: ${{ steps.check.outputs.title }}
+          BODY: ${{ steps.check.outputs.body }}
+        run: |
+          # Don't spam: one open issue at a time for this guardrail.
+          existing=$(gh issue list --state open --label cloudinary-usage --json number --jq 'length')
+          if [ "$existing" != "0" ]; then
+            echo "An open cloudinary-usage issue already exists; not duplicating."
+            exit 0
+          fi
+          gh label create cloudinary-usage --color FBCA04 --description "Cloudinary usage guardrail" 2>/dev/null || true
+          printf '%s' "$BODY" | gh issue create --title "$TITLE" --label cloudinary-usage --body-file -
