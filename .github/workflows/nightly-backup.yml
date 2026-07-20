@@ -1,7 +1,7 @@
-name: Nightly Safety Backup
+name: Weekly Safety Backup
 on:
   schedule:
-    - cron: '17 7 * * *'   # 07:17 UTC nightly (off the :00 stampede)
+    - cron: '17 7 * * 0'   # 07:17 UTC Sundays (weekly; nightly re-downloaded every original and blew the Cloudinary bandwidth quota)
   workflow_dispatch: {}
 permissions:
   contents: write
@@ -16,6 +16,22 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '22', cache: 'pnpm' }
       - run: pnpm install --frozen-lockfile
+      - name: Hydrate incremental baseline (previous manifest -> /tmp, outside the repo)
+        run: |
+          # The backup is INCREMENTAL: it downloads only assets that are new or
+          # changed since the last backup. Feed it the newest committed manifest
+          # from the `backups` branch. Written outside the working tree so it can't
+          # interfere with the `git checkout backups` step below.
+          git fetch origin backups --depth=1 || true
+          PREV=$(git ls-tree -r --name-only origin/backups -- api/backups 2>/dev/null \
+            | grep '/cloudinary-manifest.json$' | sort | tail -1 || true)
+          if [ -n "$PREV" ]; then
+            git show "origin/backups:$PREV" > /tmp/prev-manifest.json
+            echo "Baseline: $PREV ($(wc -c < /tmp/prev-manifest.json) bytes)"
+          else
+            echo "[]" > /tmp/prev-manifest.json
+            echo "No previous manifest — full backup this run."
+          fi
       - name: Run read-only backup
         working-directory: api
         env:
@@ -24,6 +40,7 @@ jobs:
           CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
           CLOUDINARY_KEY: ${{ secrets.CLOUDINARY_KEY }}
           CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
+          BACKUP_BASELINE_MANIFEST: /tmp/prev-manifest.json
         run: pnpm backup:safe   # cwd is api/ (working-directory above); package name is my-strapi-project
       - name: Secret-leak guard
         run: |
@@ -47,7 +64,7 @@ jobs:
             echo "No backup changes to commit."
           else
             # --no-verify: the workflow already ran its own secret-leak guard above
-            git commit --no-verify -m "chore(backups): nightly $(date -u +%FT%TZ)"
+            git commit --no-verify -m "chore(backups): weekly $(date -u +%FT%TZ)"
             # push LFS objects first so the ref push isn't rejected (GH008 dangling pointers)
             git lfs push --all origin backups
             git push origin backups
