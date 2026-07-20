@@ -24,6 +24,8 @@ import OptimizedImage from '../components/OptimizedImage';
 import Seo from '../components/Seo';
 import { apiService } from '../services/api';
 import { truncateForMeta } from '../utils/seoText';
+import { buildArticleJsonLd } from '../utils/articleJsonLd';
+import { SITE_URL } from '../config/site';
 import { useEffect, useState } from 'react';
 
 /**
@@ -168,6 +170,14 @@ const PressArticlePage = () => {
     'Beckwith Barrow in the press — featured interior design projects and recognition across The Berkshires and Boston.';
   const coverImage = getImageUrl(article.cover) || undefined;
 
+  const articleJsonLd = buildArticleJsonLd(
+    {
+      title: article.title,
+      ...(coverImage ? { cover: { url: coverImage } } : {}),
+    },
+    `${SITE_URL}/press/${slug}`
+  );
+
   return (
     <div className="min-h-screen bg-white">
       <Seo
@@ -175,6 +185,7 @@ const PressArticlePage = () => {
         description={articleDescription}
         canonicalPath={`/press/${slug}`}
         type="article"
+        jsonLd={articleJsonLd}
         {...(coverImage ? { ogImage: coverImage } : {})}
       />
 
