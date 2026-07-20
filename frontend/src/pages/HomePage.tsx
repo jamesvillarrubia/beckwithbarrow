@@ -17,6 +17,7 @@ import Navigation from '../components/Navigation';
 import ProjectGrid from '../components/ProjectGrid';
 import AnimatedSection from '../components/AnimatedSection';
 import OptimizedImage from '../components/OptimizedImage';
+import Seo from '../components/Seo';
 import { apiService } from '../services/api';
 import { useGlobalSettings } from '../hooks/useGlobalSettings';
 
@@ -161,9 +162,15 @@ const HomePage = () => {
 
   return (
     <div className="bg-white text-black">
+      <Seo
+        title="Beckwith Barrow Interior Design | The Berkshires & Boston"
+        description="A full-service, boutique interior design firm creating upscale, livable interiors across The Berkshires and Boston."
+        canonicalPath="/"
+      />
+
       {/* Navigation */}
       <Navigation />
-      
+
       {/* Hero Section - 100vh with dual images and centered text */}
       <section className="relative h-screen flex bg-black overflow-hidden">
         {/* Left Image */}

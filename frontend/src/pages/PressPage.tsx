@@ -19,6 +19,7 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
 import OptimizedImage from '../components/OptimizedImage';
+import Seo from '../components/Seo';
 import { apiService } from '../services/api';
 
 /**
@@ -71,6 +72,14 @@ const PressPage = () => {
   const pressPage = pressPageData?.data as PressPageData;
   const articles = (pressPage?.pressArticles || []) as PressArticle[];
 
+  const pressSeo = (
+    <Seo
+      title="Press | Beckwith Barrow Interior Design"
+      description="Beckwith Barrow in the press — featured interior design projects and recognition across The Berkshires and Boston."
+      canonicalPath="/press"
+    />
+  );
+
   /**
    * Helper function to format date strings
    * Converts ISO date to readable format (e.g., "January 15, 2024")
@@ -114,6 +123,7 @@ const PressPage = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-white">
+        {pressSeo}
         <Navigation />
         <Breadcrumb />
 
@@ -139,6 +149,8 @@ const PressPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      {pressSeo}
+
       {/* Navigation */}
       <Navigation />
 

@@ -23,6 +23,7 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
 import OptimizedImage from '../components/OptimizedImage';
+import Seo from '../components/Seo';
 import { apiService } from '../services/api';
 import { useGlobalSettings } from '../hooks/useGlobalSettings';
 
@@ -212,6 +213,12 @@ const AboutPage = () => {
 
   return (
     <div className="bg-white text-black">
+      <Seo
+        title="About | Beckwith Barrow Interior Design"
+        description="Meet Beckwith Barrow — a boutique interior design studio delivering full-service, upscale residential design in The Berkshires and Boston."
+        canonicalPath="/about"
+      />
+
       {/* Navigation */}
       <Navigation />
 

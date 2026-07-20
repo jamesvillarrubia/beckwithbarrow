@@ -19,6 +19,7 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
 import OptimizedImage from '../components/OptimizedImage';
+import Seo from '../components/Seo';
 import { apiService } from '../services/api';
 
 /**
@@ -216,9 +217,15 @@ const ApproachPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <Seo
+        title="Our Approach | Beckwith Barrow Interior Design"
+        description="Our collaborative, detail-driven interior design process for upscale homes across The Berkshires and Boston."
+        canonicalPath="/approach"
+      />
+
       {/* Navigation */}
       <Navigation />
-      
+
       {/* Breadcrumb Navigation */}
       <Breadcrumb />
 

@@ -21,7 +21,9 @@ import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
 import OptimizedImage from '../components/OptimizedImage';
+import Seo from '../components/Seo';
 import { apiService } from '../services/api';
+import { truncateForMeta } from '../utils/seoText';
 import { useEffect, useState } from 'react';
 
 /**
@@ -161,8 +163,21 @@ const PressArticlePage = () => {
     );
   }
 
+  const articleDescription =
+    truncateForMeta(article.excerpt || article.articleContent) ||
+    'Beckwith Barrow in the press — featured interior design projects and recognition across The Berkshires and Boston.';
+  const coverImage = getImageUrl(article.cover) || undefined;
+
   return (
     <div className="min-h-screen bg-white">
+      <Seo
+        title={`${article.title} | Press | Beckwith Barrow`}
+        description={articleDescription}
+        canonicalPath={`/press/${slug}`}
+        type="article"
+        {...(coverImage ? { ogImage: coverImage } : {})}
+      />
+
       {/* Navigation */}
       <Navigation />
 
