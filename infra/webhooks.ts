@@ -121,7 +121,18 @@ export class VercelDeployHook extends dynamic.Resource {
       vercelDeployHookProvider,
       name,
       { hookId: undefined, hookUrl: undefined, ...args },
-      opts
+      {
+        ...opts,
+        // Without this the token is a plain input: Pulumi renders it in clear
+        // text in every `preview`/`up` diff (so it lands in CI logs) and stores
+        // it unencrypted in stack state. The hook URL is a deploy trigger, so
+        // it is treated as a secret too.
+        additionalSecretOutputs: [
+          "apiToken",
+          "hookUrl",
+          ...(opts?.additionalSecretOutputs ?? []),
+        ],
+      }
     );
   }
 }

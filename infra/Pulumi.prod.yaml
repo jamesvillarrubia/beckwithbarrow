@@ -3,7 +3,7 @@ config:
     secure: AAABAGQyK/hIQLHfh9F49pjb5hAHc7GJfwej8nnSWI3aJtT8LL72tfvoa7mVunaP6QrKMN4CwCEqahGnvTH96FI3AUQ=
   beckwithbarrow-infra:recaptchaSecretKey:
     secure: AAABAI/mhEoaU4xovJOEIA/qoEuEITm8BMlJC/OWmlPGYbGQovdZoPZOJOnUzydEiv9PajdvpNeQCGCFnY4BGdyNTPGPvqUh
-  beckwithbarrow-infra:contactEmail: hello@beckwithbarrow.com
+  beckwithbarrow-infra:contactEmail: design@beckwithbarrow.com
   beckwithbarrow-infra:viteProdApiUrl: https://striking-ball-b079f8c4b0.strapiapp.com/api
   beckwithbarrow-infra:viteUseProdApi: "true"
   beckwithbarrow-infra:viteRecaptchaSiteKey: 6LeG6uArAAAAAPDggSQKZfGozxGX_gdXcHrvED03
