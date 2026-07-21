@@ -58,7 +58,7 @@ new vercel.ProjectDomain(
 // To populate a fresh stack:
 //   pulumi config set --secret resendApiKey         re_xxx
 //   pulumi config set --secret recaptchaSecretKey   6LeG6u...
-//   pulumi config set contactEmail                  hello@beckwithbarrow.com
+//   pulumi config set contactEmail                  design@beckwithbarrow.com
 //   pulumi config set viteProdApiUrl                https://striking-ball-b079f8c4b0.strapiapp.com/api
 //   pulumi config set viteUseProdApi                true
 //   pulumi config set viteRecaptchaSiteKey          6LeG6uAr...
