@@ -1,5 +1,6 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as vercel from "@pulumiverse/vercel";
+import { VercelDeployHook } from "./webhooks";
 
 const config = new pulumi.Config();
 
@@ -99,10 +100,32 @@ envVars.forEach(({ key, value, sensitive }) => {
 });
 
 // ---------------------------------------------------------------------------
+// Rebuild Webhook Pipeline
+// ---------------------------------------------------------------------------
+// Pulumi creates the Vercel deploy hook and outputs its URL.
+// The Strapi webhook must be registered manually once:
+//   Strapi admin → Settings → Webhooks → Add webhook
+//   Name: vercel-rebuild
+//   URL: <deployHookUrl output from `pulumi stack output deployHookUrl`>
+//   Events: Entry (publish, unpublish), Media (create, delete)
+//
+// The URL only changes if the deploy hook is destroyed and recreated.
+
+const vercelApiToken = process.env.VERCEL_API_TOKEN ?? "";
+
+const deployHook = new VercelDeployHook("strapi-publish-hook", {
+  projectId: project.id,
+  name: "strapi-publish",
+  ref: "main",
+  apiToken: vercelApiToken,
+});
+
+// ---------------------------------------------------------------------------
 // Outputs
 // ---------------------------------------------------------------------------
 export const projectId = project.id;
 export const projectUrl = "https://beckwithbarrow.com";
+export const deployHookUrl = deployHook.hookUrl;
 
 // ---------------------------------------------------------------------------
 // STRAPI CLOUD — Manual configuration required

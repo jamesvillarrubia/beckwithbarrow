@@ -1,0 +1,23 @@
+config:
+  beckwithbarrow-infra:resendApiKey:
+    secure: AAABAGQyK/hIQLHfh9F49pjb5hAHc7GJfwej8nnSWI3aJtT8LL72tfvoa7mVunaP6QrKMN4CwCEqahGnvTH96FI3AUQ=
+  beckwithbarrow-infra:recaptchaSecretKey:
+    secure: AAABAI/mhEoaU4xovJOEIA/qoEuEITm8BMlJC/OWmlPGYbGQovdZoPZOJOnUzydEiv9PajdvpNeQCGCFnY4BGdyNTPGPvqUh
+  beckwithbarrow-infra:contactEmail: hello@beckwithbarrow.com
+  beckwithbarrow-infra:viteProdApiUrl: https://striking-ball-b079f8c4b0.strapiapp.com/api
+  beckwithbarrow-infra:viteUseProdApi: "true"
+  beckwithbarrow-infra:viteRecaptchaSiteKey: 6LeG6uArAAAAAPDggSQKZfGozxGX_gdXcHrvED03
+  beckwithbarrow-infra:strapiAppKeys:
+    secure: AAABANSDEfUQUElNRyd/80vfhmdL/ZrVC0/7R69sWuulv84P9MWLh9M30dTyV9zZug9zmNcqwW9gUT/f4QkAvZPrZ06UKE1hG364Q+Uo+jRDHa7p2oKP5WkS+LKGtV/l+P06CYDoL6R/Rk6n0UOj6Vn0AdNDpFZbHOeDQYtmQC5FLFU=
+  beckwithbarrow-infra:strapiApiTokenSalt:
+    secure: AAABADFV/zzF7e7f/X2TbvMKcSFB+JbpMB07bk6bD7qXkGVdJQWLOE4nfDQR3JpY+NeUdcX5F/0=
+  beckwithbarrow-infra:strapiAdminJwtSecret:
+    secure: AAABAG6JrlnsGcL60CkNCekQTKr5LYsraMH9uKA47v+cZzZ6TEGN5iWjuRataWKeWs9up6TTdpI=
+  beckwithbarrow-infra:strapiJwtSecret:
+    secure: AAABABYI1wNDwQyh1h5cAC98xDGS3/awAcHqvYM84LakHRsiFIHydBYQAjZWd0UvmlkeQqyOgow=
+  beckwithbarrow-infra:strapiEncryptionKey:
+    secure: AAABAHvsvyJv3jFowtJbczJ0QkGueOBxOd2AkepNzw7xJ9CJUwTthNs39SDu/ll28j6CLq/D
+  beckwithbarrow-infra:cloudinarySecret:
+    secure: AAABABUBSrbN5qrV2QMa64s8BFrvZkxnZPHC0SUsdPpFRyMg1ulAKSvi1kmdO7F3P8LMiiHiBO0sTgM=
+  beckwithbarrow-infra:cloudinaryName: dqeqavdd8
+  beckwithbarrow-infra:cloudinaryKey: "865956219142244"

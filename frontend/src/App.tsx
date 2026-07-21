@@ -17,6 +17,7 @@ import { lazy, Suspense } from 'react';
 import { useSmartPrefetch } from './hooks/usePrefetchPages';
 import { useCacheClear } from './hooks/useCacheClear';
 import { CACHE_KEY, CACHE_VERSION } from './constants/cache';
+import staticData from './generated/static-data.json';
 
 // Lazy load pages for better code splitting
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -89,6 +90,45 @@ const cleanupOldCaches = () => {
 
 // Run cleanup on app initialization
 cleanupOldCaches();
+
+/**
+ * Seed the React Query cache with build-time static data.
+ * Only seeds entries not already in the localStorage cache so returning
+ * visitors keep their fresher data. New visitors get instant first paint
+ * from the CDN-served static data — no cold Strapi backend required.
+ */
+const seedStaticCache = () => {
+  const existingCache = localStorage.getItem(CACHE_KEY);
+  const existingKeys: Set<string> = new Set();
+
+  if (existingCache) {
+    try {
+      const parsed = JSON.parse(existingCache) as { clientState?: { queries?: Array<{ queryKey: unknown }> } };
+      for (const query of parsed.clientState?.queries ?? []) {
+        existingKeys.add(JSON.stringify(query.queryKey));
+      }
+    } catch {
+      // Corrupt cache — will be overwritten naturally
+    }
+  }
+
+  let seeded = 0;
+  for (const [rawKey, data] of Object.entries(staticData)) {
+    if (existingKeys.has(rawKey)) continue;
+    try {
+      queryClient.setQueryData(JSON.parse(rawKey) as unknown[], data);
+      seeded++;
+    } catch {
+      // Malformed key — skip silently
+    }
+  }
+
+  if (seeded > 0) {
+    console.log(`🗄️  Seeded ${seeded} entries from build-time static data`);
+  }
+};
+
+seedStaticCache();
 
 /**
  * AppContent - Internal component that has access to QueryClient context
