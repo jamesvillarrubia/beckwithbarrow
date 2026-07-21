@@ -6,6 +6,19 @@ on:
     paths:
       - "frontend/**"
       - "infra/**"
+  # Infra diffs are visible before merge instead of first appearing in prod.
+  pull_request:
+    paths:
+      - "frontend/**"
+      - "infra/**"
+  # On-demand redeploy — the point of keeping infra in code is being able to
+  # rebuild it somewhere else quickly without waiting for a push.
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Apply changes (pulumi up). Unchecked = preview only."
+        type: boolean
+        default: false
 
 jobs:
   deploy:
@@ -15,17 +28,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # No `version:` here. package.json now sets "packageManager": "pnpm@10.6.2",
-      # and action-setup errors out if a version is specified in both places.
+      # No `version:` here. package.json sets "packageManager": "pnpm@10.6.2",
+      # and action-setup errors out if a version is given in both places.
       - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: "pnpm"
-          cache-dependency-path: |
-            frontend/pnpm-lock.yaml
-            infra/pnpm-lock.yaml
+          # Root lockfile only. The per-package lockfiles were untracked because
+          # pnpm ignores nested lockfiles in a workspace.
+          cache-dependency-path: pnpm-lock.yaml
 
       # --- Build frontend (validates before deploy) ---
       - name: Install frontend dependencies
@@ -45,12 +58,25 @@ jobs:
         run: pnpm install --frozen-lockfile
         working-directory: infra
 
+      # `up` only on main, or on a manual run that explicitly opted in.
+      # Everything else — including every PR — is a read-only preview.
+      - name: Resolve Pulumi command
+        id: pulumi_cmd
+        run: |
+          if [ "${{ github.event_name }}" = "push" ] \
+            || [ "${{ inputs.apply }}" = "true" ]; then
+            echo "command=up" >> "$GITHUB_OUTPUT"
+          else
+            echo "command=preview" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: pulumi/actions@v5
         with:
-          command: up
+          command: ${{ steps.pulumi_cmd.outputs.command }}
           stack-name: prod
           work-dir: infra
           refresh: true
+          comment-on-pr: true
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           VERCEL_API_TOKEN: ${{ secrets.VERCEL_API_TOKEN }}
