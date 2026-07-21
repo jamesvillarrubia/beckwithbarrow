@@ -86,12 +86,12 @@ export function useRecaptcha() {
 
       // Set up global callback for reCAPTCHA explicit render mode
       const callbackName = '__recaptchaOnLoad__';
-      (window as any)[callbackName] = () => {
+      (window as unknown as Record<string, unknown>)[callbackName] = () => {
         clearTimeout(timeoutId);
         scriptLoadingState = 'loaded';
         setIsLoaded(true);
         resolve();
-        delete (window as any)[callbackName];
+        delete (window as unknown as Record<string, unknown>)[callbackName];
       };
 
       // Create and inject the script

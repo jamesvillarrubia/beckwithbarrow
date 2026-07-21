@@ -144,11 +144,9 @@ const AboutPage = () => {
   const { data: aboutData, isLoading, error } = useQuery({
     queryKey: ['about'],
     queryFn: async () => {
-      console.log('Fetching about page data from API...');
       try {
         // Populate all fields with wildcard
         const result = await apiService.getSingleType('about', '*');
-        console.log('About API Response:', result);
         return result;
       } catch (err) {
         console.error('About API Error:', err);
@@ -168,19 +166,10 @@ const AboutPage = () => {
    */
   const getImageUrl = (media?: StrapiMedia) => {
     if (!media) {
-      console.log('No media object provided');
       return null;
     }
-    console.log('Image URL:', media.url, 'Media object:', media);
     return media.url;
   };
-
-  // Debug: Log the about content structure
-  if (aboutContent && import.meta.env.DEV) {
-    console.log('About Content:', aboutContent);
-    console.log('Top Left Image:', aboutContent.topLeftImage);
-    console.log('Bottom Right Image:', aboutContent.bottomRightImage);
-  }
 
   // Loading state - show spinner while fetching data
   if (isLoading) {

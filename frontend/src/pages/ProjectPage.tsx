@@ -108,18 +108,16 @@ const ProjectPage = () => {
   const { data: projectData, isLoading, error } = useQuery({
     queryKey: ['project', slug],
     queryFn: async () => {
-      console.log(`Fetching project data for slug: ${slug}`);
       try {
         // First try to find by slug
         const result = await apiService.getCollection('projects', 'images,cover,categories');
         const projects = result.data as Project[];
         const project = projects.find(p => p.slug === slug);
-        
+
         if (!project) {
           throw new Error('Project not found');
         }
-        
-        console.log('Project API Response:', project);
+
         return { data: project };
       } catch (err) {
         console.error('Project API Error:', err);

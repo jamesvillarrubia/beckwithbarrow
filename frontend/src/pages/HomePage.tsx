@@ -109,15 +109,9 @@ const HomePage = () => {
   const { data: homeData, isLoading, error } = useQuery({
     queryKey: ['home'],
     queryFn: async () => {
-      console.log('Fetching home page data from API...');
       try {
         // Populate projects with cover images to get the ordered list from Strapi
         const result = await apiService.getSingleType('home', 'leftImage,rightImage,quote,projects.cover');
-        console.log('Home API Response:', result);
-        const data = result.data as HomeContent;
-        console.log('Number Colors:', data.numberColors);
-        console.log('Quote BG Color:', data.quoteBgColor);
-        console.log('Ordered Projects Count:', data.projects?.length);
         return result;
       } catch (err) {
         console.error('Home API Error:', err);
