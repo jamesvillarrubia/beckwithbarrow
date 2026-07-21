@@ -1,0 +1,3017 @@
+[
+  {
+    "image": {
+      "project": "Garden Home",
+      "type": "cover",
+      "public_id": "bs3dqu15xld3fcj3mjjc",
+      "strapi_name": "rowntree_005_615f5b8698",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994644/bs3dqu15xld3fcj3mjjc.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/rowntree/rowntree_005_615f5b8698.jpg",
+      "match_method": "strapi_name startswith 'rowntree_005_615f5b8698'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Garden Home",
+      "type": "gallery",
+      "public_id": "wqszxaadp4hyzcssmbjv",
+      "strapi_name": "rowntree_006_4593ccc481",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994595/wqszxaadp4hyzcssmbjv.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/rowntree/rowntree_006_4593ccc481.jpg",
+      "match_method": "strapi_name startswith 'rowntree_006_4593ccc481'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Garden Home",
+      "type": "gallery",
+      "public_id": "t96mwoayohjbmg5z3n6m",
+      "strapi_name": "rowntree_004_05c89e9695",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994596/t96mwoayohjbmg5z3n6m.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/rowntree/rowntree_004_05c89e9695.jpg",
+      "match_method": "strapi_name startswith 'rowntree_004_05c89e9695'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Garden Home",
+      "type": "gallery",
+      "public_id": "om3mjp3l7j4apts9ec2u",
+      "strapi_name": "rowntree_014_2973f60dd4",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994608/om3mjp3l7j4apts9ec2u.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/rowntree/rowntree_014_2973f60dd4.jpg",
+      "match_method": "strapi_name startswith 'rowntree_014_2973f60dd4'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Garden Home",
+      "type": "gallery",
+      "public_id": "yoyhtbgkyhvoe3yr3hrp",
+      "strapi_name": "rowntree_008_64e2ec1c45",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994638/yoyhtbgkyhvoe3yr3hrp.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/rowntree/rowntree_008_64e2ec1c45.jpg",
+      "match_method": "strapi_name startswith 'rowntree_008_64e2ec1c45'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Garden Home",
+      "type": "gallery",
+      "public_id": "len8urzv1fe5e9tndqja",
+      "strapi_name": "rowntree_003_2b758b7d4b",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994639/len8urzv1fe5e9tndqja.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/rowntree/rowntree_003_2b758b7d4b.jpg",
+      "match_method": "strapi_name startswith 'rowntree_003_2b758b7d4b'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Garden Home",
+      "type": "gallery",
+      "public_id": "jjxl8tdtepmifsoc6xea",
+      "strapi_name": "rowntree_012_ca6360abb5",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994648/jjxl8tdtepmifsoc6xea.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/rowntree/rowntree_012_ca6360abb5.jpg",
+      "match_method": "strapi_name startswith 'rowntree_012_ca6360abb5'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Lakeside Landing",
+      "type": "cover",
+      "public_id": "gunther_5_6_559aa696d8_eaels6",
+      "strapi_name": "gunther_5_6_559aa696d8_eaels6",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267848/gunther_5_6_559aa696d8_eaels6.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/gunther/gunther_5_6_559aa696d8.jpg",
+      "match_method": "strapi_name startswith 'gunther_5_6_559aa696d8'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Lakeside Landing",
+      "type": "gallery",
+      "public_id": "nuivtdnkk5krhgxjvv5a",
+      "strapi_name": "gunther_5_5d8d157942",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758995571/nuivtdnkk5krhgxjvv5a.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/gunther/gunther_5_5d8d157942.jpg",
+      "match_method": "strapi_name startswith 'gunther_5_5d8d157942'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hearth House",
+      "type": "cover",
+      "public_id": "krant_059_cd9f1bfbef_flathi",
+      "strapi_name": "krant_059_cd9f1bfbef_flathi",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267898/krant_059_cd9f1bfbef_flathi.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/krant/krant_059_cd9f1bfbef.jpg",
+      "match_method": "strapi_name startswith 'krant_059_cd9f1bfbef'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hearth House",
+      "type": "gallery",
+      "public_id": "krant_005_1e607a5eff_e6pjck",
+      "strapi_name": "krant_005_1e607a5eff_e6pjck",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267670/krant_005_1e607a5eff_e6pjck.jpg",
+      "width": 3606,
+      "height": 5352,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/krant/krant_005_1e607a5eff.jpg",
+      "match_method": "strapi_name startswith 'krant_005_1e607a5eff'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hearth House",
+      "type": "gallery",
+      "public_id": "krant_013_bca36f9612_mtge8l",
+      "strapi_name": "krant_013_bca36f9612_mtge8l",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267708/krant_013_bca36f9612_mtge8l.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/krant/krant_013_bca36f9612.jpg",
+      "match_method": "strapi_name startswith 'krant_013_bca36f9612'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hearth House",
+      "type": "gallery",
+      "public_id": "krant_075_8488afbbf8_wg8sfi",
+      "strapi_name": "krant_075_8488afbbf8_wg8sfi",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267710/krant_075_8488afbbf8_wg8sfi.jpg",
+      "width": 5616,
+      "height": 3744,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/krant/krant_075_8488afbbf8.jpg",
+      "match_method": "strapi_name startswith 'krant_075_8488afbbf8'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hearth House",
+      "type": "gallery",
+      "public_id": "krant_232_ede9c95023_deoyqn",
+      "strapi_name": "krant_232_ede9c95023_deoyqn",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267721/krant_232_ede9c95023_deoyqn.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/krant/krant_232_ede9c95023.jpg",
+      "match_method": "strapi_name startswith 'krant_232_ede9c95023'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hearth House",
+      "type": "gallery",
+      "public_id": "krant_126_6f7e0b4591_fbc0pn",
+      "strapi_name": "krant_126_6f7e0b4591_fbc0pn",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267729/krant_126_6f7e0b4591_fbc0pn.jpg",
+      "width": 3468,
+      "height": 4992,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/krant/krant_126_6f7e0b4591.jpg",
+      "match_method": "strapi_name startswith 'krant_126_6f7e0b4591'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hearth House",
+      "type": "gallery",
+      "public_id": "krant_074_e0e746d101_bgdwa0",
+      "strapi_name": "krant_074_e0e746d101_bgdwa0",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267739/krant_074_e0e746d101_bgdwa0.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/krant/krant_074_e0e746d101.jpg",
+      "match_method": "strapi_name startswith 'krant_074_e0e746d101'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hearth House",
+      "type": "gallery",
+      "public_id": "krant_266_37f52970d5_c7lnip",
+      "strapi_name": "krant_266_37f52970d5_c7lnip",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267754/krant_266_37f52970d5_c7lnip.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/krant/krant_266_37f52970d5.jpg",
+      "match_method": "strapi_name startswith 'krant_266_37f52970d5'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hearth House",
+      "type": "gallery",
+      "public_id": "krant_051_622f22849f_rxduzj",
+      "strapi_name": "krant_051_622f22849f_rxduzj",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267765/krant_051_622f22849f_rxduzj.jpg",
+      "width": 5616,
+      "height": 3744,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/krant/krant_051_622f22849f.jpg",
+      "match_method": "strapi_name startswith 'krant_051_622f22849f'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hearth House",
+      "type": "gallery",
+      "public_id": "krant_226_f90add9487_vb3xij",
+      "strapi_name": "krant_226_f90add9487_vb3xij",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267772/krant_226_f90add9487_vb3xij.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/krant/krant_226_f90add9487.jpg",
+      "match_method": "strapi_name startswith 'krant_226_f90add9487'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hearth House",
+      "type": "gallery",
+      "public_id": "krant_108_847b3b41b7_xavgmc",
+      "strapi_name": "krant_108_847b3b41b7_xavgmc",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267862/krant_108_847b3b41b7_xavgmc.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/krant/krant_108_847b3b41b7.jpg",
+      "match_method": "strapi_name startswith 'krant_108_847b3b41b7'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hearth House",
+      "type": "gallery",
+      "public_id": "krant_062_e03b9f70cc_engwmh",
+      "strapi_name": "krant_062_e03b9f70cc_engwmh",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267868/krant_062_e03b9f70cc_engwmh.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/krant/krant_062_e03b9f70cc.jpg",
+      "match_method": "strapi_name startswith 'krant_062_e03b9f70cc'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Beach Cottage",
+      "type": "cover",
+      "public_id": "buhn_11_eefe0f1297_q81kc6",
+      "strapi_name": "buhn_11_eefe0f1297_q81kc6",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267793/buhn_11_eefe0f1297_q81kc6.jpg",
+      "width": 5541,
+      "height": 3694,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/buhn/buhn_11_eefe0f1297.jpg",
+      "match_method": "strapi_name startswith 'buhn_11_eefe0f1297'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Beach Cottage",
+      "type": "gallery",
+      "public_id": "buhn_29_4282b6ceb5_v45fmu",
+      "strapi_name": "buhn_29_4282b6ceb5_v45fmu",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267797/buhn_29_4282b6ceb5_v45fmu.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/buhn/buhn_29_4282b6ceb5.jpg",
+      "match_method": "strapi_name startswith 'buhn_29_4282b6ceb5'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Beach Cottage",
+      "type": "gallery",
+      "public_id": "buhn_8_43518bb47a_eltypw",
+      "strapi_name": "buhn_8_43518bb47a_eltypw",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267873/buhn_8_43518bb47a_eltypw.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/buhn/buhn_8_43518bb47a.jpg",
+      "match_method": "strapi_name startswith 'buhn_8_43518bb47a'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Beach Cottage",
+      "type": "gallery",
+      "public_id": "buhn_17_85dc7ddd6d_etxt9y",
+      "strapi_name": "buhn_17_85dc7ddd6d_etxt9y",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267909/buhn_17_85dc7ddd6d_etxt9y.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/buhn/buhn_17_85dc7ddd6d.jpg",
+      "match_method": "strapi_name startswith 'buhn_17_85dc7ddd6d'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Beach Cottage",
+      "type": "gallery",
+      "public_id": "buhn_22_71d642c87e_pzgoui",
+      "strapi_name": "buhn_22_71d642c87e_pzgoui",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267921/buhn_22_71d642c87e_pzgoui.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/buhn/buhn_22_71d642c87e.jpg",
+      "match_method": "strapi_name startswith 'buhn_22_71d642c87e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Beach Cottage",
+      "type": "gallery",
+      "public_id": "buhn_15_a57efa3e68_fzcams",
+      "strapi_name": "buhn_15_a57efa3e68_fzcams",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267977/buhn_15_a57efa3e68_fzcams.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/buhn/buhn_15_a57efa3e68.jpg",
+      "match_method": "strapi_name startswith 'buhn_15_a57efa3e68'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Beach Cottage",
+      "type": "gallery",
+      "public_id": "i5ioqgfh0s50ujbr20zm",
+      "strapi_name": "buhn_3_3516951f54",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758995567/i5ioqgfh0s50ujbr20zm.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/buhn/buhn_3_3516951f54.jpg",
+      "match_method": "strapi_name startswith 'buhn_3_3516951f54'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Historic Lenox Home",
+      "type": "cover",
+      "public_id": "haythorne_0109_2833091ad0_ihwprc",
+      "strapi_name": "haythorne_0109_2833091ad0_ihwprc",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267664/haythorne_0109_2833091ad0_ihwprc.jpg",
+      "width": 1616,
+      "height": 2364,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/haythorne/haythorne_0109_2833091ad0.jpg",
+      "match_method": "strapi_name startswith 'haythorne_0109_2833091ad0'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Historic Lenox Home",
+      "type": "gallery",
+      "public_id": "haythorne_010609_85b564bd02_p1admv",
+      "strapi_name": "haythorne_010609_85b564bd02_p1admv",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267683/haythorne_010609_85b564bd02_p1admv.jpg",
+      "width": 2832,
+      "height": 4256,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/haythorne/haythorne_010609_85b564bd02.jpg",
+      "match_method": "strapi_name startswith 'haythorne_010609_85b564bd02'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Historic Lenox Home",
+      "type": "gallery",
+      "public_id": "haythorne_0109_2_6fb4bb31b7_kvirll",
+      "strapi_name": "haythorne_0109_2_6fb4bb31b7_kvirll",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267700/haythorne_0109_2_6fb4bb31b7_kvirll.jpg",
+      "width": 4238,
+      "height": 2835,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/haythorne/haythorne_0109_2_6fb4bb31b7.jpg",
+      "match_method": "strapi_name startswith 'haythorne_0109_2_6fb4bb31b7'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Historic Lenox Home",
+      "type": "gallery",
+      "public_id": "haythorne_0109_1_c56081938c_eonr28",
+      "strapi_name": "haythorne_0109_1_c56081938c_eonr28",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267787/haythorne_0109_1_c56081938c_eonr28.jpg",
+      "width": 4247,
+      "height": 2837,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/haythorne/haythorne_0109_1_c56081938c.jpg",
+      "match_method": "strapi_name startswith 'haythorne_0109_1_c56081938c'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "cover",
+      "public_id": "onota_010_8c085ac083_bpw51l",
+      "strapi_name": "onota_010_8c085ac083_bpw51l",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268100/onota_010_8c085ac083_bpw51l.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_010_8c085ac083.jpg",
+      "match_method": "strapi_name startswith 'onota_010_8c085ac083'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_003_e011c8d54c_qkzid3",
+      "strapi_name": "onota_003_e011c8d54c_qkzid3",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268072/onota_003_e011c8d54c_qkzid3.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_003_e011c8d54c.jpg",
+      "match_method": "strapi_name startswith 'onota_003_e011c8d54c'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_005_464f9e387d_uxjruo",
+      "strapi_name": "onota_005_464f9e387d_uxjruo",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267640/onota_005_464f9e387d_uxjruo.jpg",
+      "width": 6720,
+      "height": 4480,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_005_464f9e387d.jpg",
+      "match_method": "strapi_name startswith 'onota_005_464f9e387d'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_002_23c8fed7b6_eqdlpr",
+      "strapi_name": "onota_002_23c8fed7b6_eqdlpr",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268076/onota_002_23c8fed7b6_eqdlpr.jpg",
+      "width": 6720,
+      "height": 4480,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_002_23c8fed7b6.jpg",
+      "match_method": "strapi_name startswith 'onota_002_23c8fed7b6'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_012_8e3bdd1ea7_axcatm",
+      "strapi_name": "onota_012_8e3bdd1ea7_axcatm",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268078/onota_012_8e3bdd1ea7_axcatm.jpg",
+      "width": 6720,
+      "height": 4480,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_012_8e3bdd1ea7.jpg",
+      "match_method": "strapi_name startswith 'onota_012_8e3bdd1ea7'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_004_907d487205_shkliw",
+      "strapi_name": "onota_004_907d487205_shkliw",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267642/onota_004_907d487205_shkliw.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_004_907d487205.jpg",
+      "match_method": "strapi_name startswith 'onota_004_907d487205'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_015_c3a427eac2_pnvzxl",
+      "strapi_name": "onota_015_c3a427eac2_pnvzxl",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268081/onota_015_c3a427eac2_pnvzxl.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_015_c3a427eac2.jpg",
+      "match_method": "strapi_name startswith 'onota_015_c3a427eac2'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_008_1f9850c3dc_aac1ko",
+      "strapi_name": "onota_008_1f9850c3dc_aac1ko",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268083/onota_008_1f9850c3dc_aac1ko.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_008_1f9850c3dc.jpg",
+      "match_method": "strapi_name startswith 'onota_008_1f9850c3dc'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_001_4515044a3b_wnghai",
+      "strapi_name": "onota_001_4515044a3b_wnghai",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268085/onota_001_4515044a3b_wnghai.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_001_4515044a3b.jpg",
+      "match_method": "strapi_name startswith 'onota_001_4515044a3b'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_006_81154721ff_v54xg6",
+      "strapi_name": "onota_006_81154721ff_v54xg6",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268087/onota_006_81154721ff_v54xg6.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_006_81154721ff.jpg",
+      "match_method": "strapi_name startswith 'onota_006_81154721ff'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_017_42e7dd2d00_a83ads",
+      "strapi_name": "onota_017_42e7dd2d00_a83ads",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268089/onota_017_42e7dd2d00_a83ads.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_017_42e7dd2d00.jpg",
+      "match_method": "strapi_name startswith 'onota_017_42e7dd2d00'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_011_2ddb23e1a4_e7e63e",
+      "strapi_name": "onota_011_2ddb23e1a4_e7e63e",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268091/onota_011_2ddb23e1a4_e7e63e.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_011_2ddb23e1a4.jpg",
+      "match_method": "strapi_name startswith 'onota_011_2ddb23e1a4'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_016_9a3909aa4e_wecvtm",
+      "strapi_name": "onota_016_9a3909aa4e_wecvtm",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268092/onota_016_9a3909aa4e_wecvtm.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_016_9a3909aa4e.jpg",
+      "match_method": "strapi_name startswith 'onota_016_9a3909aa4e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_007_5e946d394e_finzv7",
+      "strapi_name": "onota_007_5e946d394e_finzv7",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268094/onota_007_5e946d394e_finzv7.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_007_5e946d394e.jpg",
+      "match_method": "strapi_name startswith 'onota_007_5e946d394e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_009_dd2d4daa0e_re0foq",
+      "strapi_name": "onota_009_dd2d4daa0e_re0foq",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268096/onota_009_dd2d4daa0e_re0foq.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_009_dd2d4daa0e.jpg",
+      "match_method": "strapi_name startswith 'onota_009_dd2d4daa0e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_020_e24a829a41_mcvj94",
+      "strapi_name": "onota_020_e24a829a41_mcvj94",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268098/onota_020_e24a829a41_mcvj94.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_020_e24a829a41.jpg",
+      "match_method": "strapi_name startswith 'onota_020_e24a829a41'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_018_95883eb7c7_fqrotn",
+      "strapi_name": "onota_018_95883eb7c7_fqrotn",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268102/onota_018_95883eb7c7_fqrotn.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_018_95883eb7c7.jpg",
+      "match_method": "strapi_name startswith 'onota_018_95883eb7c7'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_019_fa2f2d31ca_ccutfa",
+      "strapi_name": "onota_019_fa2f2d31ca_ccutfa",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268104/onota_019_fa2f2d31ca_ccutfa.jpg",
+      "width": 6720,
+      "height": 4480,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_019_fa2f2d31ca.jpg",
+      "match_method": "strapi_name startswith 'onota_019_fa2f2d31ca'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_014_de0552b0eb_x8lqer",
+      "strapi_name": "onota_014_de0552b0eb_x8lqer",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268106/onota_014_de0552b0eb_x8lqer.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_014_de0552b0eb.jpg",
+      "match_method": "strapi_name startswith 'onota_014_de0552b0eb'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Modern Lake House",
+      "type": "gallery",
+      "public_id": "onota_013_305cddfbef_khr5ux",
+      "strapi_name": "onota_013_305cddfbef_khr5ux",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268107/onota_013_305cddfbef_khr5ux.jpg",
+      "width": 4480,
+      "height": 6720,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/onota/onota_013_305cddfbef.jpg",
+      "match_method": "strapi_name startswith 'onota_013_305cddfbef'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Cutwater House",
+      "type": "cover",
+      "public_id": "agricola_001_79b9a5f78b_hmdvaj",
+      "strapi_name": "agricola_001_79b9a5f78b_hmdvaj",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267697/agricola_001_79b9a5f78b_hmdvaj.jpg",
+      "width": 5016,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/agricola/agricola_001_79b9a5f78b.jpg",
+      "match_method": "strapi_name startswith 'agricola_001_79b9a5f78b'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Cutwater House",
+      "type": "gallery",
+      "public_id": "agricola_019_d4bb58b9ea_kjxjeq",
+      "strapi_name": "agricola_019_d4bb58b9ea_kjxjeq",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267706/agricola_019_d4bb58b9ea_kjxjeq.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/agricola/agricola_019_d4bb58b9ea.jpg",
+      "match_method": "strapi_name startswith 'agricola_019_d4bb58b9ea'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Cutwater House",
+      "type": "gallery",
+      "public_id": "agricola_005_bed7f659de_pdlgai",
+      "strapi_name": "agricola_005_bed7f659de_pdlgai",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267712/agricola_005_bed7f659de_pdlgai.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/agricola/agricola_005_bed7f659de.jpg",
+      "match_method": "strapi_name startswith 'agricola_005_bed7f659de'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Cutwater House",
+      "type": "gallery",
+      "public_id": "agricola_002_33bc28a006_lz5lwp",
+      "strapi_name": "agricola_002_33bc28a006_lz5lwp",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267715/agricola_002_33bc28a006_lz5lwp.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/agricola/agricola_002_33bc28a006.jpg",
+      "match_method": "strapi_name startswith 'agricola_002_33bc28a006'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Cutwater House",
+      "type": "gallery",
+      "public_id": "agricola_010_684151a987_vqjomt",
+      "strapi_name": "agricola_010_684151a987_vqjomt",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267749/agricola_010_684151a987_vqjomt.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/agricola/agricola_010_684151a987.jpg",
+      "match_method": "strapi_name startswith 'agricola_010_684151a987'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Cutwater House",
+      "type": "gallery",
+      "public_id": "agricola_014_c1b8582d2c_yd5mit",
+      "strapi_name": "agricola_014_c1b8582d2c_yd5mit",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267760/agricola_014_c1b8582d2c_yd5mit.jpg",
+      "width": 5689,
+      "height": 3523,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/agricola/agricola_014_c1b8582d2c.jpg",
+      "match_method": "strapi_name startswith 'agricola_014_c1b8582d2c'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Cutwater House",
+      "type": "gallery",
+      "public_id": "agricola_036_eda568f00a_cukenn",
+      "strapi_name": "agricola_036_eda568f00a_cukenn",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267782/agricola_036_eda568f00a_cukenn.jpg",
+      "width": 5549,
+      "height": 3740,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/agricola/agricola_036_eda568f00a.jpg",
+      "match_method": "strapi_name startswith 'agricola_036_eda568f00a'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Cutwater House",
+      "type": "gallery",
+      "public_id": "agricola_021_0d0cf03ea1_nrtaal",
+      "strapi_name": "agricola_021_0d0cf03ea1_nrtaal",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267784/agricola_021_0d0cf03ea1_nrtaal.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/agricola/agricola_021_0d0cf03ea1.jpg",
+      "match_method": "strapi_name startswith 'agricola_021_0d0cf03ea1'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Cutwater House",
+      "type": "gallery",
+      "public_id": "agricola_043_5367488425_qngqxn",
+      "strapi_name": "agricola_043_5367488425_qngqxn",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267786/agricola_043_5367488425_qngqxn.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/agricola/agricola_043_5367488425.jpg",
+      "match_method": "strapi_name startswith 'agricola_043_5367488425'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Cutwater House",
+      "type": "gallery",
+      "public_id": "agricola_028_d307beb4cc_mdr055",
+      "strapi_name": "agricola_028_d307beb4cc_mdr055",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267804/agricola_028_d307beb4cc_mdr055.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/agricola/agricola_028_d307beb4cc.jpg",
+      "match_method": "strapi_name startswith 'agricola_028_d307beb4cc'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Cutwater House",
+      "type": "gallery",
+      "public_id": "agricola_040_8eff9e5d77_a09vor",
+      "strapi_name": "agricola_040_8eff9e5d77_a09vor",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267871/agricola_040_8eff9e5d77_a09vor.jpg",
+      "width": 3742,
+      "height": 5613,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/agricola/agricola_040_8eff9e5d77.jpg",
+      "match_method": "strapi_name startswith 'agricola_040_8eff9e5d77'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Meadow House",
+      "type": "cover",
+      "public_id": "hetherington_40_2_0e563f1316_kizy7t",
+      "strapi_name": "hetherington_40_2_0e563f1316_kizy7t",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267686/hetherington_40_2_0e563f1316_kizy7t.jpg",
+      "width": 1813,
+      "height": 2427,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/hetherington/hetherington_40_2_0e563f1316.jpg",
+      "match_method": "strapi_name startswith 'hetherington_40_2_0e563f1316'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Meadow House",
+      "type": "gallery",
+      "public_id": "hetherington_40_3_0cd91d1df3_bpgcvh",
+      "strapi_name": "hetherington_40_3_0cd91d1df3_bpgcvh",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267666/hetherington_40_3_0cd91d1df3_bpgcvh.jpg",
+      "width": 1600,
+      "height": 2475,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/hetherington/hetherington_40_3_0cd91d1df3.jpg",
+      "match_method": "strapi_name startswith 'hetherington_40_3_0cd91d1df3'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Meadow House",
+      "type": "gallery",
+      "public_id": "hetherington_40_b331c85b6a_ynstoo",
+      "strapi_name": "hetherington_40_b331c85b6a_ynstoo",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267692/hetherington_40_b331c85b6a_ynstoo.jpg",
+      "width": 2422,
+      "height": 1743,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/hetherington/hetherington_40_b331c85b6a.jpg",
+      "match_method": "strapi_name startswith 'hetherington_40_b331c85b6a'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Meadow House",
+      "type": "gallery",
+      "public_id": "hetherington_021_bae7fada68_omibvx",
+      "strapi_name": "hetherington_021_bae7fada68_omibvx",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267752/hetherington_021_bae7fada68_omibvx.jpg",
+      "width": 5616,
+      "height": 3744,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/hetherington/hetherington_021_bae7fada68.jpg",
+      "match_method": "strapi_name startswith 'hetherington_021_bae7fada68'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Meadow House",
+      "type": "gallery",
+      "public_id": "hetherington_001_943c346dae_nhjtkc",
+      "strapi_name": "hetherington_001_943c346dae_nhjtkc",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267800/hetherington_001_943c346dae_nhjtkc.jpg",
+      "width": 5616,
+      "height": 3744,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/hetherington/hetherington_001_943c346dae.jpg",
+      "match_method": "strapi_name startswith 'hetherington_001_943c346dae'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Summer Hill House",
+      "type": "cover",
+      "public_id": "dineen_007_321e72f236_sdoe7o",
+      "strapi_name": "dineen_007_321e72f236_sdoe7o",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267742/dineen_007_321e72f236_sdoe7o.jpg",
+      "width": 3328,
+      "height": 4992,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/dineen/dineen_007_321e72f236.jpg",
+      "match_method": "strapi_name startswith 'dineen_007_321e72f236'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Summer Hill House",
+      "type": "gallery",
+      "public_id": "dineen_011_0549b9b135_g4lfww",
+      "strapi_name": "dineen_011_0549b9b135_g4lfww",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267672/dineen_011_0549b9b135_g4lfww.jpg",
+      "width": 4698,
+      "height": 3132,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/dineen/dineen_011_0549b9b135.jpg",
+      "match_method": "strapi_name startswith 'dineen_011_0549b9b135'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Summer Hill House",
+      "type": "gallery",
+      "public_id": "dineen_039_5357e7219d_aja1ea",
+      "strapi_name": "dineen_039_5357e7219d_aja1ea",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267725/dineen_039_5357e7219d_aja1ea.jpg",
+      "width": 3328,
+      "height": 4992,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/dineen/dineen_039_5357e7219d.jpg",
+      "match_method": "strapi_name startswith 'dineen_039_5357e7219d'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Summer Hill House",
+      "type": "gallery",
+      "public_id": "dineen_005_502fc74d58_wpjlyt",
+      "strapi_name": "dineen_005_502fc74d58_wpjlyt",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267733/dineen_005_502fc74d58_wpjlyt.jpg",
+      "width": 4992,
+      "height": 3328,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/dineen/dineen_005_502fc74d58.jpg",
+      "match_method": "strapi_name startswith 'dineen_005_502fc74d58'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Summer Hill House",
+      "type": "gallery",
+      "public_id": "dineen_017_0da775d5ab_ygdz02",
+      "strapi_name": "dineen_017_0da775d5ab_ygdz02",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267735/dineen_017_0da775d5ab_ygdz02.jpg",
+      "width": 3328,
+      "height": 4992,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/dineen/dineen_017_0da775d5ab.jpg",
+      "match_method": "strapi_name startswith 'dineen_017_0da775d5ab'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Summer Hill House",
+      "type": "gallery",
+      "public_id": "dineen_079_b39444c428_qebvwk",
+      "strapi_name": "dineen_079_b39444c428_qebvwk",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267745/dineen_079_b39444c428_qebvwk.jpg",
+      "width": 4992,
+      "height": 3328,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/dineen/dineen_079_b39444c428.jpg",
+      "match_method": "strapi_name startswith 'dineen_079_b39444c428'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Summer Hill House",
+      "type": "gallery",
+      "public_id": "dineen_034_4d1fdcca77_zt4hhw",
+      "strapi_name": "dineen_034_4d1fdcca77_zt4hhw",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267750/dineen_034_4d1fdcca77_zt4hhw.jpg",
+      "width": 4992,
+      "height": 3328,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/dineen/dineen_034_4d1fdcca77.jpg",
+      "match_method": "strapi_name startswith 'dineen_034_4d1fdcca77'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Summer Hill House",
+      "type": "gallery",
+      "public_id": "dineen_033_b692e6628d_pohakl",
+      "strapi_name": "dineen_033_b692e6628d_pohakl",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267761/dineen_033_b692e6628d_pohakl.jpg",
+      "width": 4992,
+      "height": 3328,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/dineen/dineen_033_b692e6628d.jpg",
+      "match_method": "strapi_name startswith 'dineen_033_b692e6628d'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Summer Hill House",
+      "type": "gallery",
+      "public_id": "dineen_047_0b30dc2f3d_gx4mye",
+      "strapi_name": "dineen_047_0b30dc2f3d_gx4mye",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267763/dineen_047_0b30dc2f3d_gx4mye.jpg",
+      "width": 3328,
+      "height": 4992,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/dineen/dineen_047_0b30dc2f3d.jpg",
+      "match_method": "strapi_name startswith 'dineen_047_0b30dc2f3d'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Summer Hill House",
+      "type": "gallery",
+      "public_id": "dineen_009_c24c2cf264_d9xefj",
+      "strapi_name": "dineen_009_c24c2cf264_d9xefj",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267778/dineen_009_c24c2cf264_d9xefj.jpg",
+      "width": 3328,
+      "height": 4992,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/dineen/dineen_009_c24c2cf264.jpg",
+      "match_method": "strapi_name startswith 'dineen_009_c24c2cf264'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Summer Hill House",
+      "type": "gallery",
+      "public_id": "dineen_008_3c541fe955_z0ycxj",
+      "strapi_name": "dineen_008_3c541fe955_z0ycxj",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267789/dineen_008_3c541fe955_z0ycxj.jpg",
+      "width": 3328,
+      "height": 4992,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/dineen/dineen_008_3c541fe955.jpg",
+      "match_method": "strapi_name startswith 'dineen_008_3c541fe955'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Summer Hill House",
+      "type": "gallery",
+      "public_id": "dineen_023_9cb4200871_iq9etr",
+      "strapi_name": "dineen_023_9cb4200871_iq9etr",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267854/dineen_023_9cb4200871_iq9etr.jpg",
+      "width": 4992,
+      "height": 3328,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/dineen/dineen_023_9cb4200871.jpg",
+      "match_method": "strapi_name startswith 'dineen_023_9cb4200871'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Summer Hill House",
+      "type": "gallery",
+      "public_id": "dineen_001_1cb81ba50e_gge3e9",
+      "strapi_name": "dineen_001_1cb81ba50e_gge3e9",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267875/dineen_001_1cb81ba50e_gge3e9.jpg",
+      "width": 4992,
+      "height": 3328,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/dineen/dineen_001_1cb81ba50e.jpg",
+      "match_method": "strapi_name startswith 'dineen_001_1cb81ba50e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "cover",
+      "public_id": "n0d96o45csfzff7n8cgi",
+      "strapi_name": "turell_002_35701e5e9e",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994617/n0d96o45csfzff7n8cgi.jpg",
+      "width": 3840,
+      "height": 5339,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_002_35701e5e9e.jpg",
+      "match_method": "strapi_name startswith 'turell_002_35701e5e9e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "zdqzgezqyhatthimbvy2",
+      "strapi_name": "turell_036_946cecb34d",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994594/zdqzgezqyhatthimbvy2.jpg",
+      "width": 5502,
+      "height": 3668,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_036_946cecb34d.jpg",
+      "match_method": "strapi_name startswith 'turell_036_946cecb34d'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "hv7me4m81jrlgfbk9ho6",
+      "strapi_name": "turell_022_f8f18b6875",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994609/hv7me4m81jrlgfbk9ho6.jpg",
+      "width": 5329,
+      "height": 3644,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_022_f8f18b6875.jpg",
+      "match_method": "strapi_name startswith 'turell_022_f8f18b6875'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "f9zqnyk1iy4ncuev4rqh",
+      "strapi_name": "turell_051_d6ed852690",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994611/f9zqnyk1iy4ncuev4rqh.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_051_d6ed852690.jpg",
+      "match_method": "strapi_name startswith 'turell_051_d6ed852690'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "zthg9ihuzw7bqo3d1ss9",
+      "strapi_name": "turell_3960_327cd18d67",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994616/zthg9ihuzw7bqo3d1ss9.jpg",
+      "width": 960,
+      "height": 1280,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_3960_327cd18d67.jpeg",
+      "match_method": "strapi_name startswith 'turell_3960_327cd18d67'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "etuetakzhpthaw0dtqg7",
+      "strapi_name": "turell_012_e7f0328496",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994618/etuetakzhpthaw0dtqg7.jpg",
+      "width": 5543,
+      "height": 3695,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_012_e7f0328496.jpg",
+      "match_method": "strapi_name startswith 'turell_012_e7f0328496'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "lordueytnbo08p4qgth0",
+      "strapi_name": "turell_006_55e09122ac",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994619/lordueytnbo08p4qgth0.jpg",
+      "width": 5507,
+      "height": 3800,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_006_55e09122ac.jpg",
+      "match_method": "strapi_name startswith 'turell_006_55e09122ac'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "nwbxmz8aujivneqhxr4w",
+      "strapi_name": "turell_009_a3145d7146",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994620/nwbxmz8aujivneqhxr4w.jpg",
+      "width": 2666,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_009_a3145d7146.jpg",
+      "match_method": "strapi_name startswith 'turell_009_a3145d7146'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "so1qch8vlajlxd6zpd93",
+      "strapi_name": "turell_009_1_5cc3912784",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994622/so1qch8vlajlxd6zpd93.jpg",
+      "width": 6720,
+      "height": 4480,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_009_1_5cc3912784.jpg",
+      "match_method": "strapi_name startswith 'turell_009_1_5cc3912784'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "g0qwwnykyurtgbvqss4b",
+      "strapi_name": "turell_069_ea53b9c0de",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994622/g0qwwnykyurtgbvqss4b.jpg",
+      "width": 3658,
+      "height": 5670,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_069_ea53b9c0de.jpg",
+      "match_method": "strapi_name startswith 'turell_069_ea53b9c0de'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "b8owxghftvrp8ldbnz64",
+      "strapi_name": "turell_029_4ea78759f7",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994629/b8owxghftvrp8ldbnz64.jpg",
+      "width": 4913,
+      "height": 3388,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_029_4ea78759f7.jpg",
+      "match_method": "strapi_name startswith 'turell_029_4ea78759f7'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "r9wotupspwg1kpgegqte",
+      "strapi_name": "turell_052_0c490bee4a",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994630/r9wotupspwg1kpgegqte.jpg",
+      "width": 5582,
+      "height": 3721,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_052_0c490bee4a.jpg",
+      "match_method": "strapi_name startswith 'turell_052_0c490bee4a'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "dkmtgnun5p1olkzn7ajo",
+      "strapi_name": "turell_005_a2df4ecefd",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994633/dkmtgnun5p1olkzn7ajo.jpg",
+      "width": 5568,
+      "height": 3730,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_005_a2df4ecefd.jpg",
+      "match_method": "strapi_name startswith 'turell_005_a2df4ecefd'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "oqmhenh0phk5wlzxvul8",
+      "strapi_name": "turell_043_9b628fc2b4",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994634/oqmhenh0phk5wlzxvul8.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_043_9b628fc2b4.jpg",
+      "match_method": "strapi_name startswith 'turell_043_9b628fc2b4'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "ic5jyxxyfqc2khngu0us",
+      "strapi_name": "turell_3961_b6acf278f8",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994636/ic5jyxxyfqc2khngu0us.jpg",
+      "width": 960,
+      "height": 1280,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_3961_b6acf278f8.jpeg",
+      "match_method": "strapi_name startswith 'turell_3961_b6acf278f8'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "epza2tz4kwtjqsiopdif",
+      "strapi_name": "turell_004_e8ec88a668",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994637/epza2tz4kwtjqsiopdif.jpg",
+      "width": 6608,
+      "height": 4405,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_004_e8ec88a668.jpg",
+      "match_method": "strapi_name startswith 'turell_004_e8ec88a668'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "i6gbvccfqvpqhgjhax1q",
+      "strapi_name": "turell_053_498ccbe95e",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994637/i6gbvccfqvpqhgjhax1q.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_053_498ccbe95e.jpg",
+      "match_method": "strapi_name startswith 'turell_053_498ccbe95e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "emsdk5tjj2mptof3gyab",
+      "strapi_name": "turell_049_fe6c8c0ff5",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994638/emsdk5tjj2mptof3gyab.jpg",
+      "width": 3788,
+      "height": 5682,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_049_fe6c8c0ff5.jpg",
+      "match_method": "strapi_name startswith 'turell_049_fe6c8c0ff5'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Woodland Retreat",
+      "type": "gallery",
+      "public_id": "sizxjfks4okm2bf8eki4",
+      "strapi_name": "turell_025_3407ed07d6",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994645/sizxjfks4okm2bf8eki4.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/turell/turell_025_3407ed07d6.jpg",
+      "match_method": "strapi_name startswith 'turell_025_3407ed07d6'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "cover",
+      "public_id": "gwnh4e4yejo8oce5iora",
+      "strapi_name": "seidman_028_8e3e48026a",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994596/gwnh4e4yejo8oce5iora.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_028_8e3e48026a.jpg",
+      "match_method": "strapi_name startswith 'seidman_028_8e3e48026a'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "pj78scvpoovq5dofarfk",
+      "strapi_name": "seidman_003_7a74e154d6",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994591/pj78scvpoovq5dofarfk.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_003_7a74e154d6.jpg",
+      "match_method": "strapi_name startswith 'seidman_003_7a74e154d6'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "bddlsj56ieounvwv5pqo",
+      "strapi_name": "seidman_036_587bc285ab",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994597/bddlsj56ieounvwv5pqo.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_036_587bc285ab.jpg",
+      "match_method": "strapi_name startswith 'seidman_036_587bc285ab'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "rbtd1xtrjpgmpqrv68sp",
+      "strapi_name": "seidman_056_845a12c5dd",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994598/rbtd1xtrjpgmpqrv68sp.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_056_845a12c5dd.jpg",
+      "match_method": "strapi_name startswith 'seidman_056_845a12c5dd'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "kgf5bstfieztog0umomd",
+      "strapi_name": "seidman_019_bcd07616d8",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994601/kgf5bstfieztog0umomd.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_019_bcd07616d8.jpg",
+      "match_method": "strapi_name startswith 'seidman_019_bcd07616d8'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "fvakg3xo78xepemtlw6h",
+      "strapi_name": "seidman_022_c462c91502",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994604/fvakg3xo78xepemtlw6h.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_022_c462c91502.jpg",
+      "match_method": "strapi_name startswith 'seidman_022_c462c91502'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "eh6onuiey7yfnt3mflrx",
+      "strapi_name": "seidman_032_51f230788d",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994611/eh6onuiey7yfnt3mflrx.jpg",
+      "width": 3755,
+      "height": 5632,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_032_51f230788d.jpg",
+      "match_method": "strapi_name startswith 'seidman_032_51f230788d'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "jsyf5dbfuydfecmg2bc9",
+      "strapi_name": "seidman_005_de232f75cc",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994614/jsyf5dbfuydfecmg2bc9.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_005_de232f75cc.jpg",
+      "match_method": "strapi_name startswith 'seidman_005_de232f75cc'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "dxx5bxhqpu1bjvxggplp",
+      "strapi_name": "seidman_002_b731f74356",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994615/dxx5bxhqpu1bjvxggplp.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_002_b731f74356.jpg",
+      "match_method": "strapi_name startswith 'seidman_002_b731f74356'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "ohhkysg6oblrzfa6hmu4",
+      "strapi_name": "seidman_038_0585f625dd",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994615/ohhkysg6oblrzfa6hmu4.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_038_0585f625dd.jpg",
+      "match_method": "strapi_name startswith 'seidman_038_0585f625dd'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "nfihvk6mkbnxi15pznom",
+      "strapi_name": "seidman_051_4e0cd6453e",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994639/nfihvk6mkbnxi15pznom.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_051_4e0cd6453e.jpg",
+      "match_method": "strapi_name startswith 'seidman_051_4e0cd6453e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "nn2thghfpu9vy54oebvc",
+      "strapi_name": "seidman_018_9c2b02b00c",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994644/nn2thghfpu9vy54oebvc.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_018_9c2b02b00c.jpg",
+      "match_method": "strapi_name startswith 'seidman_018_9c2b02b00c'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "cajzyxib13lvt8nttd5z",
+      "strapi_name": "seidman_5_bd945ef4fc",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994645/cajzyxib13lvt8nttd5z.jpg",
+      "width": 1024,
+      "height": 758,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_5_bd945ef4fc.jpg",
+      "match_method": "strapi_name startswith 'seidman_5_bd945ef4fc'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "faminyrcuw4e94rqljld",
+      "strapi_name": "seidman_015_f10096212e",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994647/faminyrcuw4e94rqljld.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_015_f10096212e.jpg",
+      "match_method": "strapi_name startswith 'seidman_015_f10096212e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Crafted Home",
+      "type": "gallery",
+      "public_id": "rjqrt0lvtuma0faln7ow",
+      "strapi_name": "seidman_047_ba35cf49b6",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758995835/rjqrt0lvtuma0faln7ow.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/seidman/seidman_047_ba35cf49b6.jpg",
+      "match_method": "strapi_name startswith 'seidman_047_ba35cf49b6'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "cover",
+      "public_id": "jenks_676_ab168be1aa_oabkde",
+      "strapi_name": "jenks_676_ab168be1aa_oabkde",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267795/jenks_676_ab168be1aa_oabkde.jpg",
+      "width": 3725,
+      "height": 5587,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_676_ab168be1aa.jpg",
+      "match_method": "strapi_name startswith 'jenks_676_ab168be1aa'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_193_0771cf1e07_eox0tk",
+      "strapi_name": "jenks_193_0771cf1e07_eox0tk",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267704/jenks_193_0771cf1e07_eox0tk.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_193_0771cf1e07.jpg",
+      "match_method": "strapi_name startswith 'jenks_193_0771cf1e07'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_705_65c0ad3d6d_arn0pu",
+      "strapi_name": "jenks_705_65c0ad3d6d_arn0pu",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267771/jenks_705_65c0ad3d6d_arn0pu.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_705_65c0ad3d6d.jpg",
+      "match_method": "strapi_name startswith 'jenks_705_65c0ad3d6d'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_666_062c6e2490_ndwvaa",
+      "strapi_name": "jenks_666_062c6e2490_ndwvaa",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267774/jenks_666_062c6e2490_ndwvaa.jpg",
+      "width": 3685,
+      "height": 5528,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_666_062c6e2490.jpg",
+      "match_method": "strapi_name startswith 'jenks_666_062c6e2490'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_745_e8051c5229_ldvxga",
+      "strapi_name": "jenks_745_e8051c5229_ldvxga",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267780/jenks_745_e8051c5229_ldvxga.jpg",
+      "width": 5627,
+      "height": 3751,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_745_e8051c5229.jpg",
+      "match_method": "strapi_name startswith 'jenks_745_e8051c5229'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_765_7a252d32e4_wmy4vb",
+      "strapi_name": "jenks_765_7a252d32e4_wmy4vb",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267798/jenks_765_7a252d32e4_wmy4vb.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_765_7a252d32e4.jpg",
+      "match_method": "strapi_name startswith 'jenks_765_7a252d32e4'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_672_4eb6b785b2_aevq23",
+      "strapi_name": "jenks_672_4eb6b785b2_aevq23",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267803/jenks_672_4eb6b785b2_aevq23.jpg",
+      "width": 5632,
+      "height": 3755,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_672_4eb6b785b2.jpg",
+      "match_method": "strapi_name startswith 'jenks_672_4eb6b785b2'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_714_40bb5d1b07_moblvt",
+      "strapi_name": "jenks_714_40bb5d1b07_moblvt",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267807/jenks_714_40bb5d1b07_moblvt.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_714_40bb5d1b07.jpg",
+      "match_method": "strapi_name startswith 'jenks_714_40bb5d1b07'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_323_521f746738_ekhcdx",
+      "strapi_name": "jenks_323_521f746738_ekhcdx",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267809/jenks_323_521f746738_ekhcdx.jpg",
+      "width": 3727,
+      "height": 5591,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_323_521f746738.jpg",
+      "match_method": "strapi_name startswith 'jenks_323_521f746738'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_693_28197f83ae_q0nqmd",
+      "strapi_name": "jenks_693_28197f83ae_q0nqmd",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267811/jenks_693_28197f83ae_q0nqmd.jpg",
+      "width": 3705,
+      "height": 5557,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_693_28197f83ae.jpg",
+      "match_method": "strapi_name startswith 'jenks_693_28197f83ae'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_377_c871e89754_isdmmk",
+      "strapi_name": "jenks_377_c871e89754_isdmmk",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267813/jenks_377_c871e89754_isdmmk.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_377_c871e89754.jpg",
+      "match_method": "strapi_name startswith 'jenks_377_c871e89754'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_700_265f5b5c75_x4wuzu",
+      "strapi_name": "jenks_700_265f5b5c75_x4wuzu",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267817/jenks_700_265f5b5c75_x4wuzu.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_700_265f5b5c75.jpg",
+      "match_method": "strapi_name startswith 'jenks_700_265f5b5c75'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_096_b5cd36b86e_a9ld16",
+      "strapi_name": "jenks_096_b5cd36b86e_a9ld16",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267818/jenks_096_b5cd36b86e_a9ld16.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_096_b5cd36b86e.jpg",
+      "match_method": "strapi_name startswith 'jenks_096_b5cd36b86e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_721_bddd01a0ce_zfwpyv",
+      "strapi_name": "jenks_721_bddd01a0ce_zfwpyv",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267820/jenks_721_bddd01a0ce_zfwpyv.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_721_bddd01a0ce.jpg",
+      "match_method": "strapi_name startswith 'jenks_721_bddd01a0ce'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_012_11800aede5_od1rzx",
+      "strapi_name": "jenks_012_11800aede5_od1rzx",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267822/jenks_012_11800aede5_od1rzx.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_012_11800aede5.jpg",
+      "match_method": "strapi_name startswith 'jenks_012_11800aede5'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_265_3c5c829b1e_r125ww",
+      "strapi_name": "jenks_265_3c5c829b1e_r125ww",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267824/jenks_265_3c5c829b1e_r125ww.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_265_3c5c829b1e.jpg",
+      "match_method": "strapi_name startswith 'jenks_265_3c5c829b1e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_386_ecff522c11_wtlcqs",
+      "strapi_name": "jenks_386_ecff522c11_wtlcqs",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267827/jenks_386_ecff522c11_wtlcqs.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_386_ecff522c11.jpg",
+      "match_method": "strapi_name startswith 'jenks_386_ecff522c11'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_408_691f817e5a_yz7wsa",
+      "strapi_name": "jenks_408_691f817e5a_yz7wsa",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267829/jenks_408_691f817e5a_yz7wsa.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_408_691f817e5a.jpg",
+      "match_method": "strapi_name startswith 'jenks_408_691f817e5a'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_002_1bd93d3968_sxd3nq",
+      "strapi_name": "jenks_002_1bd93d3968_sxd3nq",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267831/jenks_002_1bd93d3968_sxd3nq.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_002_1bd93d3968.jpg",
+      "match_method": "strapi_name startswith 'jenks_002_1bd93d3968'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_799_3544354593_b3dlm8",
+      "strapi_name": "jenks_799_3544354593_b3dlm8",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267833/jenks_799_3544354593_b3dlm8.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_799_3544354593.jpg",
+      "match_method": "strapi_name startswith 'jenks_799_3544354593'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_596_1804e067c9_gztnrm",
+      "strapi_name": "jenks_596_1804e067c9_gztnrm",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267838/jenks_596_1804e067c9_gztnrm.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_596_1804e067c9.jpg",
+      "match_method": "strapi_name startswith 'jenks_596_1804e067c9'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_790_b1d9eccd05_ziobci",
+      "strapi_name": "jenks_790_b1d9eccd05_ziobci",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267842/jenks_790_b1d9eccd05_ziobci.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_790_b1d9eccd05.jpg",
+      "match_method": "strapi_name startswith 'jenks_790_b1d9eccd05'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_092_8a8c0eb8f6_vfr25p",
+      "strapi_name": "jenks_092_8a8c0eb8f6_vfr25p",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267844/jenks_092_8a8c0eb8f6_vfr25p.jpg",
+      "width": 3771,
+      "height": 5657,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_092_8a8c0eb8f6.jpg",
+      "match_method": "strapi_name startswith 'jenks_092_8a8c0eb8f6'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_014_9724521777_ktud9u",
+      "strapi_name": "jenks_014_9724521777_ktud9u",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267846/jenks_014_9724521777_ktud9u.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_014_9724521777.jpg",
+      "match_method": "strapi_name startswith 'jenks_014_9724521777'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_583_88b33cd23c_lddsa6",
+      "strapi_name": "jenks_583_88b33cd23c_lddsa6",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267851/jenks_583_88b33cd23c_lddsa6.jpg",
+      "width": 3666,
+      "height": 5461,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_583_88b33cd23c.jpg",
+      "match_method": "strapi_name startswith 'jenks_583_88b33cd23c'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_401_676bc78619_sfi9yi",
+      "strapi_name": "jenks_401_676bc78619_sfi9yi",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267860/jenks_401_676bc78619_sfi9yi.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_401_676bc78619.jpg",
+      "match_method": "strapi_name startswith 'jenks_401_676bc78619'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_284_ee86bc39d6_quutrw",
+      "strapi_name": "jenks_284_ee86bc39d6_quutrw",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267864/jenks_284_ee86bc39d6_quutrw.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_284_ee86bc39d6.jpg",
+      "match_method": "strapi_name startswith 'jenks_284_ee86bc39d6'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_648_62cd23eabc_jjr4oy",
+      "strapi_name": "jenks_648_62cd23eabc_jjr4oy",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267866/jenks_648_62cd23eabc_jjr4oy.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_648_62cd23eabc.jpg",
+      "match_method": "strapi_name startswith 'jenks_648_62cd23eabc'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_226_24cd64a360_itd62g",
+      "strapi_name": "jenks_226_24cd64a360_itd62g",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267870/jenks_226_24cd64a360_itd62g.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_226_24cd64a360.jpg",
+      "match_method": "strapi_name startswith 'jenks_226_24cd64a360'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_669_226828cc7b_bb12zz",
+      "strapi_name": "jenks_669_226828cc7b_bb12zz",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267877/jenks_669_226828cc7b_bb12zz.jpg",
+      "width": 5632,
+      "height": 3728,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_669_226828cc7b.jpg",
+      "match_method": "strapi_name startswith 'jenks_669_226828cc7b'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_293_5c02536bfd_mdpjuk",
+      "strapi_name": "jenks_293_5c02536bfd_mdpjuk",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267879/jenks_293_5c02536bfd_mdpjuk.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_293_5c02536bfd.jpg",
+      "match_method": "strapi_name startswith 'jenks_293_5c02536bfd'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_018_bc2c5462da_xscfnv",
+      "strapi_name": "jenks_018_bc2c5462da_xscfnv",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267884/jenks_018_bc2c5462da_xscfnv.jpg",
+      "width": 5606,
+      "height": 3737,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_018_bc2c5462da.jpg",
+      "match_method": "strapi_name startswith 'jenks_018_bc2c5462da'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_419_8cf2f11729_xbbqu3",
+      "strapi_name": "jenks_419_8cf2f11729_xbbqu3",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267886/jenks_419_8cf2f11729_xbbqu3.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_419_8cf2f11729.jpg",
+      "match_method": "strapi_name startswith 'jenks_419_8cf2f11729'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_010_d42740eb23_bxsusi",
+      "strapi_name": "jenks_010_d42740eb23_bxsusi",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267890/jenks_010_d42740eb23_bxsusi.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_010_d42740eb23.jpg",
+      "match_method": "strapi_name startswith 'jenks_010_d42740eb23'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_238_59ed88b72e_kzxk9o",
+      "strapi_name": "jenks_238_59ed88b72e_kzxk9o",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267892/jenks_238_59ed88b72e_kzxk9o.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_238_59ed88b72e.jpg",
+      "match_method": "strapi_name startswith 'jenks_238_59ed88b72e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_045_8879f60c0b_rvjv3h",
+      "strapi_name": "jenks_045_8879f60c0b_rvjv3h",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267893/jenks_045_8879f60c0b_rvjv3h.jpg",
+      "width": 3697,
+      "height": 5545,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_045_8879f60c0b.jpg",
+      "match_method": "strapi_name startswith 'jenks_045_8879f60c0b'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_657_b7576488ca_snmnh9",
+      "strapi_name": "jenks_657_b7576488ca_snmnh9",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267895/jenks_657_b7576488ca_snmnh9.jpg",
+      "width": 3724,
+      "height": 5586,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_657_b7576488ca.jpg",
+      "match_method": "strapi_name startswith 'jenks_657_b7576488ca'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_611_f8459e4a49_vut0oo",
+      "strapi_name": "jenks_611_f8459e4a49_vut0oo",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267899/jenks_611_f8459e4a49_vut0oo.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_611_f8459e4a49.jpg",
+      "match_method": "strapi_name startswith 'jenks_611_f8459e4a49'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_100_1777bb3a56_id1ccb",
+      "strapi_name": "jenks_100_1777bb3a56_id1ccb",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267903/jenks_100_1777bb3a56_id1ccb.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_100_1777bb3a56.jpg",
+      "match_method": "strapi_name startswith 'jenks_100_1777bb3a56'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_086_b6f50119b8_bbrivl",
+      "strapi_name": "jenks_086_b6f50119b8_bbrivl",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267905/jenks_086_b6f50119b8_bbrivl.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_086_b6f50119b8.jpg",
+      "match_method": "strapi_name startswith 'jenks_086_b6f50119b8'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_024_73a73494c4_lms6xb",
+      "strapi_name": "jenks_024_73a73494c4_lms6xb",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267907/jenks_024_73a73494c4_lms6xb.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_024_73a73494c4.jpg",
+      "match_method": "strapi_name startswith 'jenks_024_73a73494c4'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_809_573339e5a7_bbyjtx",
+      "strapi_name": "jenks_809_573339e5a7_bbyjtx",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267912/jenks_809_573339e5a7_bbyjtx.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_809_573339e5a7.jpg",
+      "match_method": "strapi_name startswith 'jenks_809_573339e5a7'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_006_9befa6e8b0_cq7hah",
+      "strapi_name": "jenks_006_9befa6e8b0_cq7hah",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267914/jenks_006_9befa6e8b0_cq7hah.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_006_9befa6e8b0.jpg",
+      "match_method": "strapi_name startswith 'jenks_006_9befa6e8b0'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_399_9d5b532df6_ywbbhq",
+      "strapi_name": "jenks_399_9d5b532df6_ywbbhq",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267916/jenks_399_9d5b532df6_ywbbhq.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_399_9d5b532df6.jpg",
+      "match_method": "strapi_name startswith 'jenks_399_9d5b532df6'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_004_65564911ba_ujqlao",
+      "strapi_name": "jenks_004_65564911ba_ujqlao",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267919/jenks_004_65564911ba_ujqlao.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_004_65564911ba.jpg",
+      "match_method": "strapi_name startswith 'jenks_004_65564911ba'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_435_2d94a3a3f2_ibcorb",
+      "strapi_name": "jenks_435_2d94a3a3f2_ibcorb",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267923/jenks_435_2d94a3a3f2_ibcorb.jpg",
+      "width": 3735,
+      "height": 5603,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_435_2d94a3a3f2.jpg",
+      "match_method": "strapi_name startswith 'jenks_435_2d94a3a3f2'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_803_549bf8aee7_uafxlf",
+      "strapi_name": "jenks_803_549bf8aee7_uafxlf",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267925/jenks_803_549bf8aee7_uafxlf.jpg",
+      "width": 5731,
+      "height": 3821,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_803_549bf8aee7.jpg",
+      "match_method": "strapi_name startswith 'jenks_803_549bf8aee7'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_072_36c8a4d7a5_xzirt5",
+      "strapi_name": "jenks_072_36c8a4d7a5_xzirt5",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267933/jenks_072_36c8a4d7a5_xzirt5.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_072_36c8a4d7a5.jpg",
+      "match_method": "strapi_name startswith 'jenks_072_36c8a4d7a5'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_423_be0cfa9ab1_nwsgbi",
+      "strapi_name": "jenks_423_be0cfa9ab1_nwsgbi",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267936/jenks_423_be0cfa9ab1_nwsgbi.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_423_be0cfa9ab1.jpg",
+      "match_method": "strapi_name startswith 'jenks_423_be0cfa9ab1'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_438_ebe8924044_nojrvl",
+      "strapi_name": "jenks_438_ebe8924044_nojrvl",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267938/jenks_438_ebe8924044_nojrvl.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_438_ebe8924044.jpg",
+      "match_method": "strapi_name startswith 'jenks_438_ebe8924044'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_274_2e30f599fa_xodmuy",
+      "strapi_name": "jenks_274_2e30f599fa_xodmuy",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267940/jenks_274_2e30f599fa_xodmuy.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_274_2e30f599fa.jpg",
+      "match_method": "strapi_name startswith 'jenks_274_2e30f599fa'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_617_2e63b96ac5_jz0hmx",
+      "strapi_name": "jenks_617_2e63b96ac5_jz0hmx",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267942/jenks_617_2e63b96ac5_jz0hmx.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_617_2e63b96ac5.jpg",
+      "match_method": "strapi_name startswith 'jenks_617_2e63b96ac5'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Hillside Farmhouse",
+      "type": "gallery",
+      "public_id": "jenks_134_2debe7f2a6_wxp8ri",
+      "strapi_name": "jenks_134_2debe7f2a6_wxp8ri",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759268064/jenks_134_2debe7f2a6_wxp8ri.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/jenks/jenks_134_2debe7f2a6.jpg",
+      "match_method": "strapi_name startswith 'jenks_134_2debe7f2a6'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Artist's Bungalow",
+      "type": "cover",
+      "public_id": "butler_f89ade1d_dd43d61dbf_v5zrnk",
+      "strapi_name": "butler_f89ade1d_dd43d61dbf_v5zrnk",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267677/butler_f89ade1d_dd43d61dbf_v5zrnk.jpg",
+      "width": 1955,
+      "height": 1513,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/butler/butler_f89ade1d_dd43d61dbf.jpg",
+      "match_method": "strapi_name startswith 'butler_f89ade1d_dd43d61dbf'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Artist's Bungalow",
+      "type": "gallery",
+      "public_id": "butler_0264_f99ffd50bc_zr7nme",
+      "strapi_name": "butler_0264_f99ffd50bc_zr7nme",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267675/butler_0264_f99ffd50bc_zr7nme.jpg",
+      "width": 1960,
+      "height": 3008,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/butler/butler_0264_f99ffd50bc.jpg",
+      "match_method": "strapi_name startswith 'butler_0264_f99ffd50bc'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Artist's Bungalow",
+      "type": "gallery",
+      "public_id": "butler_2_2_f77cb653ec_p6elol",
+      "strapi_name": "butler_2_2_f77cb653ec_p6elol",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267679/butler_2_2_f77cb653ec_p6elol.jpg",
+      "width": 2400,
+      "height": 1577,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/butler/butler_2_2_f77cb653ec.jpg",
+      "match_method": "strapi_name startswith 'butler_2_2_f77cb653ec'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Artist's Bungalow",
+      "type": "gallery",
+      "public_id": "butler_2_1_257f70989b_a8qcaq",
+      "strapi_name": "butler_2_1_257f70989b_a8qcaq",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267681/butler_2_1_257f70989b_a8qcaq.jpg",
+      "width": 2400,
+      "height": 1600,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/butler/butler_2_1_257f70989b.jpg",
+      "match_method": "strapi_name startswith 'butler_2_1_257f70989b'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Artist's Bungalow",
+      "type": "gallery",
+      "public_id": "butler_2_3_dc68e333fc_d2jcwm",
+      "strapi_name": "butler_2_3_dc68e333fc_d2jcwm",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267685/butler_2_3_dc68e333fc_d2jcwm.jpg",
+      "width": 2400,
+      "height": 1600,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/butler/butler_2_3_dc68e333fc.jpg",
+      "match_method": "strapi_name startswith 'butler_2_3_dc68e333fc'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Artist's Bungalow",
+      "type": "gallery",
+      "public_id": "butler_2_4_3c3529531c_xun9uq",
+      "strapi_name": "butler_2_4_3c3529531c_xun9uq",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267688/butler_2_4_3c3529531c_xun9uq.jpg",
+      "width": 1800,
+      "height": 1127,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/butler/butler_2_4_3c3529531c.jpg",
+      "match_method": "strapi_name startswith 'butler_2_4_3c3529531c'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Artist's Bungalow",
+      "type": "gallery",
+      "public_id": "butler_4_65a3cbce4b_v1dgnr",
+      "strapi_name": "butler_4_65a3cbce4b_v1dgnr",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267690/butler_4_65a3cbce4b_v1dgnr.jpg",
+      "width": 2400,
+      "height": 1600,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/butler/butler_4_65a3cbce4b.jpg",
+      "match_method": "strapi_name startswith 'butler_4_65a3cbce4b'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Artist's Bungalow",
+      "type": "gallery",
+      "public_id": "butler_4_1_2beb779c7e_lczaxm",
+      "strapi_name": "butler_4_1_2beb779c7e_lczaxm",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267694/butler_4_1_2beb779c7e_lczaxm.jpg",
+      "width": 1800,
+      "height": 2765,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/butler/butler_4_1_2beb779c7e.jpg",
+      "match_method": "strapi_name startswith 'butler_4_1_2beb779c7e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Artist's Bungalow",
+      "type": "gallery",
+      "public_id": "butler_3_1_d60486794f_oh1prt",
+      "strapi_name": "butler_3_1_d60486794f_oh1prt",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267719/butler_3_1_d60486794f_oh1prt.jpg",
+      "width": 2332,
+      "height": 1600,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/butler/butler_3_1_d60486794f.jpg",
+      "match_method": "strapi_name startswith 'butler_3_1_d60486794f'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Artist's Bungalow",
+      "type": "gallery",
+      "public_id": "butler_9be2341f_412d39b1a2_hjygyk",
+      "strapi_name": "butler_9be2341f_412d39b1a2_hjygyk",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267727/butler_9be2341f_412d39b1a2_hjygyk.jpg",
+      "width": 1955,
+      "height": 2091,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/butler/butler_9be2341f_412d39b1a2.jpg",
+      "match_method": "strapi_name startswith 'butler_9be2341f_412d39b1a2'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Artist's Bungalow",
+      "type": "gallery",
+      "public_id": "butler_2_c6be0b83a9_ahvhyu",
+      "strapi_name": "butler_2_c6be0b83a9_ahvhyu",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267756/butler_2_c6be0b83a9_ahvhyu.jpg",
+      "width": 2400,
+      "height": 1600,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/butler/butler_2_c6be0b83a9.jpg",
+      "match_method": "strapi_name startswith 'butler_2_c6be0b83a9'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Artist's Bungalow",
+      "type": "gallery",
+      "public_id": "butler_3_cca2681ecd_nlxkn5",
+      "strapi_name": "butler_3_cca2681ecd_nlxkn5",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267758/butler_3_cca2681ecd_nlxkn5.jpg",
+      "width": 2400,
+      "height": 1600,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/butler/butler_3_cca2681ecd.jpg",
+      "match_method": "strapi_name startswith 'butler_3_cca2681ecd'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Artist's Bungalow",
+      "type": "gallery",
+      "public_id": "butler_6062e27f_06652837f0_t1vryv",
+      "strapi_name": "butler_6062e27f_06652837f0_t1vryv",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267776/butler_6062e27f_06652837f0_t1vryv.jpg",
+      "width": 3008,
+      "height": 1960,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/butler/butler_6062e27f_06652837f0.jpg",
+      "match_method": "strapi_name startswith 'butler_6062e27f_06652837f0'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Coastal Hideaway",
+      "type": "cover",
+      "public_id": "holm_001_e90b7b164a_z9jnhz",
+      "strapi_name": "holm_001_e90b7b164a_z9jnhz",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267835/holm_001_e90b7b164a_z9jnhz.jpg",
+      "width": 5644,
+      "height": 3763,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/holm/holm_001_e90b7b164a.jpg",
+      "match_method": "strapi_name startswith 'holm_001_e90b7b164a'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Coastal Hideaway",
+      "type": "gallery",
+      "public_id": "holm_059_dbf1e6770b_d4xzfk",
+      "strapi_name": "holm_059_dbf1e6770b_d4xzfk",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267806/holm_059_dbf1e6770b_d4xzfk.jpg",
+      "width": 5521,
+      "height": 3681,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/holm/holm_059_dbf1e6770b.jpg",
+      "match_method": "strapi_name startswith 'holm_059_dbf1e6770b'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Coastal Hideaway",
+      "type": "gallery",
+      "public_id": "holm_012_b690562d94_spkzmj",
+      "strapi_name": "holm_012_b690562d94_spkzmj",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267826/holm_012_b690562d94_spkzmj.jpg",
+      "width": 5216,
+      "height": 3714,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/holm/holm_012_b690562d94.jpg",
+      "match_method": "strapi_name startswith 'holm_012_b690562d94'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Coastal Hideaway",
+      "type": "gallery",
+      "public_id": "holm_022_07dfecde0b_jknybh",
+      "strapi_name": "holm_022_07dfecde0b_jknybh",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267840/holm_022_07dfecde0b_jknybh.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/holm/holm_022_07dfecde0b.jpg",
+      "match_method": "strapi_name startswith 'holm_022_07dfecde0b'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Coastal Hideaway",
+      "type": "gallery",
+      "public_id": "holm_050_b5818cb5ae_ric0qr",
+      "strapi_name": "holm_050_b5818cb5ae_ric0qr",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267849/holm_050_b5818cb5ae_ric0qr.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/holm/holm_050_b5818cb5ae.jpg",
+      "match_method": "strapi_name startswith 'holm_050_b5818cb5ae'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Coastal Hideaway",
+      "type": "gallery",
+      "public_id": "holm_004_cdc999c900_dxxhe4",
+      "strapi_name": "holm_004_cdc999c900_dxxhe4",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267857/holm_004_cdc999c900_dxxhe4.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/holm/holm_004_cdc999c900.jpg",
+      "match_method": "strapi_name startswith 'holm_004_cdc999c900'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Coastal Hideaway",
+      "type": "gallery",
+      "public_id": "holm_028_2a9c5a7bbb_hmlmpn",
+      "strapi_name": "holm_028_2a9c5a7bbb_hmlmpn",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267859/holm_028_2a9c5a7bbb_hmlmpn.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/holm/holm_028_2a9c5a7bbb.jpg",
+      "match_method": "strapi_name startswith 'holm_028_2a9c5a7bbb'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Coastal Hideaway",
+      "type": "gallery",
+      "public_id": "holm_074_cfa4c53470_j6dajg",
+      "strapi_name": "holm_074_cfa4c53470_j6dajg",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267944/holm_074_cfa4c53470_j6dajg.jpg",
+      "width": 3840,
+      "height": 5760,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/holm/holm_074_cfa4c53470.jpg",
+      "match_method": "strapi_name startswith 'holm_074_cfa4c53470'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "Coastal Hideaway",
+      "type": "gallery",
+      "public_id": "holm_013_dcf9caa392_z2hopd",
+      "strapi_name": "holm_013_dcf9caa392_z2hopd",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267945/holm_013_dcf9caa392_z2hopd.jpg",
+      "width": 5760,
+      "height": 3840,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/holm/holm_013_dcf9caa392.jpg",
+      "match_method": "strapi_name startswith 'holm_013_dcf9caa392'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Stable",
+      "type": "cover",
+      "public_id": "og1ml1itwu3uwavh07hs",
+      "strapi_name": "waller_015_89cd416f54",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994647/og1ml1itwu3uwavh07hs.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/waller/waller_015_89cd416f54.jpg",
+      "match_method": "strapi_name startswith 'waller_015_89cd416f54'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Stable",
+      "type": "gallery",
+      "public_id": "vrqba15p9uwlgrust9gh",
+      "strapi_name": "waller_033_563e261f6d",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994591/vrqba15p9uwlgrust9gh.jpg",
+      "width": 5616,
+      "height": 3744,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/waller/waller_033_563e261f6d.jpg",
+      "match_method": "strapi_name startswith 'waller_033_563e261f6d'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Stable",
+      "type": "gallery",
+      "public_id": "xg1y1jwugl8d4z9szsew",
+      "strapi_name": "waller_039_6bfcfb0047",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994593/xg1y1jwugl8d4z9szsew.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/waller/waller_039_6bfcfb0047.jpg",
+      "match_method": "strapi_name startswith 'waller_039_6bfcfb0047'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Stable",
+      "type": "gallery",
+      "public_id": "zwoofhmk2iibfl9vmpm7",
+      "strapi_name": "waller_051_0fa36f29dc",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994601/zwoofhmk2iibfl9vmpm7.jpg",
+      "width": 5616,
+      "height": 3744,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/waller/waller_051_0fa36f29dc.jpg",
+      "match_method": "strapi_name startswith 'waller_051_0fa36f29dc'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Stable",
+      "type": "gallery",
+      "public_id": "e0vflwcxf9uwat2wi63p",
+      "strapi_name": "waller_012_06dad9c196",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994602/e0vflwcxf9uwat2wi63p.jpg",
+      "width": 5616,
+      "height": 3744,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/waller/waller_012_06dad9c196.jpg",
+      "match_method": "strapi_name startswith 'waller_012_06dad9c196'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Stable",
+      "type": "gallery",
+      "public_id": "gigudqroazxmd0cphgix",
+      "strapi_name": "waller_028_4526b85f6d",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994605/gigudqroazxmd0cphgix.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/waller/waller_028_4526b85f6d.jpg",
+      "match_method": "strapi_name startswith 'waller_028_4526b85f6d'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Stable",
+      "type": "gallery",
+      "public_id": "fa5qwdmx7mug7yenirwo",
+      "strapi_name": "waller_070_4fa1b4a039",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994606/fa5qwdmx7mug7yenirwo.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/waller/waller_070_4fa1b4a039.jpg",
+      "match_method": "strapi_name startswith 'waller_070_4fa1b4a039'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Stable",
+      "type": "gallery",
+      "public_id": "dod3nz2qdulapggxd7ma",
+      "strapi_name": "waller_029_bdf5d37297",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994607/dod3nz2qdulapggxd7ma.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/waller/waller_029_bdf5d37297.jpg",
+      "match_method": "strapi_name startswith 'waller_029_bdf5d37297'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Stable",
+      "type": "gallery",
+      "public_id": "xeqvljbjvsb5pdjtimqp",
+      "strapi_name": "waller_018_60c9d99956",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994607/xeqvljbjvsb5pdjtimqp.jpg",
+      "width": 3744,
+      "height": 5616,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/waller/waller_018_60c9d99956.jpg",
+      "match_method": "strapi_name startswith 'waller_018_60c9d99956'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Stable",
+      "type": "gallery",
+      "public_id": "p07yqmafq3ngfx3wk3hr",
+      "strapi_name": "waller_054_003574e66e",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994608/p07yqmafq3ngfx3wk3hr.jpg",
+      "width": 5616,
+      "height": 3744,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/waller/waller_054_003574e66e.jpg",
+      "match_method": "strapi_name startswith 'waller_054_003574e66e'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  },
+  {
+    "image": {
+      "project": "The Stable",
+      "type": "gallery",
+      "public_id": "ckc1lb3xbzdot3g1gbvv",
+      "strapi_name": "waller_026_a0c45847ad",
+      "ext": ".jpeg",
+      "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758994620/ckc1lb3xbzdot3g1gbvv.jpg",
+      "width": 5616,
+      "height": 3744,
+      "local_path": "/Users/james/Sites/beckwithbarrow/uploads/waller/waller_026_a0c45847ad.jpg",
+      "match_method": "strapi_name startswith 'waller_026_a0c45847ad'"
+    },
+    "error": "module 'cloudinary' has no attribute 'api'"
+  }
+]

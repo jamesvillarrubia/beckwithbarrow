@@ -21,3 +21,5 @@ config:
     secure: AAABABUBSrbN5qrV2QMa64s8BFrvZkxnZPHC0SUsdPpFRyMg1ulAKSvi1kmdO7F3P8LMiiHiBO0sTgM=
   beckwithbarrow-infra:cloudinaryName: dqeqavdd8
   beckwithbarrow-infra:cloudinaryKey: "865956219142244"
+  beckwithbarrow-infra:strapiAdminEmail:
+    secure: AAABADtMo0ezwW1sYNP3HIYw4wRKM3R1wxpEEPryBOhcE6qHIWLCsHlgf44gu4QFoZdA/RaOtw==
