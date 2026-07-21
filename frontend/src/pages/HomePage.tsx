@@ -17,8 +17,10 @@ import Navigation from '../components/Navigation';
 import ProjectGrid from '../components/ProjectGrid';
 import AnimatedSection from '../components/AnimatedSection';
 import OptimizedImage from '../components/OptimizedImage';
+import Seo from '../components/Seo';
 import { apiService } from '../services/api';
 import { useGlobalSettings } from '../hooks/useGlobalSettings';
+import { DEFAULT_DESCRIPTION } from '../config/site';
 
 interface Project {
   id: number;
@@ -148,6 +150,12 @@ const HomePage = () => {
   if (error) {
     return (
       <div className="bg-white text-black">
+        <Seo
+          title="Not Found | Beckwith Barrow Interior Design"
+          description={DEFAULT_DESCRIPTION}
+          canonicalPath="/"
+          noindex
+        />
         <Navigation />
         <div className="h-screen flex items-center justify-center">
           <div className="text-center">
@@ -161,9 +169,15 @@ const HomePage = () => {
 
   return (
     <div className="bg-white text-black">
+      <Seo
+        title="Beckwith Barrow Interior Design | The Berkshires & Boston"
+        description={DEFAULT_DESCRIPTION}
+        canonicalPath="/"
+      />
+
       {/* Navigation */}
       <Navigation />
-      
+
       {/* Hero Section - 100vh with dual images and centered text */}
       <section className="relative h-screen flex bg-black overflow-hidden">
         {/* Left Image */}

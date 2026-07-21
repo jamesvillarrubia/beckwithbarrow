@@ -12,6 +12,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { lazy, Suspense } from 'react';
 import { useSmartPrefetch } from './hooks/usePrefetchPages';
 import { useCacheClear } from './hooks/useCacheClear';
@@ -131,14 +132,16 @@ function AppContent() {
 
 function App() {
   return (
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={{ persister, maxAge: 1000 * 60 * 60 * 24 * 7 }} // 7 days max age
-    >
-      <Router>
-        <AppContent />
-      </Router>
-    </PersistQueryClientProvider>
+    <HelmetProvider>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister, maxAge: 1000 * 60 * 60 * 24 * 7 }} // 7 days max age
+      >
+        <Router>
+          <AppContent />
+        </Router>
+      </PersistQueryClientProvider>
+    </HelmetProvider>
   );
 }
 

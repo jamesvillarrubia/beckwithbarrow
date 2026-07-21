@@ -10,6 +10,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
+import Seo from '../components/Seo';
 import { apiService } from '../services/api';
 import { useRecaptcha } from '../hooks/useRecaptcha';
 
@@ -144,12 +145,18 @@ const ConnectPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <Seo
+        title="Contact | Beckwith Barrow Interior Design"
+        description="Get in touch with Beckwith Barrow, a boutique interior design firm based in The Berkshires and Boston."
+        canonicalPath="/connect"
+      />
+
       {/* Navigation */}
       <Navigation />
 
       {/* Breadcrumb Navigation */}
       <Breadcrumb />
-      
+
       {/* Hero Section */}
       <section className="py-16 px-6 md:px-12 lg:px-16">
         <div className="max-w-4xl mx-auto text-center">

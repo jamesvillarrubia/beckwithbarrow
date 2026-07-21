@@ -24,29 +24,38 @@
     <noscript>
       <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Lato:wght@100&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
     </noscript>
-    <meta name="keywords" content="Interior Design, Interior Architecture, Interior Design Firm, Interior Design Company, Interior Design Services, Interior Design Studio, Interior Design Firm, Interior Design Company, Interior Design Services, Interior Design Studio, Interior Design Firm, Interior Design Company, Interior Design Services, Interior Design Studio">
+    <meta name="keywords" content="interior design, interior architecture, residential design, The Berkshires, Boston">
     <meta name="author" content="Beckwith Barrow Interior Design">
-    <title>Beckwith Barrow Interior Design</title>
-    <meta name="description" content="A full-service, boutique, upscale Interior Design firm based in The Berkshires and Boston." />
-    <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow">
-    <meta name="bingbot" content="index, follow">
-    <meta name="yandexbot" content="index, follow">
-    
-    <!-- Social Media Meta Tags -->
-    <meta property="og:title" content="Beckwith Barrow Interior Design">
-    <meta property="og:description" content="A full-service, boutique, upscale Interior Design firm based in The Berkshires and Boston.">
-    <meta property="og:image" content="https://res.cloudinary.com/dqeqavdd8/image/upload/v1758995559/demkxyyquntlquyz4wgf.jpg">
-    <meta property="og:url" content="https://beckwithbarrow.com">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Beckwith Barrow Interior Design">
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Beckwith Barrow Interior Design">
-    <meta name="twitter:description" content="A full-service, boutique, upscale Interior Design firm based in The Berkshires and Boston.">
-    <meta name="twitter:image" content="https://res.cloudinary.com/dqeqavdd8/image/upload/v1758995559/demkxyyquntlquyz4wgf.jpg">
-    
+    <!-- Static fallback title/description are managed per-page by the <Seo> component
+         (react-helmet-async). Title stays as a no-JS fallback; description, Open Graph,
+         and Twitter tags are emitted per-page at runtime to avoid duplicate meta tags. -->
+    <title>Beckwith Barrow Interior Design | The Berkshires & Boston</title>
+    <!-- No static robots meta: pages are indexable by default, and the <Seo>
+         component emits `noindex` per-page (e.g. Not Found) without a conflicting
+         static "index, follow" tag winning the duplicate. -->
+
+    <!-- Structured Data (schema.org JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ProfessionalService",
+          "name": "Beckwith Barrow Interior Design",
+          "url": "https://beckwithbarrow.com",
+          "description": "A full-service, boutique interior design firm creating upscale, livable interiors across The Berkshires and Boston.",
+          "image": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1758995559/demkxyyquntlquyz4wgf.jpg",
+          "areaServed": ["The Berkshires", "Boston"]
+        },
+        {
+          "@type": "WebSite",
+          "name": "Beckwith Barrow Interior Design",
+          "url": "https://beckwithbarrow.com"
+        }
+      ]
+    }
+    </script>
+
   </head>
   <body>
     <div id="root"></div>

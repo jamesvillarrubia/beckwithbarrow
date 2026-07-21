@@ -22,9 +22,12 @@ import Navigation from '../components/Navigation';
 import ImageGrid from '../components/ImageGrid';
 import AnimatedSection from '../components/AnimatedSection';
 import Breadcrumb from '../components/Breadcrumb';
+import Seo from '../components/Seo';
 import { apiService } from '../services/api';
 import { useGlobalSettings } from '../hooks/useGlobalSettings';
 import { formatNumberWithO } from '../utils/formatNumber';
+import { truncateForMeta } from '../utils/seoText';
+import { DEFAULT_DESCRIPTION } from '../config/site';
 
 interface ProjectImage {
   id: number;
@@ -151,6 +154,12 @@ const ProjectPage = () => {
   if (error || !project) {
     return (
       <div className="bg-white text-black">
+        <Seo
+          title="Not Found | Beckwith Barrow Interior Design"
+          description={DEFAULT_DESCRIPTION}
+          canonicalPath={`/project/${slug}`}
+          noindex
+        />
         <Navigation />
         <Breadcrumb />
         <div className="h-screen flex items-center justify-center">
@@ -191,11 +200,22 @@ const ProjectPage = () => {
     });
   }
 
+  const projectDescription =
+    truncateForMeta(project.description) || DEFAULT_DESCRIPTION;
+  const projectCover = project.cover?.url || undefined;
+
   return (
     <div className="bg-white text-black">
+      <Seo
+        title={`${project.title} | Beckwith Barrow Interior Design`}
+        description={projectDescription}
+        canonicalPath={`/project/${slug}`}
+        {...(projectCover ? { ogImage: projectCover } : {})}
+      />
+
       {/* Navigation */}
       <Navigation />
-      
+
       {/* Breadcrumb */}
       <Breadcrumb />
 
