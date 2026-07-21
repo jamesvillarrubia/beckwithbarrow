@@ -9,6 +9,7 @@
     "dev:prod": "VITE_USE_PROD_API=true vite",
     "dev:full": "concurrently \"node api-server.js\" \"vite --port 5173\"",
     "dev:api": "node api-server.js",
+    "postinstall": "node scripts/ensure-static-data.mjs",
     "generate-sitemap": "tsx scripts/generate-sitemap.ts",
     "generate-static": "tsx scripts/generate-static-data.ts",
     "generate-all": "pnpm run generate-sitemap && pnpm run generate-static",
