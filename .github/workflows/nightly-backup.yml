@@ -11,8 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { lfs: false }   # write-only backup: don't pull existing LFS binaries (saves bandwidth quota)
+      # Version comes from package.json "packageManager" (pnpm@10.6.2).
+      # Specifying it here as well makes action-setup fail.
       - uses: pnpm/action-setup@v4
-        with: { version: 10.6.2 }   # required: no packageManager field in package.json
       - uses: actions/setup-node@v4
         with: { node-version: '22', cache: 'pnpm' }
       - run: pnpm install --frozen-lockfile
