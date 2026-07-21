@@ -121,9 +121,9 @@ const QuoteBlockRenderer = ({ block }: { block: QuoteBlock }) => {
   return (
     <section className="py-24" style={{ paddingTop: '100px', paddingBottom: '100px' }}>
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-        <h3 className="text-4xl md:text-6xl font-serif font-light leading-relaxed text-gray-900">
+        <h2 className="text-4xl md:text-6xl font-serif font-light leading-relaxed text-gray-900">
           "{quoteText}"
-        </h3>
+        </h2>
         {name && (
           <p className="text-xl md:text-2xl font-sans text-gray-600 mt-8 italic">
             — {name}
@@ -153,20 +153,24 @@ const RichTextBlockRenderer = ({ block }: { block: RichTextBlock }) => {
               remarkPlugins={[remarkGfm]}
               components={{
                 // Override default styles to match site typography
+                // CMS headings are shifted down one level. The page title
+                // (press article / project) is already the document's single
+                // <h1>, so markdown "# Foo" must not compete with it. Visual
+                // classes are unchanged, so authored content looks identical.
                 h1: ({ children }) => (
-                  <h1 className="text-4xl md:text-5xl font-serif font-light leading-relaxed text-gray-900 mt-8 mb-6">
-                    {children}
-                  </h1>
-                ),
-                h2: ({ children }) => (
-                  <h2 className="text-3xl md:text-4xl font-serif font-light leading-relaxed text-gray-900 mt-8 mb-6">
+                  <h2 className="text-4xl md:text-5xl font-serif font-light leading-relaxed text-gray-900 mt-8 mb-6">
                     {children}
                   </h2>
                 ),
-                h3: ({ children }) => (
-                  <h3 className="text-2xl md:text-3xl font-serif font-light leading-relaxed text-gray-900 mt-6 mb-4">
+                h2: ({ children }) => (
+                  <h3 className="text-3xl md:text-4xl font-serif font-light leading-relaxed text-gray-900 mt-8 mb-6">
                     {children}
                   </h3>
+                ),
+                h3: ({ children }) => (
+                  <h4 className="text-2xl md:text-3xl font-serif font-light leading-relaxed text-gray-900 mt-6 mb-4">
+                    {children}
+                  </h4>
                 ),
                 p: ({ children }) => (
                   <p className="text-lg md:text-xl font-sans text-gray-700 leading-relaxed mb-8">
