@@ -20,6 +20,10 @@ on:
         type: boolean
         default: false
 
+permissions:
+  contents: read
+  pull-requests: write # pulumi/actions needs this to comment the preview diff
+
 jobs:
   deploy:
     name: Build & Deploy
@@ -57,13 +61,20 @@ jobs:
           VITE_RECAPTCHA_SITE_KEY: ${{ vars.VITE_RECAPTCHA_SITE_KEY }}
 
       # --- Pulumi (syncs Vercel config) ---
-      # `up` only on main, or on a manual run that explicitly opted in.
-      # Everything else — including every PR — is a read-only preview.
+      # ⚠️ `up` is currently reachable ONLY via an explicit manual run.
+      #
+      # The first successful preview (PR #31) showed the prod stack has no
+      # state for the Vercel resources that already exist: it wants to CREATE
+      # the project, the domain binding and all six env vars. Applying that
+      # would duplicate the project and re-bind the live domain.
+      #
+      # The existing resources must be `pulumi import`ed into the stack first.
+      # Until then main stays on preview, so a merge can never apply.
+      # Restore `github.event_name == 'push'` here once the import is done.
       - name: Resolve Pulumi command
         id: pulumi_cmd
         run: |
-          if [ "${{ github.event_name }}" = "push" ] \
-            || [ "${{ inputs.apply }}" = "true" ]; then
+          if [ "${{ inputs.apply }}" = "true" ]; then
             echo "command=up" >> "$GITHUB_OUTPUT"
           else
             echo "command=preview" >> "$GITHUB_OUTPUT"
