@@ -6,6 +6,23 @@ on:
     paths:
       - "frontend/**"
       - "infra/**"
+  # Infra diffs are visible before merge instead of first appearing in prod.
+  pull_request:
+    paths:
+      - "frontend/**"
+      - "infra/**"
+  # On-demand redeploy — the point of keeping infra in code is being able to
+  # rebuild it somewhere else quickly without waiting for a push.
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Apply changes (pulumi up). Unchecked = preview only."
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pull-requests: write # pulumi/actions needs this to comment the preview diff
 
 jobs:
   deploy:
@@ -15,23 +32,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # No `version:` here. package.json now sets "packageManager": "pnpm@10.6.2",
-      # and action-setup errors out if a version is specified in both places.
+      # No `version:` here. package.json sets "packageManager": "pnpm@10.6.2",
+      # and action-setup errors out if a version is given in both places.
       - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
           cache: "pnpm"
-          cache-dependency-path: |
-            frontend/pnpm-lock.yaml
-            infra/pnpm-lock.yaml
+          # Root lockfile only. The per-package lockfiles were untracked because
+          # pnpm ignores nested lockfiles in a workspace.
+          cache-dependency-path: pnpm-lock.yaml
+
+      # One install at the workspace root covers frontend AND infra. Installing
+      # from inside a package fails with ERR_PNPM_NO_LOCKFILE now that the
+      # per-package lockfiles are gone — pnpm resolves the workspace from the
+      # root, and that is the only lockfile there is.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       # --- Build frontend (validates before deploy) ---
-      - name: Install frontend dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: frontend
-
       - name: Build frontend
         run: pnpm build
         working-directory: frontend
@@ -41,16 +61,32 @@ jobs:
           VITE_RECAPTCHA_SITE_KEY: ${{ vars.VITE_RECAPTCHA_SITE_KEY }}
 
       # --- Pulumi (syncs Vercel config) ---
-      - name: Install infra dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: infra
+      # ⚠️ `up` is currently reachable ONLY via an explicit manual run.
+      #
+      # The first successful preview (PR #31) showed the prod stack has no
+      # state for the Vercel resources that already exist: it wants to CREATE
+      # the project, the domain binding and all six env vars. Applying that
+      # would duplicate the project and re-bind the live domain.
+      #
+      # The existing resources must be `pulumi import`ed into the stack first.
+      # Until then main stays on preview, so a merge can never apply.
+      # Restore `github.event_name == 'push'` here once the import is done.
+      - name: Resolve Pulumi command
+        id: pulumi_cmd
+        run: |
+          if [ "${{ inputs.apply }}" = "true" ]; then
+            echo "command=up" >> "$GITHUB_OUTPUT"
+          else
+            echo "command=preview" >> "$GITHUB_OUTPUT"
+          fi
 
       - uses: pulumi/actions@v5
         with:
-          command: up
+          command: ${{ steps.pulumi_cmd.outputs.command }}
           stack-name: prod
           work-dir: infra
           refresh: true
+          comment-on-pr: true
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           VERCEL_API_TOKEN: ${{ secrets.VERCEL_API_TOKEN }}

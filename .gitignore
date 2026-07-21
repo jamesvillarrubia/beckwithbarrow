@@ -21,3 +21,9 @@ assets-archive/
 
 # Local marketing/strategy working docs (kept out of the repo deliberately)
 marketing/
+
+# Nested lockfiles are ignored by pnpm in a workspace; the root pnpm-lock.yaml
+# is authoritative. Keeping them tracked masked a stale root lockfile for months.
+api/pnpm-lock.yaml
+frontend/pnpm-lock.yaml
+infra/pnpm-lock.yaml
