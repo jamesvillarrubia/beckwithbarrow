@@ -27,3 +27,10 @@ marketing/
 api/pnpm-lock.yaml
 frontend/pnpm-lock.yaml
 infra/pnpm-lock.yaml
+
+# Environment files — never commit real credentials.
+# (api/.gitignore already covers api/.env; this makes it repo-wide.)
+.env
+.env.*
+!.env.example
+!*.env.example
