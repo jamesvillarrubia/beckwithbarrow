@@ -21,7 +21,11 @@ jobs:
           CLOUDINARY_NAME: ${{ secrets.CLOUDINARY_NAME }}
           CLOUDINARY_KEY: ${{ secrets.CLOUDINARY_KEY }}
           CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
-          THRESHOLD_PCT: '80'
+          # 60, not 80. The account moved from a 225-credit plan to the
+          # 25-credit free tier, so 80% would leave only 5 credits of headroom
+          # — not enough time to react before overage. Actual usage after the
+          # incremental-backup fix is ~0.4%, so a 60% trip cannot false-alarm.
+          THRESHOLD_PCT: '60'
         run: node scripts/check-cloudinary-usage.mjs
       - name: Open issue if over threshold (deduped)
         if: steps.check.outputs.over == 'true'
