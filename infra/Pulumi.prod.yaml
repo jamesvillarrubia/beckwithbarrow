@@ -23,3 +23,4 @@ config:
   beckwithbarrow-infra:cloudinaryKey: "865956219142244"
   beckwithbarrow-infra:strapiAdminEmail:
     secure: AAABADtMo0ezwW1sYNP3HIYw4wRKM3R1wxpEEPryBOhcE6qHIWLCsHlgf44gu4QFoZdA/RaOtw==
+  vercel:team: team_HAvukd3hh3lpRqfysX0hzDjK
