@@ -40,11 +40,14 @@ jobs:
           # pnpm ignores nested lockfiles in a workspace.
           cache-dependency-path: pnpm-lock.yaml
 
-      # --- Build frontend (validates before deploy) ---
-      - name: Install frontend dependencies
+      # One install at the workspace root covers frontend AND infra. Installing
+      # from inside a package fails with ERR_PNPM_NO_LOCKFILE now that the
+      # per-package lockfiles are gone — pnpm resolves the workspace from the
+      # root, and that is the only lockfile there is.
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        working-directory: frontend
 
+      # --- Build frontend (validates before deploy) ---
       - name: Build frontend
         run: pnpm build
         working-directory: frontend
@@ -54,10 +57,6 @@ jobs:
           VITE_RECAPTCHA_SITE_KEY: ${{ vars.VITE_RECAPTCHA_SITE_KEY }}
 
       # --- Pulumi (syncs Vercel config) ---
-      - name: Install infra dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: infra
-
       # `up` only on main, or on a manual run that explicitly opted in.
       # Everything else — including every PR — is a read-only preview.
       - name: Resolve Pulumi command
