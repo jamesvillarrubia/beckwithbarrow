@@ -5,4 +5,9 @@ node_modules
 .nx/
 uploads/
 frontend/.env.local.backup
-.pnpm-store/.worktrees/
+.pnpm-store/
+
+# Agent / tooling scratch
+.worktrees/
+.playwright-mcp/
+.claude/overnight/

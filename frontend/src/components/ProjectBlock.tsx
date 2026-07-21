@@ -89,23 +89,23 @@ const ProjectBlock = ({ project, className = '', number, numberColor, disableCol
         )}
         
         {/* Project title - left aligned, below number */}
-        <h5 
+        <h3 
           className="text-xl font-normal text-gray-900 cursor-pointer hover:text-gray-700 transition-colors"
           onClick={handleProjectClick}
         >
           {project.title}
-        </h5>
+        </h3>
       </div>
 
       {/* Desktop Layout: Title on left, line, number on right (lg and above) */}
       <div className="hidden lg:flex items-center gap-4 mb-4">
         {/* Project title - left justified */}
-        <h5 
+        <h3 
           className="text-2xl font-normal text-gray-900 cursor-pointer hover:text-gray-700 transition-colors flex-shrink-0"
           onClick={handleProjectClick}
         >
           {project.title}
-        </h5>
+        </h3>
         
         {/* Horizontal line connecting title to number */}
         <div 

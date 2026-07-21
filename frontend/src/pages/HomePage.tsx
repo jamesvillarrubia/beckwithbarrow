@@ -227,9 +227,14 @@ const HomePage = () => {
         {/* Centered Text Overlay - Stationary */}
         <div className="absolute w-full h-full z-20 flex items-center justify-center px-6 md:px-12">
           <AnimatedSection delay={500} duration={800}>
-            <div className="w-full max-w-[500px]">
+            {/* The wordmark IS the page's top-level heading. Marking it up as
+                <h1> (with the firm name for screen readers, since the logo is
+                an SVG) gives the page a real outline root without changing a
+                pixel — Tailwind's preflight zeroes heading margins/sizes. */}
+            <h1 className="w-full max-w-[500px]">
+              <span className="sr-only">Beckwith Barrow Interior Design</span>
               <Logo size="hero" color="white" />
-            </div>
+            </h1>
           </AnimatedSection>
         </div>
       </section>
@@ -245,9 +250,9 @@ const HomePage = () => {
       >
         <AnimatedSection delay={200}>
         <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 text-left">
-          <h3 className="text-2xl md:text-4xl font-serif font-extralight leading-tight text-gray-900">
+          <h2 className="text-2xl md:text-4xl font-serif font-extralight leading-tight text-gray-900">
             {homeContent?.quote?.quoteText || "Architecture is a visual art, and the buildings speak for themselves."}
-          </h3>
+          </h2>
           <p className="text-xl md:text-2xl font-sans text-gray-500 mt-8 text-right">
             — {homeContent?.quote?.name || "Julia Morgan"}
           </p>
