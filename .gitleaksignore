@@ -1,0 +1,5 @@
+# gitleaks false-positive allowlist
+# Format: one fingerprint per line (from `gitleaks protect --verbose` output)
+
+# reCAPTCHA site key — public by design, embedded in frontend HTML/JS
+infra/Pulumi.prod.yaml:generic-api-key:9
