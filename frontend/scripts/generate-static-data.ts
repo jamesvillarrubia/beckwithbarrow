@@ -122,10 +122,18 @@ async function main() {
   console.log(`\n✨ Static data written to ${path.relative(process.cwd(), OUTPUT_PATH)}`);
   console.log(`   ${Object.keys(result).length} entries, ${failures} skipped\n`);
 
-  // Fail the build only if ALL fetches failed (Strapi completely unreachable)
+  // A total Strapi outage must NOT block a deploy. The snapshot is a
+  // performance optimisation, not a correctness requirement: an empty
+  // static-data.json simply means the React Query cache starts cold and every
+  // page fetches at runtime, exactly as it did before this script existed.
+  // Failing the build here would let a CMS outage take down the ability to
+  // ship unrelated frontend fixes.
   if (failures === ENDPOINTS.length) {
-    console.error('❌ All Strapi fetches failed — aborting build');
-    process.exit(1);
+    console.warn(
+      '\n⚠️  All Strapi fetches failed — writing an empty snapshot and continuing.\n' +
+        '   The site will fetch content at runtime instead of being seeded.\n' +
+        '   If this was not expected, check that Strapi is reachable before relying on the deploy.'
+    );
   }
 }
 
