@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "beckwithbarrow-cms": {
+      "command": "pnpm",
+      "args": ["--filter", "@beckwithbarrow/cms-mcp", "start"],
+      "env": {}
+    }
+  }
+}
