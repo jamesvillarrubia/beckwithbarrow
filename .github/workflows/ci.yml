@@ -26,6 +26,12 @@ jobs:
       # so an install there could not find the root lockfile at all.
       - run: pnpm install --frozen-lockfile
 
+      # cms-client must be BUILT before anything typechecks against it: its dist/ is
+      # generated (never committed), and cms-mcp imports it by package name, so its
+      # types do not exist until the build has run.
+      - name: Build the client
+        run: pnpm --filter @beckwithbarrow/cms-client build
+
       - name: Types and tests
         run: |
           pnpm --filter @beckwithbarrow/cms-client typecheck
