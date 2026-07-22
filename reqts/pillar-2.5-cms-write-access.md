@@ -50,9 +50,20 @@
      snapshot (step 2) and the shape-discovery read are the *same* fetch — one read, reused.
 
 These resolve open questions 2, 3 and 5 below. Question 1 (publish mechanism) will be answered
-empirically against local Strapi rather than by decision. Question 4 (backup size) is measured:
-a full content snapshot is ~517 KB, of which ~429 KB is regenerable Cloudinary `formats`
-metadata — strip that and snapshots are well under 100 KB, so git-committed history is fine.
+empirically against local Strapi rather than by decision.
+
+**Question 4 (backup size) — measured 2026-07-22, correcting an earlier estimate.** A full
+content snapshot is **517 KB raw → 304 KB** after stripping regenerable Cloudinary `formats`
+(41% reduction, *not* the ~85% first estimated). Per media object `formats` is 1324 of 1982
+bytes, but media references dominate the payload — `images` alone is 413 KB across 15 projects —
+so stripping cannot get this under 100 KB without discarding media metadata that revert may need.
+
+That is fine, because size was the wrong thing to worry about. The real property is
+**byte-stability**: `stableStringify` sorts keys so unchanged content serialises to identical
+bytes, and git stores content-addressed blobs. A nightly snapshot of unchanged content therefore
+adds **no new git objects at all**. Growth tracks actual content churn, not backup frequency —
+which is exactly the opposite of the Pillar 1 image-backup failure mode, where every nightly run
+re-downloaded identical binaries. No retention policy is needed at this size.
 
 **Branch:** feat/pillar-2.5-cms-write-access · **Created:** 2026-06-17
 **Part of:** the website-management-agent initiative (`reqts/website-management-agent.md`; Pillar 1

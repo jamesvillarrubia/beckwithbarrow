@@ -1,0 +1,22 @@
+{
+  "name": "@beckwithbarrow/cms-client",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Layer A — safe-write client for Beckwith Barrow's Strapi CMS. All guardrails live here.",
+  "main": "./src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "content:backup": "tsx src/cli/backup-content.ts"
+  },
+  "dependencies": {
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.9"
+  }
+}
