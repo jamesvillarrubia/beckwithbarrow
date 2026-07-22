@@ -1,11 +1,15 @@
-nx.json
-package.json
-pnpm-lock.yaml
-pnpm-workspace.yaml
-# Leading slashes anchor these to the repository root. Without them, gitignore
-# semantics match a directory of that name at ANY depth — which silently excluded
-# packages/cms-mcp/api/, so Vercel reported "no Serverless Functions inside the api
-# directory" for the MCP project.
+# Repository-root ignore, applied to every Vercel project in this repo.
+#
+# Do NOT add package.json, pnpm-lock.yaml, pnpm-workspace.yaml or nx.json here.
+# They were previously excluded, which caused two separate failures:
+#   - the frontend could not run `pnpm install --frozen-lockfile` (no lockfile), so it
+#     was pinned to --no-frozen-lockfile, defeating the guarantee the lockfile exists for;
+#   - the cms-mcp function could not resolve its workspace dependency at runtime, and
+#     every invocation failed before any handler ran.
+# The workspace manifests are small and both projects need them.
+#
+# Leading slashes anchor to the repository root. Without them, gitignore semantics match
+# a directory of that name at ANY depth — which silently excluded packages/cms-mcp/api/.
 /api/
 /docs/
 /scripts/
