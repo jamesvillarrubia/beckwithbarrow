@@ -24,3 +24,7 @@ config:
   beckwithbarrow-infra:strapiAdminEmail:
     secure: AAABADtMo0ezwW1sYNP3HIYw4wRKM3R1wxpEEPryBOhcE6qHIWLCsHlgf44gu4QFoZdA/RaOtw==
   vercel:team: team_HAvukd3hh3lpRqfysX0hzDjK
+  beckwithbarrow-infra:mcpConnectorSecret:
+    secure: AAABAG9APXQoNQewIFM1FbHuq32jMH19kAU17cOyiulnN3jDzwjSZbyYPl3ti8Xoo/Du3Cc615rjYEulIJELKPJyJypUFUVGYAr1
+  beckwithbarrow-infra:strapiCmsWriteToken:
+    secure: AAABAPn/tpy5s/5q2/MUZMa0W0z7BLrdgadHJ1rxTvUoCjfUcNUh0AnLojEHR2M7Iu/vmpoT+Q3hKyvqtvyhmNz5WIYRv1mwkwz2X4YntT+W188shcUEl/MoTndZNqDhXvVMOhQQEMhTRsB2itEh3oeQ0XkUA5LiIK+H4xJKZTBv8lSwyZQXgTIRQf3R7qA0cDoiRMkU94HfI09wABcJ5SFakGW40GDTUdbs7zTshhzEjZy/qZbe7fHNXMZObYkFWMn4HM2vIDYMnucsvbbYDoEERenD2pB+hMHJhoQoQlAAIQcSMVulR4G50ah2Ad6xNAQ2d+NUEyr77yZFM/Sa2THOqtXJJPtB4w4HXPyLvweJVTRNcOQQUb5pU824yzYM

@@ -1,0 +1,6 @@
+{
+  "framework": null,
+  "buildCommand": "echo 'no build step: functions are compiled by Vercel'",
+  "outputDirectory": "public",
+  "functions": { "api/mcp/[secret].ts": { "maxDuration": 30 } }
+}
