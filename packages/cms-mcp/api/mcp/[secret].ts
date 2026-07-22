@@ -1,18 +1,20 @@
 /**
  * Hosted MCP endpoint — bundled entry point.
  *
- * This file and everything it imports are bundled by tsup into a single self-contained
- * api/mcp/[secret].js. Vercel therefore resolves NOTHING at runtime: no workspace
- * packages, no TypeScript, no node_modules beyond Node builtins. Five separate deploy
- * failures came from asking Vercel to resolve a pnpm monorepo; handing it one plain
- * JavaScript file removes that entire class of problem.
+ * Committed as TypeScript SOURCE — Vercel compiles it and resolves the workspace
+ * normally. That works now that the stray frontend/ and api/ pnpm-workspace.yaml files
+ * are gone: they made pnpm treat those directories as separate workspace roots, which
+ * broke lockfile resolution and, with it, workspace linking.
+ *
+ * Nothing generated is committed here. A build artifact in git can be merged stale,
+ * which is a defect waiting to happen.
  *
  * Node-style (req, res) handler: this runtime accepts that form and hangs on the
  * Web-standard (Request) => Response form (verified by deploying both).
  */
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { buildServer } from '../server.js';
+import { buildServer } from '../../src/server';
 
 /** Constant-time compare, so response timing cannot be used to guess the secret. */
 function secretMatches(given: string, expected: string): boolean {

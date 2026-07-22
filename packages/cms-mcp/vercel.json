@@ -1,8 +1,8 @@
 {
-  "buildCommand": "echo 'no build: api/mcp/[secret].js is a committed, self-contained bundle'",
+  "buildCommand": "pnpm build",
   "outputDirectory": "public",
   "functions": {
-    "api/**/*.js": {
+    "api/**/*.ts": {
       "maxDuration": 30
     }
   }
