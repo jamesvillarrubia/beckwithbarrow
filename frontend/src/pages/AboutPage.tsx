@@ -319,7 +319,9 @@ const AboutPage = () => {
             )}
 
             {/* Top Right: Rich Text */}
-            <div className="pt-4">
+            {/* pt is larger than the Bottom Left block's: this paragraph sits under the
+                decorative horizontal rule in the title SVG and was crowding it (Ardis #8). */}
+            <div className="pt-14">
               {aboutContent?.topRightText ? (
                 <div className="prose prose-lg max-w-none">
                   <ReactMarkdown 
