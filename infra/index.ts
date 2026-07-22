@@ -196,3 +196,48 @@ export const deployHookUrl = deployHook.hookUrl;
 // └──────────────────────────┴─────────────────────────────────────┘
 //
 // Strapi Cloud auto-deploys when main branch is pushed — no manual trigger needed.
+
+// ---------------------------------------------------------------------------
+// CMS MCP server (Pillar 2.5, layer B)
+// ---------------------------------------------------------------------------
+// A SEPARATE Vercel project, deliberately not part of the marketing site:
+//   - the site builds from frontend/, this builds from packages/cms-mcp/, and a
+//     build or config change to one must not be able to affect the other;
+//   - it is an authenticated write surface, so it gets its own blast radius.
+//
+// Auth is a secret path segment (https://<host>/api/mcp/<secret>) — functionally a
+// bearer token, and the same trust model as the deploy hook above, which is likewise
+// just a secret URL. The server answers 404 rather than 401 on a bad secret, so a
+// prober cannot distinguish a wrong secret from a nonexistent endpoint.
+const mcpProject = new vercel.Project("cms-mcp", {
+  name: "beckwithbarrow-cms-mcp",
+  // No framework: this project is only serverless functions plus a placeholder page.
+  rootDirectory: "packages/cms-mcp",
+  gitRepository: {
+    repo: "jamesvillarrubia/beckwithbarrow",
+    type: "github",
+    productionBranch: "main",
+  },
+});
+
+// The Strapi write token. Scoped to create + update (+ publish); delete is NOT granted,
+// which is one of the two independent barriers against deletion — the other being that
+// no code path in cms-client exposes a delete at all.
+new vercel.ProjectEnvironmentVariable("cms-mcp-strapi-token", {
+  projectId: mcpProject.id,
+  key: "STRAPI_CMS_WRITE_TOKEN",
+  value: config.requireSecret("strapiCmsWriteToken"),
+  targets: ["production", "preview"],
+  sensitive: true,
+});
+
+// The connector secret Ardis's Claude presents in the URL path.
+new vercel.ProjectEnvironmentVariable("cms-mcp-connector-secret", {
+  projectId: mcpProject.id,
+  key: "MCP_CONNECTOR_SECRET",
+  value: config.requireSecret("mcpConnectorSecret"),
+  targets: ["production", "preview"],
+  sensitive: true,
+});
+
+export const cmsMcpProjectId = mcpProject.id;
