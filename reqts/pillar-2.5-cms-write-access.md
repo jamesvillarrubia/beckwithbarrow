@@ -7,9 +7,15 @@
 
 1. **HARD PRECONDITION — backups first.** No write capability ships, and no live write is
    ever attempted, until **both** backup paths are working *and confirmed*: content/DB
-   backup (does not exist yet — this spec builds it) and image backup (exists; must be
-   re-confirmed green). Confirmation means a verified restore-readiness check, not just
+   backup and image backup. Confirmation means a verified restore-readiness check, not just
    "the workflow ran". This gates everything.
+
+   > ✅ **MET 2026-07-22.** Content backup built (PR #42) and image backup re-confirmed in
+   > run 29947784136: content 10/10 endpoints, images 203/203 restorable with 0 downloaded
+   > (incremental fix held). One asset restored end-to-end and byte-verified against its
+   > LFS pointer hash. Evidence and stated limits:
+   > `docs/analysis/2026-07-22-backup-confirmation.md`. Write-path implementation may begin;
+   > a **live** write still requires the token in §5 below.
 2. **ONE WRITE AT A TIME — no batch writes, ever.** Each invocation performs exactly one
    mutation against one document (or one field of one single type). No loops over records,
    no bulk create, no multi-record transactions. If a task needs N changes, that is N
