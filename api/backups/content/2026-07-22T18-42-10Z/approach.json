@@ -1,0 +1,54 @@
+{
+  "coverImage": {
+    "alternativeText": null,
+    "caption": null,
+    "createdAt": "2025-11-17T17:47:15.830Z",
+    "documentId": "w15rqb3g4tw70osshkxpu610",
+    "ext": ".jpg",
+    "hash": "Onota_Lake_House_by_Beckwith_and_Barrow_003_89dd102e1a",
+    "height": 6720,
+    "id": 6059,
+    "mime": "image/jpeg",
+    "name": "Onota Lake House by Beckwith and Barrow 003.jpg",
+    "previewUrl": null,
+    "provider": "strapi-provider-upload-strapi-cloud",
+    "provider_metadata": null,
+    "publishedAt": "2025-11-17T17:47:15.831Z",
+    "related": [
+      {
+        "__type": "api::home.home",
+        "createdAt": "2025-10-01T14:47:19.726Z",
+        "documentId": "os71fuo4y83ujq91lropd1i8",
+        "id": 44,
+        "numberColors": "#2d2c2c",
+        "publishedAt": "2026-03-20T01:27:55.367Z",
+        "quoteBgColor": "#e3d1bb",
+        "title": "Beckwith Barrow Interior Design ",
+        "updatedAt": "2026-03-20T01:27:55.256Z"
+      },
+      {
+        "__type": "api::approach.approach",
+        "createdAt": "2025-11-19T16:17:58.986Z",
+        "documentId": "j5zo8y5hg2y5w2yr8w3gj0js",
+        "id": 1,
+        "publishedAt": "2025-11-19T16:22:14.067Z",
+        "quote": "With team members based in the Berkshires and Boston, we seamlessly manage projects across Massachusetts, throughout the Northeast, and beyond. Whether you are across town or across the country you can count on us to handle every stage of your project with clear communication and meticulous attention to detail.",
+        "quoteBgColor": "#e3d1bb",
+        "title": "Our Approach",
+        "updatedAt": "2025-11-19T16:22:14.250Z"
+      }
+    ],
+    "size": 2336.41,
+    "updatedAt": "2025-11-17T17:47:15.830Z",
+    "url": "https://striking-ball-b079f8c4b0.media.strapiapp.com/Onota_Lake_House_by_Beckwith_and_Barrow_003_89dd102e1a.jpg",
+    "width": 4480
+  },
+  "createdAt": "2025-11-19T16:17:58.986Z",
+  "documentId": "j5zo8y5hg2y5w2yr8w3gj0js",
+  "id": 1,
+  "publishedAt": "2025-11-19T16:22:14.067Z",
+  "quote": "With team members based in the Berkshires and Boston, we seamlessly manage projects across Massachusetts, throughout the Northeast, and beyond. Whether you are across town or across the country you can count on us to handle every stage of your project with clear communication and meticulous attention to detail.",
+  "quoteBgColor": "#e3d1bb",
+  "title": "Our Approach",
+  "updatedAt": "2025-11-19T16:22:14.250Z"
+}
