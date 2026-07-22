@@ -52,18 +52,24 @@
 These resolve open questions 2, 3 and 5 below. Question 1 (publish mechanism) will be answered
 empirically against local Strapi rather than by decision.
 
-**Question 4 (backup size) — measured 2026-07-22, correcting an earlier estimate.** A full
-content snapshot is **517 KB raw → 304 KB** after stripping regenerable Cloudinary `formats`
-(41% reduction, *not* the ~85% first estimated). Per media object `formats` is 1324 of 1982
-bytes, but media references dominate the payload — `images` alone is 413 KB across 15 projects —
-so stripping cannot get this under 100 KB without discarding media metadata that revert may need.
+**Question 4 (backup size) — measured 2026-07-22.** A full content snapshot is **~980 KB**
+across 10 endpoints (largest: `home` 410 KB, `projects` 390 KB), after stripping regenerable
+Cloudinary `formats`.
 
-That is fine, because size was the wrong thing to worry about. The real property is
-**byte-stability**: `stableStringify` sorts keys so unchanged content serialises to identical
-bytes, and git stores content-addressed blobs. A nightly snapshot of unchanged content therefore
-adds **no new git objects at all**. Growth tracks actual content churn, not backup frequency —
-which is exactly the opposite of the Pillar 1 image-backup failure mode, where every nightly run
-re-downloaded identical binaries. No retention policy is needed at this size.
+Two earlier figures in this section were wrong and are corrected here. First, stripping yields
+41% not the ~85% initially projected — per media object `formats` is 1324 of 1982 bytes, but
+media *references* dominate the payload rather than their derivatives. Second, an intermediate
+measurement of 304 KB was taken before deep populate worked; the real snapshot is larger
+precisely because it now captures nested relation data a shallow fetch was missing.
+
+Size is nonetheless the wrong thing to worry about. The real property is **byte-stability**:
+`stableStringify` sorts keys so unchanged content serialises to identical bytes, and git stores
+content-addressed blobs. Verified 2026-07-22 — two consecutive backups are byte-identical
+(`diff -r` clean, excluding `manifest.json`, which carries a timestamp by design for provenance
+and is a few KB). So a snapshot of unchanged content adds **no new git objects** for the content
+itself. Growth tracks actual content churn, not backup frequency — exactly the opposite of the
+Pillar 1 image-backup failure mode, where every nightly run re-downloaded identical binaries.
+No retention policy is needed at this size.
 
 **Branch:** feat/pillar-2.5-cms-write-access · **Created:** 2026-06-17
 **Part of:** the website-management-agent initiative (`reqts/website-management-agent.md`; Pillar 1
