@@ -18,13 +18,15 @@ import { stripRegenerable, stableStringify } from '../snapshot.js';
 const DRY_RUN = process.argv.includes('--dry-run');
 const REPO_ROOT = path.resolve(process.cwd(), '../..');
 const SCHEMA_ROOT = path.join(REPO_ROOT, 'api', 'src', 'api');
+// `||` not `??` on purpose: CI supplies these from secrets, and an unset secret arrives
+// as an empty string, which would otherwise be accepted and produce broken URLs.
 const BASE_URL =
-  process.env['STRAPI_PUBLIC_URL'] ?? 'https://striking-ball-b079f8c4b0.strapiapp.com';
+  process.env['STRAPI_PUBLIC_URL'] || 'https://striking-ball-b079f8c4b0.strapiapp.com';
 
 function outDir(): string {
   const flag = process.argv.indexOf('--out');
   if (flag !== -1 && process.argv[flag + 1]) return path.resolve(process.argv[flag + 1] as string);
-  const stamp = process.env['BACKUP_STAMP'] ?? new Date().toISOString().replace(/[:.]/g, '-');
+  const stamp = process.env['BACKUP_STAMP'] || new Date().toISOString().replace(/[:.]/g, '-');
   return path.join(REPO_ROOT, 'api', 'backups', 'content', stamp);
 }
 
