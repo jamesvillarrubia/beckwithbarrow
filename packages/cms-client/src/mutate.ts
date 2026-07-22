@@ -48,7 +48,8 @@ export interface AuditEntry {
   readonly endpoint: string;
   readonly documentId?: string;
   readonly field: string;
-  readonly snapshotRef: string;
+  /** Null when the caller keeps no snapshots — see MutationDeps. */
+  readonly snapshotRef: string | null;
   readonly before: unknown;
   readonly after: unknown;
   readonly applied: boolean;
@@ -59,16 +60,27 @@ export interface MutationDeps {
   /** Fetch the live document. Dependencies are arguments, not injected (CLAUDE.md). */
   read: (target: MutationTarget) => Promise<unknown>;
   write: (target: MutationTarget, payload: { data: Record<string, unknown> }) => Promise<unknown>;
-  /** Persist the pre-write state; returns a reference (path) for the audit log. */
-  recordSnapshot: (name: string, contents: string) => Promise<string>;
-  appendAudit: (entry: AuditEntry) => Promise<void>;
+  /**
+   * Persist the pre-write state; returns a reference for the audit log.
+   *
+   * OPTIONAL. The local CLI keeps snapshots because they are free there — a file next to
+   * the backups. A hosted caller has no repo to write to, and requiring durable snapshot
+   * storage would be the single most complicated part of hosting this. The safety net in
+   * that case is the daily backup, which bounds worst-case loss to ~24h.
+   *
+   * Omitting it does NOT weaken the guardrails that matter: one write at a time, never a
+   * delete, read-before-write, and verification that nothing else moved all still apply.
+   */
+  recordSnapshot?: (name: string, contents: string) => Promise<string>;
+  /** OPTIONAL, for the same reason as recordSnapshot. */
+  appendAudit?: (entry: AuditEntry) => Promise<void>;
   now: () => string;
 }
 
 export interface MutationResult {
   readonly applied: boolean;
   readonly noop: boolean;
-  readonly snapshotRef: string;
+  readonly snapshotRef: string | null;
   readonly before: unknown;
   readonly after: unknown;
 }
@@ -212,10 +224,9 @@ export async function mutate(plan: MutationPlan, deps: MutationDeps): Promise<Mu
   // 2. Snapshot. This is the restore point, written before anything changes.
   const stamp = deps.now().replace(/[:.]/g, '-');
   const label = target.documentId ? `${target.endpoint}-${target.documentId}` : target.endpoint;
-  const snapshotRef = await deps.recordSnapshot(
-    `${stamp}-${label}-${field}.json`,
-    stableStringify(before),
-  );
+  const snapshotRef = deps.recordSnapshot
+    ? await deps.recordSnapshot(`${stamp}-${label}-${field}.json`, stableStringify(before))
+    : null;
 
   const verifyAs: VerifyAs = plan.verifyAs ?? 'value';
 
@@ -258,7 +269,7 @@ export async function mutate(plan: MutationPlan, deps: MutationDeps): Promise<Mu
     applied: true,
     noop,
   };
-  await deps.appendAudit(entry);
+  if (deps.appendAudit) await deps.appendAudit(entry);
 
   return { applied: true, noop, snapshotRef, before: reportBefore, after: reportAfter };
 }
