@@ -270,6 +270,61 @@ describe('mutate — ordered relations', () => {
   });
 });
 
+describe('mutate — without snapshot or audit (the hosted path)', () => {
+  /**
+   * A hosted caller has no repo to write to, and requiring durable snapshot storage
+   * would be the most complicated part of hosting this. The daily backup is the safety
+   * net there. What must NOT change is the set of guardrails that actually constrain
+   * the write.
+   */
+  function bareDeps(): MutationDeps {
+    return {
+      read: vi.fn(async () => structuredClone(LIVE)),
+      write: vi.fn(async () => ({ ...LIVE, email: 'new@beckwithbarrow.com' })),
+      now: () => '2026-07-22T00:00:00.000Z',
+    };
+  }
+
+  it('applies the write with neither sink configured', async () => {
+    const result = await mutate(plan(), bareDeps());
+    expect(result.applied).toBe(true);
+    expect(result.snapshotRef).toBeNull();
+  });
+
+  it('still refuses a collection write with no documentId', async () => {
+    await expect(
+      mutate(plan({ target: { endpoint: 'projects', kind: 'collectionType' } }), bareDeps()),
+    ).rejects.toThrow(/documentId/i);
+  });
+
+  it('still refuses a field absent from the live document', async () => {
+    await expect(mutate(plan({ field: 'nope' }), bareDeps())).rejects.toThrow(/not present/i);
+  });
+
+  it('still fails verification on a collateral change', async () => {
+    const d: MutationDeps = {
+      ...bareDeps(),
+      write: vi.fn(async () => ({
+        ...LIVE,
+        email: 'new@beckwithbarrow.com',
+        address: 'CHANGED',
+      })),
+    };
+    await expect(mutate(plan(), d)).rejects.toThrow(/collateral/i);
+  });
+
+  it('still sends only the target field', async () => {
+    const write = vi.fn(
+      async (_t: MutationTarget, _p: { data: Record<string, unknown> }) => ({
+        ...LIVE,
+        email: 'new@beckwithbarrow.com',
+      }),
+    );
+    await mutate(plan(), { ...bareDeps(), write });
+    expect(write.mock.calls[0]?.[1]).toEqual({ data: { email: 'new@beckwithbarrow.com' } });
+  });
+});
+
 describe('mutate — audit', () => {
   it('records the snapshot reference so the change is revertible', async () => {
     const appendAudit = vi.fn(async (_e: AuditEntry) => undefined);

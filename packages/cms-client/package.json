@@ -10,7 +10,8 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "content:backup": "tsx src/cli/backup-content.ts",
-    "cms:write": "tsx src/cli/write.ts"
+    "cms:write": "tsx src/cli/write.ts",
+    "cms:describe": "tsx src/cli/describe.ts"
   },
   "dependencies": {
     "zod": "^4.1.12"
