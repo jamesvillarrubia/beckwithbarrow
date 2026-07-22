@@ -61,20 +61,15 @@ jobs:
           VITE_RECAPTCHA_SITE_KEY: ${{ vars.VITE_RECAPTCHA_SITE_KEY }}
 
       # --- Pulumi (syncs Vercel config) ---
-      # ⚠️ `up` is currently reachable ONLY via an explicit manual run.
-      #
-      # The first successful preview (PR #31) showed the prod stack has no
-      # state for the Vercel resources that already exist: it wants to CREATE
-      # the project, the domain binding and all six env vars. Applying that
-      # would duplicate the project and re-bind the live domain.
-      #
-      # The existing resources must be `pulumi import`ed into the stack first.
-      # Until then main stays on preview, so a merge can never apply.
-      # Restore `github.event_name == 'push'` here once the import is done.
+      # The existing Vercel resources were imported into the prod stack (PRs
+      # #33–#38), and a push preview now reports "10 unchanged", so applying on
+      # main is safe. `up` runs on a push to main or an explicit manual apply;
+      # every other trigger (PRs) is a read-only preview.
       - name: Resolve Pulumi command
         id: pulumi_cmd
         run: |
-          if [ "${{ inputs.apply }}" = "true" ]; then
+          if [ "${{ github.event_name }}" = "push" ] \
+            || [ "${{ inputs.apply }}" = "true" ]; then
             echo "command=up" >> "$GITHUB_OUTPUT"
           else
             echo "command=preview" >> "$GITHUB_OUTPUT"
