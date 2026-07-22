@@ -17,6 +17,10 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '22', cache: 'pnpm' }
       - run: pnpm install --frozen-lockfile
+      # One stamp shared by the image and content backups, so the two halves of a
+      # single run land in directories that can be paired during a restore.
+      - name: Compute shared backup stamp
+        run: echo "BACKUP_STAMP=$(date -u +%Y-%m-%dT%H-%M-%SZ)" >> "$GITHUB_ENV"
       - name: Hydrate incremental baseline (previous manifest -> /tmp, outside the repo)
         run: |
           # The backup is INCREMENTAL: it downloads only assets that are new or
@@ -43,6 +47,16 @@ jobs:
           CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}
           BACKUP_BASELINE_MANIFEST: /tmp/prev-manifest.json
         run: pnpm backup:safe   # cwd is api/ (working-directory above); package name is my-strapi-project
+      # Content half of the Pillar 2.5 backup precondition. READ-ONLY and token-free:
+      # GETs against the public Content API. Runs after the image backup so a content
+      # snapshot is never committed without the images it references. Exits non-zero on
+      # a partial dump — an incomplete revert point must not look like success.
+      - name: Run read-only content backup
+        working-directory: packages/cms-client
+        env:
+          STRAPI_PUBLIC_URL: ${{ secrets.STRAPI_CLOUD_BASE_URL }}
+        run: pnpm content:backup
+
       - name: Secret-leak guard
         run: |
           if grep -rIl -E "SECRET|TOKEN|PASSWORD|api_secret" api/backups/; then
