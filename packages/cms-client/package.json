@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Layer A \u2014 safe-write client for Beckwith Barrow's Strapi CMS. All guardrails live here.",
+  "description": "Layer A — safe-write client for Beckwith Barrow's Strapi CMS. All guardrails live here.",
   "main": "./dist/index.js",
   "scripts": {
     "test": "vitest run",
@@ -18,6 +18,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@types/node": "^26.1.1",
     "tsup": "^8.5.1",
     "tsx": "^4.19.2",
     "typescript": "^5.9.3",
