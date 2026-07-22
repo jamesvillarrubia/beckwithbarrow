@@ -149,15 +149,15 @@ envVars.forEach(({ key, value, sensitive, importId }) => {
 //
 // The URL only changes if the deploy hook is destroyed and recreated.
 
-// pulumi.secret() so the token is masked in diffs and encrypted in state.
-// It was previously passed as a plain string and printed in full by `preview`.
-const vercelApiToken = pulumi.secret(process.env.VERCEL_API_TOKEN ?? "");
-
+// The token is NOT passed here — the dynamic provider reads VERCEL_API_TOKEN
+// from the environment directly (the same var @pulumiverse/vercel uses). That
+// keeps it out of the resource inputs entirely, so it never appears in diffs
+// or state and cannot trigger the "Unexpected struct type" serialization error
+// that a secret-wrapped input caused.
 const deployHook = new VercelDeployHook("strapi-publish-hook", {
   projectId: project.id,
   name: "strapi-publish",
   ref: "main",
-  apiToken: vercelApiToken,
 });
 
 // ---------------------------------------------------------------------------
