@@ -68,6 +68,23 @@ export interface MutationResult {
  */
 const SERVER_OWNED = new Set(['updatedAt']);
 
+/**
+ * Is this a `publishedAt` move we should tolerate?
+ *
+ * Observed on production 2026-07-22: writing to `global` re-published it, moving
+ * publishedAt from 2025-10-07 to now — even though the checked-in schema claims
+ * draftAndPublish is false for that type. The live schema disagrees with the repo, which
+ * is precisely the drift spec §0.6 exists to catch.
+ *
+ * A timestamp-to-timestamp move is the server re-stamping a document that was published
+ * before and is published after: tolerated. A transition to or from `null` is a genuine
+ * change of publish state — an accidental publish or unpublish — and must still fail,
+ * because that one is visible on the live site.
+ */
+function isBenignPublishedAtMove(before: unknown, after: unknown): boolean {
+  return typeof before === 'string' && typeof after === 'string';
+}
+
 function asRecord(value: unknown, context: string): Record<string, unknown> {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) {
     throw new Error(`${context}: expected a document object, got ${JSON.stringify(value)?.slice(0, 120)}`);
@@ -102,6 +119,7 @@ function verify(
   const collateral: string[] = [];
   for (const key of new Set([...Object.keys(before), ...Object.keys(after)])) {
     if (key === field || SERVER_OWNED.has(key)) continue;
+    if (key === 'publishedAt' && isBenignPublishedAtMove(before[key], after[key])) continue;
     if (!deepEqual(before[key], after[key])) collateral.push(key);
   }
 

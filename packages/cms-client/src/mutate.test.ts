@@ -121,6 +121,47 @@ describe('mutate — verification', () => {
     await expect(mutate(plan(), d)).rejects.toThrow(/collateral/i);
   });
 
+  /**
+   * Observed on production 2026-07-22: writing to `global` re-published it, moving
+   * publishedAt — even though the checked-in schema says draftAndPublish is false for
+   * that type. The live schema and the repo disagree.
+   */
+  it('tolerates publishedAt moving from one timestamp to another (a re-publish)', async () => {
+    const d = deps({
+      write: vi.fn(async () => ({
+        ...LIVE,
+        publishedAt: '2026-07-22T20:41:02.077Z',
+        email: 'new@beckwithbarrow.com',
+      })),
+    });
+    const withPublished = { ...LIVE, publishedAt: '2025-10-07T00:22:42.260Z' };
+    const dd = deps({ ...d, read: vi.fn(async () => structuredClone(withPublished)) });
+    await expect(mutate(plan(), dd)).resolves.toMatchObject({ applied: true });
+  });
+
+  /** A publish-state change IS visible on the live site, so it must never be waved through. */
+  it('still fails when publishedAt goes null — an accidental unpublish', async () => {
+    const before = { ...LIVE, publishedAt: '2025-10-07T00:22:42.260Z' };
+    const d = deps({
+      read: vi.fn(async () => structuredClone(before)),
+      write: vi.fn(async () => ({ ...before, publishedAt: null, email: 'new@beckwithbarrow.com' })),
+    });
+    await expect(mutate(plan(), d)).rejects.toThrow(/collateral.*publishedAt/i);
+  });
+
+  it('still fails when publishedAt appears from null — an accidental publish', async () => {
+    const before = { ...LIVE, publishedAt: null };
+    const d = deps({
+      read: vi.fn(async () => structuredClone(before)),
+      write: vi.fn(async () => ({
+        ...before,
+        publishedAt: '2026-07-22T20:41:02.077Z',
+        email: 'new@beckwithbarrow.com',
+      })),
+    });
+    await expect(mutate(plan(), d)).rejects.toThrow(/collateral.*publishedAt/i);
+  });
+
   it('ignores updatedAt, which the server always bumps', async () => {
     const d = deps({
       write: vi.fn(async () => ({

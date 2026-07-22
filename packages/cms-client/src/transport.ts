@@ -23,6 +23,15 @@ export interface UpdateOptions {
    * on update via `?status=published` — verified against @strapi/core@5.31.1 source.
    */
   readonly publish?: boolean;
+  /**
+   * Ask for relations in the response.
+   *
+   * This matters for correctness, not convenience: `mutate()` verifies a write by
+   * comparing the pre-write read against the write response, so the two must be fetched
+   * at the same depth. Read populated and write shallow, and every relation looks like a
+   * collateral change.
+   */
+  readonly populate?: boolean;
 }
 
 export interface WriteTransport {
@@ -72,7 +81,10 @@ export function createWriteTransport(
     payload: { data: Record<string, unknown> },
     options: UpdateOptions = {},
   ): Promise<unknown> => {
-    const url = `${documentUrl(baseUrl, target)}${options.publish ? '?status=published' : ''}`;
+    const params: string[] = [];
+    if (options.publish) params.push('status=published');
+    if (options.populate) params.push('populate=*');
+    const url = `${documentUrl(baseUrl, target)}${params.length ? `?${params.join('&')}` : ''}`;
 
     const response = await http(url, {
       method: 'PUT',
