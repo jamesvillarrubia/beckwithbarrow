@@ -1,4 +1,4 @@
-name: Cloudinary Usage Guard
+name: Daily Guards (Cloudinary usage + backup freshness)
 on:
   schedule:
     - cron: '37 6 * * *'   # daily 06:37 UTC — catch a spike within a day, not a month
@@ -42,3 +42,58 @@ jobs:
           fi
           gh label create cloudinary-usage --color FBCA04 --description "Cloudinary usage guardrail" 2>/dev/null || true
           printf '%s' "$BODY" | gh issue create --title "$TITLE" --label cloudinary-usage --body-file -
+
+  # A schedule you cannot see is not confidence. If the backup stops running — a broken
+  # workflow, an expired credential, a disabled cron — the failure is SILENT: nothing
+  # changes, no alert fires, and you only discover it the day you need to restore.
+  # This watches the artefact rather than the schedule.
+  backup-freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0, lfs: false }
+      - id: age
+        run: |
+          git fetch origin backups --depth=1 || true
+          if ! git rev-parse --verify origin/backups >/dev/null 2>&1; then
+            echo "stale=true" >> "$GITHUB_OUTPUT"
+            echo "reason=the backups branch does not exist" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          last=$(git log -1 --format=%ct origin/backups)
+          age_h=$(( ( $(date -u +%s) - last ) / 3600 ))
+          echo "Last backup commit: $(git log -1 --format='%ad %s' --date=iso origin/backups)"
+          echo "Age: ${age_h}h"
+          echo "age_h=$age_h" >> "$GITHUB_OUTPUT"
+          # Daily cron + generous slack for a skipped run. Trips on the second miss,
+          # not the first, so a one-off GitHub hiccup does not cry wolf.
+          if [ "$age_h" -gt 50 ]; then
+            echo "stale=true" >> "$GITHUB_OUTPUT"
+            echo "reason=the last backup commit is ${age_h}h old (expected under 50h)" >> "$GITHUB_OUTPUT"
+          else
+            echo "stale=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Open issue if backups are stale (deduped)
+        if: steps.age.outputs.stale == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REASON: ${{ steps.age.outputs.reason }}
+        run: |
+          existing=$(gh issue list --state open --label backup-stale --json number --jq 'length')
+          if [ "$existing" != "0" ]; then
+            echo "An open backup-stale issue already exists; not duplicating."
+            exit 0
+          fi
+          gh label create backup-stale --color B60205 --description "Safety backup has stopped running" 2>/dev/null || true
+          gh issue create --title "Safety backups may have stopped" --label backup-stale --body "$(printf '%s\n' \
+            "The daily safety backup looks stale: $REASON." \
+            "" \
+            "Why this matters: the backup is the restore point for both content and the 203" \
+            "Cloudinary originals. A silent stop means the recovery window quietly grows." \
+            "" \
+            "Check:" \
+            "1. Actions -> \"Daily Safety Backup\" — is it running and green?" \
+            "2. Are CLOUDINARY_* secrets still valid?" \
+            "3. Latest commit on the \`backups\` branch." \
+            "" \
+            "Runbook: docs/RESTORE-RUNBOOK.md")"

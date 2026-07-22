@@ -1,7 +1,12 @@
-name: Weekly Safety Backup
+name: Daily Safety Backup
 on:
   schedule:
-    - cron: '17 7 * * 0'   # 07:17 UTC Sundays (weekly; nightly re-downloaded every original and blew the Cloudinary bandwidth quota)
+    # Daily at 07:17 UTC. Was weekly after nightly runs re-downloaded every original
+    # and blew the Cloudinary bandwidth quota (July 2026). Safe to run daily again now
+    # that BOTH halves are incremental: the image backup skips unchanged assets (verified
+    # 0/203 downloaded on 2026-07-22) and content snapshots are byte-stable, so an
+    # unchanged day adds no git objects. Daily bounds worst-case data loss to ~24h.
+    - cron: '17 7 * * *'
   workflow_dispatch: {}
 permissions:
   contents: write
@@ -79,7 +84,7 @@ jobs:
             echo "No backup changes to commit."
           else
             # --no-verify: the workflow already ran its own secret-leak guard above
-            git commit --no-verify -m "chore(backups): weekly $(date -u +%FT%TZ)"
+            git commit --no-verify -m "chore(backups): daily $(date -u +%FT%TZ)"
             # push LFS objects first so the ref push isn't rejected (GH008 dangling pointers)
             git lfs push --all origin backups
             git push origin backups
