@@ -24,12 +24,23 @@ export interface MutationTarget {
   readonly documentId?: string;
 }
 
+/**
+ * How to check that a write landed.
+ *
+ * `value` — the field should read back equal to what we sent. Right for scalars.
+ * `relation-order` — we sent an array of documentIds but will read back an array of
+ * full documents, so compare the *order of ids*. Plain equality can never verify a
+ * relation write, and for an ordered relation the order is the entire point.
+ */
+export type VerifyAs = 'value' | 'relation-order';
+
 export interface MutationPlan {
   readonly target: MutationTarget;
   /** The ONE field being changed. */
   readonly field: string;
   readonly nextValue: unknown;
   readonly dryRun?: boolean;
+  readonly verifyAs?: VerifyAs;
 }
 
 export interface AuditEntry {
@@ -98,6 +109,35 @@ function deepEqual(a: unknown, b: unknown): boolean {
 }
 
 /**
+ * The documentId order of a populated relation.
+ *
+ * Returns null when the value is not a list of documents, so callers can tell
+ * "not a relation" apart from "an empty relation".
+ */
+function relationOrder(value: unknown): string[] | null {
+  if (!Array.isArray(value)) return null;
+  const ids: string[] = [];
+  for (const item of value) {
+    if (typeof item !== 'object' || item === null) return null;
+    const id = (item as Record<string, unknown>)['documentId'];
+    if (typeof id !== 'string') return null;
+    ids.push(id);
+  }
+  return ids;
+}
+
+/** The documentIds we are asking the server to set, validated. */
+function requestedOrder(nextValue: unknown, field: string): string[] {
+  if (!Array.isArray(nextValue) || !nextValue.every((v) => typeof v === 'string')) {
+    throw new Error(
+      `Field '${field}' is being written as an ordered relation, so its value must be an ` +
+        `array of documentId strings. Got ${stableStringify(nextValue).trim().slice(0, 160)}`,
+    );
+  }
+  return nextValue as string[];
+}
+
+/**
  * Confirm the intended change landed and nothing else moved.
  *
  * "Nothing else moved" is the important half: it is what catches a write that had wider
@@ -108,8 +148,18 @@ function verify(
   after: Record<string, unknown>,
   field: string,
   nextValue: unknown,
+  verifyAs: VerifyAs,
 ): void {
-  if (!deepEqual(after[field], nextValue)) {
+  if (verifyAs === 'relation-order') {
+    const wanted = requestedOrder(nextValue, field);
+    const got = relationOrder(after[field]);
+    if (got === null || !deepEqual(got, wanted)) {
+      throw new Error(
+        `Verification failed: '${field}' did not land. ` +
+          `Expected order ${stableStringify(wanted).trim()}, server has ${stableStringify(got).trim()}`,
+      );
+    }
+  } else if (!deepEqual(after[field], nextValue)) {
     throw new Error(
       `Verification failed: '${field}' did not land. ` +
         `Expected ${stableStringify(nextValue).trim()}, server has ${stableStringify(after[field]).trim()}`,
@@ -167,10 +217,20 @@ export async function mutate(plan: MutationPlan, deps: MutationDeps): Promise<Mu
     stableStringify(before),
   );
 
-  const noop = deepEqual(before[field], nextValue);
+  const verifyAs: VerifyAs = plan.verifyAs ?? 'value';
+
+  // A relation's current value is a list of documents; the value we send is a list of
+  // ids. Compare like with like, or a rewrite of the same order never registers as a no-op.
+  const noop =
+    verifyAs === 'relation-order'
+      ? deepEqual(relationOrder(before[field]) ?? [], requestedOrder(nextValue, field))
+      : deepEqual(before[field], nextValue);
+
+  // Report relation values as id order — that is what a human can actually read.
+  const reportBefore = verifyAs === 'relation-order' ? relationOrder(before[field]) : before[field];
 
   if (plan.dryRun) {
-    return { applied: false, noop, snapshotRef, before: before[field], after: nextValue };
+    return { applied: false, noop, snapshotRef, before: reportBefore, after: nextValue };
   }
 
   // 3. Apply — only the target field travels in the payload.
@@ -181,7 +241,10 @@ export async function mutate(plan: MutationPlan, deps: MutationDeps): Promise<Mu
 
   // 4. Verify. Throws before any audit entry is written, so the log never claims a
   //    success that did not happen.
-  verify(before, written, field, nextValue);
+  verify(before, written, field, nextValue, verifyAs);
+
+  const reportAfter =
+    verifyAs === 'relation-order' ? relationOrder(written[field]) : written[field];
 
   // 5. Audit.
   const entry: AuditEntry = {
@@ -190,12 +253,12 @@ export async function mutate(plan: MutationPlan, deps: MutationDeps): Promise<Mu
     ...(target.documentId ? { documentId: target.documentId } : {}),
     field,
     snapshotRef,
-    before: before[field],
-    after: written[field],
+    before: reportBefore,
+    after: reportAfter,
     applied: true,
     noop,
   };
   await deps.appendAudit(entry);
 
-  return { applied: true, noop, snapshotRef, before: before[field], after: written[field] };
+  return { applied: true, noop, snapshotRef, before: reportBefore, after: reportAfter };
 }

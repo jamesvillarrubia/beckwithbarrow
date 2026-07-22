@@ -58,6 +58,8 @@ async function main(): Promise<void> {
   const documentId = flag('document');
   const dryRun = has('dry-run');
   const noop = has('noop');
+  // Ordered relations verify by documentId order; scalars verify by value.
+  const relation = has('relation');
 
   if (!endpoint || !field) {
     console.error('Usage: cms:write --endpoint <name> --field <name> (--value <v> | --noop)');
@@ -85,7 +87,18 @@ async function main(): Promise<void> {
       console.error(`Present fields: ${Object.keys(current).sort().join(', ')}`);
       process.exit(1);
     }
-    nextValue = current[field];
+    // For a relation the current value is a list of documents, but the write takes a
+    // list of ids — so a no-op means "the same ids in the same order".
+    if (relation) {
+      const items = current[field];
+      if (!Array.isArray(items)) {
+        console.error(`Field '${field}' is not a list — did you mean to omit --relation?`);
+        process.exit(1);
+      }
+      nextValue = items.map((item) => (item as Record<string, unknown>)['documentId']);
+    } else {
+      nextValue = current[field];
+    }
   } else {
     const raw = flag('value');
     if (raw === undefined) {
@@ -100,7 +113,13 @@ async function main(): Promise<void> {
     }
   }
 
-  const plan: MutationPlan = { target, field, nextValue, ...(dryRun ? { dryRun: true } : {}) };
+  const plan: MutationPlan = {
+    target,
+    field,
+    nextValue,
+    ...(dryRun ? { dryRun: true } : {}),
+    ...(relation ? { verifyAs: 'relation-order' as const } : {}),
+  };
 
   console.log(`${dryRun ? 'DRY RUN' : 'LIVE WRITE'} — one field, one document`);
   console.log(`  target: ${endpoint}${documentId ? `/${documentId}` : ''}.${field}`);

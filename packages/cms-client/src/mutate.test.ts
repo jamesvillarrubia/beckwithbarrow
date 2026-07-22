@@ -196,6 +196,80 @@ describe('mutate — the no-op write (live validation step 1)', () => {
   });
 });
 
+describe('mutate — ordered relations', () => {
+  /**
+   * A relation write sends an array of documentIds but reads back an array of full
+   * documents, so plain equality can never verify it. Ordered relations are exactly
+   * where order is the whole point (press.pressArticles), so the comparison has to be
+   * order-aware rather than value-equal.
+   */
+  const PRESS = {
+    documentId: 'press-1',
+    pressArticles: [
+      { documentId: 'a', title: 'A' },
+      { documentId: 'b', title: 'B' },
+      { documentId: 'c', title: 'C' },
+    ],
+    updatedAt: '2026-07-01T00:00:00.000Z',
+  };
+
+  const relationPlan = (next: string[]): MutationPlan => ({
+    target: { endpoint: 'press', kind: 'singleType' },
+    field: 'pressArticles',
+    nextValue: next,
+    verifyAs: 'relation-order',
+  });
+
+  function pressDeps(afterOrder: string[]): MutationDeps {
+    return deps({
+      read: vi.fn(async () => structuredClone(PRESS)),
+      write: vi.fn(async () => ({
+        ...PRESS,
+        pressArticles: afterOrder.map((id) => ({ documentId: id, title: id.toUpperCase() })),
+      })),
+    });
+  }
+
+  it('verifies by comparing documentId order, not raw value equality', async () => {
+    await expect(mutate(relationPlan(['c', 'a', 'b']), pressDeps(['c', 'a', 'b']))).resolves
+      .toMatchObject({ applied: true });
+  });
+
+  it('fails when the server returns a different order than requested', async () => {
+    await expect(
+      mutate(relationPlan(['c', 'a', 'b']), pressDeps(['a', 'b', 'c'])),
+    ).rejects.toThrow(/did not land/i);
+  });
+
+  it('fails when an article silently goes missing from the relation', async () => {
+    await expect(mutate(relationPlan(['a', 'b', 'c']), pressDeps(['a', 'b']))).rejects.toThrow(
+      /did not land/i,
+    );
+  });
+
+  it('recognises rewriting the same order as a no-op', async () => {
+    const result = await mutate(relationPlan(['a', 'b', 'c']), pressDeps(['a', 'b', 'c']));
+    expect(result.noop).toBe(true);
+    expect(result.applied).toBe(true);
+  });
+
+  it('reports before and after as id order, which is what a human needs to read', async () => {
+    const result = await mutate(relationPlan(['c', 'b', 'a']), pressDeps(['c', 'b', 'a']));
+    expect(result.before).toEqual(['a', 'b', 'c']);
+    expect(result.after).toEqual(['c', 'b', 'a']);
+  });
+
+  it('refuses a relation-order write whose value is not a list of ids', async () => {
+    const bad: MutationPlan = {
+      target: { endpoint: 'press', kind: 'singleType' },
+      field: 'pressArticles',
+      nextValue: [{ documentId: 'a' }],
+      verifyAs: 'relation-order',
+    };
+    await expect(mutate(bad, pressDeps(['a']))).rejects.toThrow(/documentId strings/i);
+  });
+});
+
 describe('mutate — audit', () => {
   it('records the snapshot reference so the change is revertible', async () => {
     const appendAudit = vi.fn(async (_e: AuditEntry) => undefined);
