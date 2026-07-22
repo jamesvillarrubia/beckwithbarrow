@@ -1,0 +1,10 @@
+# Project-scoped ignore, overriding the repository-root .vercelignore.
+#
+# The root file strips package.json, pnpm-lock.yaml and pnpm-workspace.yaml so the
+# frontend builds standalone. This project needs them: it is a workspace package whose
+# dependency (@beckwithbarrow/cms-client) resolves through the pnpm workspace, and
+# without those manifests the function has no dependency tree and every invocation
+# fails with FUNCTION_INVOCATION_FAILED before any handler runs.
+#
+# Keep only genuinely irrelevant things out.
+*.log
