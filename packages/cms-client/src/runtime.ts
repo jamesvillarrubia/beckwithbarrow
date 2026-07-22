@@ -47,6 +47,18 @@ export interface RuntimeOptions {
   readonly baseUrl?: string;
   readonly repoRoot: string;
   readonly publish?: boolean;
+  /**
+   * Write snapshots and an audit log to disk. Default true.
+   *
+   * Set false where there is no filesystem to write to — a serverless deployment has no
+   * repo, and requiring durable snapshot storage there would be the single most
+   * complicated part of hosting this. The daily backup is the safety net in that case.
+   *
+   * Turning this off does NOT relax any guardrail that constrains a write: one field at
+   * a time, never a delete, read-before-write, and verification that nothing else moved
+   * all still apply.
+   */
+  readonly persist?: boolean;
 }
 
 /**
@@ -65,6 +77,8 @@ export function createMutationDeps(
   const snapshotDir = path.join(options.repoRoot, 'api', 'backups', 'content-snapshots');
   const auditLog = path.join(options.repoRoot, 'api', 'backups', 'cms-audit.log');
 
+  const persist = options.persist !== false;
+
   return {
     read: createReader(baseUrl, http),
 
@@ -74,18 +88,22 @@ export function createMutationDeps(
         ...(options.publish ? { publish: true } : {}),
       }),
 
-    recordSnapshot: async (name, contents) => {
-      await mkdir(snapshotDir, { recursive: true });
-      const full = path.join(snapshotDir, name);
-      await writeFile(full, contents, 'utf8');
-      return path.relative(options.repoRoot, full);
-    },
+    ...(persist
+      ? {
+          recordSnapshot: async (name: string, contents: string) => {
+            await mkdir(snapshotDir, { recursive: true });
+            const full = path.join(snapshotDir, name);
+            await writeFile(full, contents, 'utf8');
+            return path.relative(options.repoRoot, full);
+          },
 
-    appendAudit: async (entry: AuditEntry) => {
-      await mkdir(path.dirname(auditLog), { recursive: true });
-      // One JSON object per line: append-only, greppable, and diff-friendly.
-      await appendFile(auditLog, `${JSON.stringify(entry)}\n`, 'utf8');
-    },
+          appendAudit: async (entry: AuditEntry) => {
+            await mkdir(path.dirname(auditLog), { recursive: true });
+            // One JSON object per line: append-only, greppable, diff-friendly.
+            await appendFile(auditLog, `${JSON.stringify(entry)}\n`, 'utf8');
+          },
+        }
+      : {}),
 
     now: () => new Date().toISOString(),
   };

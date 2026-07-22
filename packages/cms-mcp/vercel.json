@@ -1,9 +1,5 @@
 {
-  "buildCommand": "cd ../cms-client && pnpm build && cd ../cms-mcp",
+  "buildCommand": "pnpm build",
   "outputDirectory": "public",
-  "functions": {
-    "api/**/*.ts": {
-      "maxDuration": 30
-    }
-  }
+  "functions": { "api/**/*.js": { "maxDuration": 30 } }
 }

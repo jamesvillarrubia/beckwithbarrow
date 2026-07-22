@@ -38,6 +38,11 @@ export interface ServerOptions {
    * A hosted deployment can narrow the surface without changing the client.
    */
   readonly writableEndpoints?: readonly string[];
+  /**
+   * Write snapshots and an audit log to disk. Default true (stdio, run from a checkout).
+   * False for the hosted deployment, which has no repo — see RuntimeOptions.persist.
+   */
+  readonly persist?: boolean;
 }
 
 const http: HttpFn = (url, init) => fetch(url, init);
@@ -227,6 +232,7 @@ export function buildServer(options: ServerOptions): McpServer {
       const deps = createMutationDeps(readToken(), http, {
         repoRoot: options.repoRoot,
         ...(options.baseUrl ? { baseUrl: options.baseUrl } : {}),
+        ...(options.persist === false ? { persist: false } : {}),
       });
 
       const result = await mutate(
