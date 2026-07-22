@@ -9,9 +9,7 @@
  * Stateless: no session storage, so a serverless cold start cannot lose a session.
  */
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
-import { buildServer } from '../../src/server.js';
-
-export const config = { runtime: 'nodejs' };
+import { buildServer } from '../../src/server';
 
 /** Constant-time compare, so response timing cannot be used to guess the secret. */
 function secretMatches(given: string, expected: string): boolean {
