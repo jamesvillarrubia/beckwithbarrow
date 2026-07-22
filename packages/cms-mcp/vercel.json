@@ -1,7 +1,9 @@
 {
-  "buildCommand": "echo 'no build step: Vercel compiles the functions in api/'",
+  "buildCommand": "cd ../cms-client && pnpm build && cd ../cms-mcp",
   "outputDirectory": "public",
   "functions": {
-    "api/**/*.ts": { "maxDuration": 30 }
+    "api/**/*.ts": {
+      "maxDuration": 30
+    }
   }
 }

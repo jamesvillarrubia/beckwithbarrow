@@ -4,21 +4,33 @@
   "private": true,
   "type": "module",
   "description": "Layer A \u2014 safe-write client for Beckwith Barrow's Strapi CMS. All guardrails live here.",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "content:backup": "tsx src/cli/backup-content.ts",
     "cms:write": "tsx src/cli/write.ts",
-    "cms:describe": "tsx src/cli/describe.ts"
+    "cms:describe": "tsx src/cli/describe.ts",
+    "build": "tsup src/index.ts --format esm --dts --clean"
   },
   "dependencies": {
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "tsup": "^8.5.1",
     "tsx": "^4.19.2",
     "typescript": "^5.9.3",
     "vitest": "^2.1.9"
-  }
+  },
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ]
 }
