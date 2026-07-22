@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { lfs: false }
+      # Version comes from package.json "packageManager"; specifying it here too
+      # makes action-setup fail.
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: 'pnpm' }
+
+      # --frozen-lockfile is the point: it fails if package.json and the lockfile have
+      # drifted. This is only honest because the stray nested pnpm-workspace.yaml files
+      # are gone — they made pnpm treat frontend/ and api/ as separate workspace roots,
+      # so an install there could not find the root lockfile at all.
+      - run: pnpm install --frozen-lockfile
+
+      - name: Types and tests
+        run: |
+          pnpm --filter @beckwithbarrow/cms-client typecheck
+          pnpm --filter @beckwithbarrow/cms-client test
+          pnpm --filter @beckwithbarrow/cms-mcp typecheck
+
+      # The deployed MCP function is a COMMITTED bundle, because Vercel will not resolve
+      # the workspace import at runtime. A committed build artifact can normally be
+      # merged stale; this closes that hole. Rebuild it and fail if the result differs
+      # from what is committed, so stale output cannot reach main.
+      - name: Verify the committed MCP bundle is current
+        run: |
+          pnpm --filter @beckwithbarrow/cms-mcp build
+          if ! git diff --quiet -- packages/cms-mcp/api; then
+            echo "::error::The committed MCP bundle is stale."
+            echo "Run: pnpm --filter @beckwithbarrow/cms-mcp build && git add packages/cms-mcp/api"
+            git diff --stat -- packages/cms-mcp/api
+            exit 1
+          fi
+          echo "Bundle is current."

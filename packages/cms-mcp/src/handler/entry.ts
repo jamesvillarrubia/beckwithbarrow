@@ -1,20 +1,24 @@
 /**
  * Hosted MCP endpoint — bundled entry point.
  *
- * Committed as TypeScript SOURCE — Vercel compiles it and resolves the workspace
- * normally. That works now that the stray frontend/ and api/ pnpm-workspace.yaml files
- * are gone: they made pnpm treat those directories as separate workspace roots, which
- * broke lockfile resolution and, with it, workspace linking.
+ * This file and everything it imports are bundled by tsup into a single self-contained
+ * api/mcp/[secret].js, which IS committed.
  *
- * Nothing generated is committed here. A build artifact in git can be merged stale,
- * which is a defect waiting to happen.
+ * Committing a build artifact is normally a smell, because it can be merged stale. That
+ * is closed by CI: .github/workflows/ci.yml rebuilds the bundle and fails if the result
+ * differs from what is committed, so a stale bundle cannot reach main.
+ *
+ * The alternative — committing TypeScript source and letting Vercel compile it — was
+ * tried and does not work: Vercel will not resolve the @beckwithbarrow/cms-client
+ * workspace import inside a serverless function, and every invocation 500s before the
+ * handler runs. Bundling removes the resolution step entirely.
  *
  * Node-style (req, res) handler: this runtime accepts that form and hangs on the
  * Web-standard (Request) => Response form (verified by deploying both).
  */
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { buildServer } from '../../src/server';
+import { buildServer } from '../server.js';
 
 /** Constant-time compare, so response timing cannot be used to guess the secret. */
 function secretMatches(given: string, expected: string): boolean {
