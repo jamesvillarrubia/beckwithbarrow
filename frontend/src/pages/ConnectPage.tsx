@@ -224,7 +224,7 @@ const ConnectPage = () => {
                 
                 {connect?.address && (
                   <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Location</h3>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">Mailing Address</h3>
                     <p className="text-gray-600">{connect.address}</p>
                   </div>
                 )}
@@ -243,7 +243,7 @@ const ConnectPage = () => {
                     </div>
                     
                     <div>
-                      <h3 className="text-lg font-medium text-gray-900 mb-2">Location</h3>
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">Mailing Address</h3>
                       <p className="text-gray-600">San Francisco, CA</p>
                     </div>
                   </>

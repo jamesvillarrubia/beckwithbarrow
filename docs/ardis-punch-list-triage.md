@@ -7,6 +7,12 @@ Each item from Ardis's 2026-06-15 notes, classified via `docs/content-code-map.m
 > Verbatim source: `.claude/overnight/ardis-punch-list.md`. Items she flagged BOLD need
 > info/assets from her.
 
+> **Progress (2026-07-22):** the three doable-now code items — **#6, #8, #10** — are
+> implemented and visually verified. Everything still open is blocked on Ardis (assets,
+> colors, art direction) or is CMS work she does herself (#1, #2). #7 was investigated:
+> neither project exists in Strapi yet (`docs/notes/home-missing-projects.md`), so it needs
+> photos + copy from her before it can move.
+
 | # | Item | Page | Class | Where | Status | Action |
 |---|---|---|---|---|---|---|
 | 1 | Move "a contemporary farmhouse in Williamstown" (New England Home, cover story) to top | Press | **CMS** | `press.pressArticles` ordered relation | **doable-now** | Drag to top in Strapi admin (Ardis, or agent via admin) |
@@ -14,11 +20,11 @@ Each item from Ardis's 2026-06-15 notes, classified via `docs/content-code-map.m
 | 3 | Change the vertical photo (too similar to main page) to the poolhouse one | Approach | **CMS** | `approach.coverImage` (Cloudinary) | **blocked-on-asset** | Ardis emails the poolhouse image → swap `coverImage` in Strapi |
 | 4 | Add a color to the gray area behind the photo | Approach | **React-code** | hardcoded `bg-gray-100` at `ApproachPage.tsx:239` | **blocked-on-decision** | Code change to a chosen color; ask Ardis to pick the color (after #3's image is in) |
 | 5 | Change the beige/brown color behind the title text below the photo | Approach | **needs-verify** | likely `approach.quoteBgColor` (CMS color picker, quote section) OR a hardcoded block — confirm which element | **blocked-on-verify+decision** | Confirm in admin which element she means; if `quoteBgColor` → CMS; if hardcoded → code. Then get the new color |
-| 6 | "How we do it" feels cramped above/below — let the title breathe | Approach | **React-code** | `ApproachPage.tsx:317-319` (heading margins, `mb-24`) + section padding | **doable-now** | Increase vertical spacing around the "How We Do It" heading |
+| 6 | "How we do it" feels cramped above/below — let the title breathe | Approach | **React-code** | `ApproachPage.tsx:317-319` (heading margins, `mb-24`) + section padding | ✅ **DONE** (2026-07-22) | `py-16`→`py-28`, heading `mb-24`→`mb-32` in `ApproachPage.tsx` |
 | 7 | Add two missing projects (Byers-Dunne poolhouse; blockeight) | Home | **CMS** | `home.projects` ordered relation; needs `project` records + Cloudinary images | **blocked-on-verify** | Check if these Project records exist in Strapi (with photos). If yes → add to `home.projects`. If no → create them (needs photos + info from the KBC reference pages) |
-| 8 | Adjust spacing in the top paragraph down a bit (crowding the line above) | About | **React-code** | `AboutPage.tsx` top paragraph block spacing (content itself is `about.topRightText` CMS) | **doable-now** | Adjust margin/padding so it matches the lower paragraph's spacing |
+| 8 | Adjust spacing in the top paragraph down a bit (crowding the line above) | About | **React-code** | `AboutPage.tsx` top paragraph block spacing (content itself is `about.topRightText` CMS) | ✅ **DONE** (2026-07-22) | Top-right block `pt-4`→`pt-14` in `AboutPage.tsx` (clears the decorative rule) |
 | 9 | Spruce up the contact page (line-drawing element? color block?) — "nice to have" | Contact | **React-code (design)** | `ConnectPage.tsx` layout | **blocked-on-direction** | Needs Ardis's line-drawing asset / art direction before design work |
-| 10 | Change "Location" to say "Mailing Address" | Contact | **React-code (trap)** | hardcoded label `ConnectPage.tsx:220` | **doable-now** | One-line string change (the value stays `connect.address`) |
+| 10 | Change "Location" to say "Mailing Address" | Contact | **React-code (trap)** | hardcoded label `ConnectPage.tsx:220` | ✅ **DONE** (2026-07-22) | Label → "Mailing Address" in `ConnectPage.tsx` (both real + fallback blocks) |
 
 ## Summary
 

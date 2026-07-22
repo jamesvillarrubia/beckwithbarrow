@@ -318,10 +318,10 @@ const ApproachPage = () => {
 
       {/* SECTION 2: How We Do It - Flowing Timeline (using stages) */}
       {stages && stages.length > 0 && (
-        <section className="py-16 px-6 md:px-12 lg:px-16 bg-white">
+        <section className="py-28 px-6 md:px-12 lg:px-16 bg-white">
           <div className="max-w-7xl mx-auto">
             {/* Title for timeline section */}
-            <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-24 text-center font-light">
+            <h2 className="text-4xl md:text-5xl font-serif text-gray-900 mb-32 text-center font-light">
               How We Do It
             </h2>
 
