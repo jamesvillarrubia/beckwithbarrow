@@ -178,8 +178,29 @@ public). Copy the token into a gitignored env var `STRAPI_CMS_WRITE_TOKEN` (e.g.
 6. Layer B: the MCP server wrapping A.
 
 ## Open Questions (need James / verification)
-- [ ] **Publish-via-REST mechanism** — confirm against local Strapi: `?status=published` on write,
-      vs. a publish call, vs. a thin custom controller. Client abstracts it behind `publish()`.
+- [x] **Publish-via-REST mechanism — ANSWERED 2026-07-22** by reading the installed
+      `@strapi/core@5.31.1` source (`dist/core-api/`), rather than by assumption:
+
+      1. **Core REST exposes only `find`, `findOne`, `create`, `update`, `delete`.** There is
+         **no** publish/unpublish route in core.
+      2. `status` is an allowed query param on write routes, but **only when the content type
+         has draft & publish** (`getConditionalQueryParams` gates it on `hasDraftAndPublish`).
+      3. The controller forwards the whole query into the service, which forwards it to
+         `strapi.documents(uid).update(...)` / `.create(...)`.
+
+      So the mechanism is **`PUT /api/<endpoint>?status=published`** with a `{ data: {...} }`
+      body. No custom controller is needed. The client still abstracts this behind `publish()`
+      so the call site never encodes the mechanism.
+
+      ⚠️ **This changes the token guidance in §"Token setup" below.** That section (and the
+      research note) says to tick "create + update + **publish**". Since publish is not a core
+      REST action, the permission that actually governs publishing is **update**. The publish
+      checkbox may not exist for these routes, or may not be what gates it. Verify against the
+      real admin UI when creating the token; if in doubt, **create + update, delete unchecked**
+      is the minimum that works. Do not tick delete under any circumstances.
+
+      Note also that `delete` **is** a core route. Nothing in this client will ever call it, and
+      the token must not grant it — two independent barriers, as intended.
 - [ ] **Client language** — `.mjs + Zod` (matches existing tooling) vs TS+tsx (CLAUDE.md default)?
 - [ ] **Per-write confirmation** — James chose write+publish with no mandatory gate; confirm dry-run
       + audit + revert is sufficient, or do you want a confirm prompt on first-of-session writes?
