@@ -72,20 +72,54 @@ interface VercelDeployHookOutputs extends VercelDeployHookInputs {
   hookUrl: string;
 }
 
+interface DeployHook {
+  id: string;
+  url: string;
+  name: string;
+  ref: string;
+  createdAt: number;
+}
+
+/**
+ * Both the POST /deploy-hooks and GET /projects/{id} responses return the whole
+ * project object; the hooks live under `link.deployHooks`. The POST response
+ * does NOT surface the new hook at the top level (top-level `id` is the project
+ * id, and there is no top-level `url`) — reading `result.id`/`result.url`
+ * directly is what produced undefined outputs and the "Unexpected struct type"
+ * serialization error.
+ */
+function extractDeployHooks(projectResponse: unknown): DeployHook[] {
+  const link = (projectResponse as { link?: { deployHooks?: DeployHook[] } })
+    .link;
+  return link?.deployHooks ?? [];
+}
+
 const vercelDeployHookProvider: dynamic.ResourceProvider = {
   async create(inputs: VercelDeployHookInputs): Promise<dynamic.CreateResult> {
-    const result = await vercelFetch(
+    const project = await vercelFetch(
       `/v1/projects/${inputs.projectId}/deploy-hooks`,
       "POST",
       { name: inputs.name, ref: inputs.ref }
-    ) as { id: string; url: string };
+    );
+
+    // The response holds every hook; pick the newest one matching this
+    // name+ref, which is the one we just created.
+    const hook = extractDeployHooks(project)
+      .filter((h) => h.name === inputs.name && h.ref === inputs.ref)
+      .sort((a, b) => b.createdAt - a.createdAt)[0];
+
+    if (!hook?.id || !hook?.url) {
+      throw new Error(
+        `Deploy hook created but not found in the response for project ${inputs.projectId}`
+      );
+    }
 
     return {
-      id: result.id,
+      id: hook.id,
       outs: {
         ...inputs,
-        hookId: result.id,
-        hookUrl: result.url,
+        hookId: hook.id,
+        hookUrl: hook.url,
       } satisfies VercelDeployHookOutputs,
     };
   },
@@ -98,12 +132,9 @@ const vercelDeployHookProvider: dynamic.ResourceProvider = {
   },
 
   async read(id: string, props: VercelDeployHookOutputs): Promise<dynamic.ReadResult> {
-    const hooks = await vercelFetch(
-      `/v1/projects/${props.projectId}/deploy-hooks`,
-      "GET"
-    ) as Array<{ id: string; url: string; name: string; ref: string }>;
-
-    const hook = hooks.find(h => h.id === id);
+    // Deploy hooks are read from the project object, not a dedicated endpoint.
+    const project = await vercelFetch(`/v9/projects/${props.projectId}`, "GET");
+    const hook = extractDeployHooks(project).find((h) => h.id === id);
     if (!hook) return { id: "", props: {} };
 
     return {
