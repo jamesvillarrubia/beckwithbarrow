@@ -1,0 +1,32 @@
+[
+  {
+    "createdAt": "2025-09-16T01:01:54.727Z",
+    "description": "Homes",
+    "documentId": "brfqxm1jbx029vnx9w0v37uv",
+    "id": 45,
+    "name": "homes",
+    "publishedAt": "2025-09-16T01:01:54.724Z",
+    "slug": "homes",
+    "updatedAt": "2025-09-16T01:01:54.727Z"
+  },
+  {
+    "createdAt": "2025-09-27T02:14:17.223Z",
+    "description": null,
+    "documentId": "ofwv24a7gqygdie1z0bhob5e",
+    "id": 46,
+    "name": "single room",
+    "publishedAt": "2025-09-27T02:14:17.206Z",
+    "slug": "single-room",
+    "updatedAt": "2025-09-27T02:14:17.223Z"
+  },
+  {
+    "createdAt": "2025-09-27T02:14:34.016Z",
+    "description": null,
+    "documentId": "u0qobi56pamd5t6pe44bo1um",
+    "id": 47,
+    "name": "art",
+    "publishedAt": "2025-09-27T02:14:34.010Z",
+    "slug": "art",
+    "updatedAt": "2025-09-27T02:14:34.016Z"
+  }
+]

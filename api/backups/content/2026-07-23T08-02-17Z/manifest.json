@@ -1,0 +1,131 @@
+{
+  "candidates": 10,
+  "entries": [
+    {
+      "bytes": 6773,
+      "degraded": false,
+      "endpoint": "about",
+      "kind": "singleType",
+      "ok": true,
+      "populatePaths": [
+        "bottomRightImage",
+        "topLeftImage"
+      ],
+      "populateRounds": 2,
+      "records": 1
+    },
+    {
+      "bytes": 2409,
+      "degraded": false,
+      "endpoint": "approach",
+      "kind": "singleType",
+      "ok": true,
+      "populatePaths": [
+        "coverImage"
+      ],
+      "populateRounds": 2,
+      "records": 1
+    },
+    {
+      "bytes": 830,
+      "degraded": false,
+      "endpoint": "categories",
+      "kind": "collectionType",
+      "ok": true,
+      "populatePaths": [],
+      "populateRounds": 1,
+      "records": 3
+    },
+    {
+      "bytes": 311,
+      "degraded": false,
+      "endpoint": "connect",
+      "kind": "singleType",
+      "ok": true,
+      "populatePaths": [],
+      "populateRounds": 1,
+      "records": 1
+    },
+    {
+      "bytes": 591,
+      "degraded": false,
+      "endpoint": "global",
+      "kind": "singleType",
+      "ok": true,
+      "populatePaths": [],
+      "populateRounds": 1,
+      "records": 1
+    },
+    {
+      "bytes": 410217,
+      "degraded": false,
+      "endpoint": "home",
+      "kind": "singleType",
+      "ok": true,
+      "populatePaths": [
+        "leftImage",
+        "projects",
+        "projects.categories",
+        "projects.cover",
+        "projects.images",
+        "rightImage"
+      ],
+      "populateRounds": 3,
+      "records": 1
+    },
+    {
+      "bytes": 943,
+      "degraded": false,
+      "endpoint": "menu",
+      "kind": "singleType",
+      "ok": true,
+      "populatePaths": [],
+      "populateRounds": 1,
+      "records": 1
+    },
+    {
+      "bytes": 81665,
+      "degraded": false,
+      "endpoint": "press",
+      "kind": "singleType",
+      "ok": true,
+      "populatePaths": [
+        "pressArticles",
+        "pressArticles.cover"
+      ],
+      "populateRounds": 3,
+      "records": 1
+    },
+    {
+      "bytes": 80422,
+      "degraded": false,
+      "endpoint": "press-articles",
+      "kind": "collectionType",
+      "ok": true,
+      "populatePaths": [
+        "cover"
+      ],
+      "populateRounds": 2,
+      "records": 9
+    },
+    {
+      "bytes": 390225,
+      "degraded": false,
+      "endpoint": "projects",
+      "kind": "collectionType",
+      "ok": true,
+      "populatePaths": [
+        "categories",
+        "cover",
+        "images"
+      ],
+      "populateRounds": 2,
+      "records": 15
+    }
+  ],
+  "failed": 0,
+  "readOnly": true,
+  "source": "https://striking-ball-b079f8c4b0.strapiapp.com",
+  "succeeded": 10,
+  "takenAt": "2026-07-23T08:02:28.238Z"
+}
