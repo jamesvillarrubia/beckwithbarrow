@@ -1,0 +1,101 @@
+{
+  "bottomLeftText": "We have relationships with talented makers, builders, architects, & installers- whom we trust to help us execute the vision. Beckwith Barrow will manage every detail from concept to completion so you can enjoy the transformation without the stress.\nWe bring deep creativity, transparency, and care to everything we do. We sweat the details so you don’t have to, managing your project as if it were our own home.\n",
+  "bottomRightImage": {
+    "alternativeText": "jenks_676_ab168be1aa_oabkde",
+    "caption": "jenks_676_ab168be1aa_oabkde",
+    "createdAt": "2025-09-30T22:00:22.619Z",
+    "documentId": "eo29duhvxpzxphjon4wjb9fz",
+    "ext": ".jpeg",
+    "hash": "jenks_676_ab168be1aa_oabkde",
+    "height": 5587,
+    "id": 5955,
+    "mime": "image/jpeg",
+    "name": "jenks_676_ab168be1aa_oabkde",
+    "previewUrl": null,
+    "provider": "cloudinary",
+    "provider_metadata": {
+      "public_id": "jenks_676_ab168be1aa_oabkde",
+      "resource_type": "image"
+    },
+    "publishedAt": "2025-10-06T20:29:44.602Z",
+    "related": [
+      {
+        "__type": "api::about.about",
+        "bottomLeftText": "We have relationships with talented makers, builders, architects, & installers- whom we trust to help us execute the vision. Beckwith Barrow will manage every detail from concept to completion so you can enjoy the transformation without the stress.\nWe bring deep creativity, transparency, and care to everything we do. We sweat the details so you don’t have to, managing your project as if it were our own home.\n",
+        "createdAt": "2025-09-16T00:35:08.263Z",
+        "documentId": "mj6u310ilzknds7tksjz9cvg",
+        "id": 12,
+        "publishedAt": "2025-11-17T17:33:16.507Z",
+        "title": "Who We Are",
+        "topRightText": "What began over 25 years ago as a solo practice (Karen Beckwith Creative) has grown into a true family collaboration. As a mother–daughter team, Beckwith Barrow reflects our shared belief that the best homes tell the stories of the people who live in them.\nOur job is to help you realize that home- one that feels unmistakably you, elevated beyond what you could have imagined on your own.\nDesign, to us, is both art and problem solving- the creative grounded in function and executed with precision. \n",
+        "updatedAt": "2025-11-17T17:33:16.582Z"
+      },
+      {
+        "__type": "api::project.project",
+        "createdAt": "2025-09-27T02:16:32.319Z",
+        "description": "This contemporary farmhouse honors the client's personal history in the area and embraces the sweeping landscape. This was a labor of love for all the collaborators involved. Architectural design by Burr and McCallum Architects. Interior design by Beckwith Barrow. Home construction by Eric Zahn Builders. Kitchen, bath and cabinetry by Keeler Concepts by Design.",
+        "documentId": "il6p88ty41qjoxcfmavfzmyd",
+        "id": 528,
+        "publishedAt": "2026-03-19T19:28:11.094Z",
+        "slug": "Hillside-Farmhouse",
+        "title": "Hillside Farmhouse",
+        "updatedAt": "2026-03-19T19:28:10.993Z"
+      },
+      {
+        "__type": "api::project.project",
+        "createdAt": "2025-09-27T02:16:32.319Z",
+        "description": "This contemporary farmhouse honors the client's personal history in the area and embraces the sweeping landscape. This was a labor of love for all the collaborators involved. Architectural design by Burr and McCallum Architects. Interior design by Beckwith Barrow. Home construction by Eric Zahn Builders. Kitchen, bath and cabinetry by Keeler Concepts by Design.",
+        "documentId": "il6p88ty41qjoxcfmavfzmyd",
+        "id": 528,
+        "publishedAt": "2026-03-19T19:28:11.094Z",
+        "slug": "Hillside-Farmhouse",
+        "title": "Hillside Farmhouse",
+        "updatedAt": "2026-03-19T19:28:10.993Z"
+      }
+    ],
+    "size": 3720.47,
+    "updatedAt": "2025-11-17T17:33:09.784Z",
+    "url": "https://res.cloudinary.com/dqeqavdd8/image/upload/v1759267795/jenks_676_ab168be1aa_oabkde.jpg",
+    "width": 3725
+  },
+  "createdAt": "2025-09-16T00:35:08.263Z",
+  "documentId": "mj6u310ilzknds7tksjz9cvg",
+  "id": 12,
+  "publishedAt": "2025-11-17T17:33:16.507Z",
+  "title": "Who We Are",
+  "topLeftImage": {
+    "alternativeText": null,
+    "caption": null,
+    "createdAt": "2025-11-17T17:29:15.245Z",
+    "documentId": "iirtj59i7mlyof38iuszlsoi",
+    "ext": ".jpeg",
+    "hash": "KAREN_AND_ARDIS_B_and_B_4_39a3d39df6",
+    "height": 3578,
+    "id": 6058,
+    "mime": "image/jpeg",
+    "name": "KAREN AND ARDIS B & B _4.jpeg",
+    "previewUrl": null,
+    "provider": "strapi-provider-upload-strapi-cloud",
+    "provider_metadata": null,
+    "publishedAt": "2025-11-17T17:29:15.245Z",
+    "related": [
+      {
+        "__type": "api::about.about",
+        "bottomLeftText": "We have relationships with talented makers, builders, architects, & installers- whom we trust to help us execute the vision. Beckwith Barrow will manage every detail from concept to completion so you can enjoy the transformation without the stress.\nWe bring deep creativity, transparency, and care to everything we do. We sweat the details so you don’t have to, managing your project as if it were our own home.\n",
+        "createdAt": "2025-09-16T00:35:08.263Z",
+        "documentId": "mj6u310ilzknds7tksjz9cvg",
+        "id": 12,
+        "publishedAt": "2025-11-17T17:33:16.507Z",
+        "title": "Who We Are",
+        "topRightText": "What began over 25 years ago as a solo practice (Karen Beckwith Creative) has grown into a true family collaboration. As a mother–daughter team, Beckwith Barrow reflects our shared belief that the best homes tell the stories of the people who live in them.\nOur job is to help you realize that home- one that feels unmistakably you, elevated beyond what you could have imagined on your own.\nDesign, to us, is both art and problem solving- the creative grounded in function and executed with precision. \n",
+        "updatedAt": "2025-11-17T17:33:16.582Z"
+      }
+    ],
+    "size": 7945.03,
+    "updatedAt": "2025-11-17T17:29:15.245Z",
+    "url": "https://striking-ball-b079f8c4b0.media.strapiapp.com/KAREN_AND_ARDIS_B_and_B_4_39a3d39df6.jpeg",
+    "width": 2556
+  },
+  "topRightText": "What began over 25 years ago as a solo practice (Karen Beckwith Creative) has grown into a true family collaboration. As a mother–daughter team, Beckwith Barrow reflects our shared belief that the best homes tell the stories of the people who live in them.\nOur job is to help you realize that home- one that feels unmistakably you, elevated beyond what you could have imagined on your own.\nDesign, to us, is both art and problem solving- the creative grounded in function and executed with precision. \n",
+  "updatedAt": "2025-11-17T17:33:16.582Z"
+}
