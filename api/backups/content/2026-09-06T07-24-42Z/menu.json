@@ -1,0 +1,49 @@
+{
+  "createdAt": "2025-11-19T16:21:07.773Z",
+  "documentId": "flp2t3z794bq3l9601yb58bo",
+  "id": 1,
+  "menuItem": [
+    {
+      "external": false,
+      "id": 1,
+      "label": "Home",
+      "openInNewTab": false,
+      "order": 0,
+      "url": "/"
+    },
+    {
+      "external": false,
+      "id": 2,
+      "label": "About",
+      "openInNewTab": false,
+      "order": 0,
+      "url": "/about"
+    },
+    {
+      "external": false,
+      "id": 3,
+      "label": "Approach",
+      "openInNewTab": false,
+      "order": 0,
+      "url": "/approach"
+    },
+    {
+      "external": false,
+      "id": 4,
+      "label": "Press",
+      "openInNewTab": false,
+      "order": 0,
+      "url": "/press"
+    },
+    {
+      "external": false,
+      "id": 5,
+      "label": "Connect",
+      "openInNewTab": false,
+      "order": 0,
+      "url": "/connect"
+    }
+  ],
+  "publishedAt": "2025-11-19T16:21:40.025Z",
+  "updatedAt": "2025-11-19T16:21:40.117Z"
+}
