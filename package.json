@@ -26,5 +26,10 @@
   },
   "devDependencies": {
     "husky": "^9.1.7"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@strapi/content-manager@5.31.1": "patches/@strapi__content-manager@5.31.1.patch"
+    }
   }
 }
