@@ -79,16 +79,21 @@ export default {
         strapi.log.info(`Join table: ${joinTable}, cols: ${colNames.join(', ')}`);
 
         if (homeCol && projectIdCol) {
-          // Step 1: Ensure join table points to PUBLISHED project row IDs (not draft).
-          // The public API filters by publishedAt IS NOT NULL, so references must be published rows.
+          // Step 1: Ensure the PUBLISHED home row's join entries point at PUBLISHED
+          // project rows (not draft). Scoped to homes.published_at IS NOT NULL so this
+          // never touches a draft home row's own entries, which must stay pointed at
+          // draft project rows or the admin Content Manager's draft-scoped relation
+          // lookup returns zero results (see MISTAKES.md).
           const fixedToPublished = await knex.raw(`
             UPDATE "${joinTable}" AS lnk
             SET "${projectIdCol}" = pub.id
-            FROM projects AS draft, projects AS pub
+            FROM projects AS draft, projects AS pub, homes AS h
             WHERE lnk."${projectIdCol}" = draft.id
               AND draft.published_at IS NULL
               AND pub.document_id = draft.document_id
               AND pub.published_at IS NOT NULL
+              AND lnk."${homeCol}" = h.id
+              AND h.published_at IS NOT NULL
           `);
           if (fixedToPublished?.rowCount > 0) {
             strapi.log.info(`Fixed ${fixedToPublished.rowCount} join entries: draft → published project IDs`);
