@@ -10,21 +10,6 @@ export default {
       if (ctx.path.includes('/content-manager/relations/') &&
           ctx.path.includes('/projects') &&
           ctx.method === 'GET') {
-        // The connected-relations list (path has a documentId segment before
-        // "projects") ships every project connected to the Home page.
-        // Strapi's admin widget pages that list 10 at a time behind a "Load
-        // more" click, which breaks drag-to-reorder across the page
-        // boundary. Force one page large enough to hold every connected
-        // project so admin always renders the full list. The search-to-add
-        // modal (no documentId segment, "id" passed as a query param
-        // instead) keeps its own pageSize untouched.
-        const pathParts = ctx.path.split('/').filter(Boolean);
-        const isConnectedRelationsList =
-          pathParts.length === 5 && pathParts[pathParts.length - 1] === 'projects';
-        if (isConnectedRelationsList) {
-          ctx.query.pageSize = '100';
-        }
-
         await next();
         if (ctx.body?.results) {
           const missing = ctx.body.results.filter((r: any) => !r.title);
