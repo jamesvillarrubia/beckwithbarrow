@@ -13,6 +13,11 @@
 
 module.exports = {
   async up(knex) {
+    // Guard for a genuinely fresh install (e.g. local SQLite dev DB): the
+    // projects table doesn't exist yet until Strapi's own schema migrations
+    // create it. Nothing to sync on a DB that has never been bootstrapped.
+    if (!(await knex.schema.hasTable('projects'))) return;
+
     await knex.raw(`
       UPDATE projects AS draft
       SET title = published.title

@@ -11,6 +11,11 @@
 
 module.exports = {
   async up(knex) {
+    // Guard for a genuinely fresh install (e.g. local SQLite dev DB): the
+    // core-store table doesn't exist yet until Strapi's own core migrations
+    // create it. Nothing to fix on a DB that has never been bootstrapped.
+    if (!(await knex.schema.hasTable('strapi_core_store_settings'))) return;
+
     const row = await knex('strapi_core_store_settings')
       .where('key', 'plugin_content_manager_configuration_content_types::api::project.project')
       .first();
@@ -54,6 +59,8 @@ module.exports = {
   },
 
   async down(knex) {
+    if (!(await knex.schema.hasTable('strapi_core_store_settings'))) return;
+
     const row = await knex('strapi_core_store_settings')
       .where('key', 'plugin_content_manager_configuration_content_types::api::project.project')
       .first();

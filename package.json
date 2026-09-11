@@ -1,4 +1,3 @@
- 
 {
   "name": "beckwithbarrow",
   "version": "1.0.0",
@@ -21,15 +20,15 @@
     "build:frontend:prod": "VITE_USE_PROD_API=true nx run frontend:build"
   },
   "dependencies": {
-    "nx": "^21.6.2",
-    "@nx/workspace": "^21.6.2"
+    "@nx/workspace": "^21.6.2",
+    "nx": "^21.6.2"
   },
   "devDependencies": {
     "husky": "^9.1.7"
   },
   "pnpm": {
     "patchedDependencies": {
-      "@strapi/content-manager@5.31.1": "patches/@strapi__content-manager@5.31.1.patch"
+      "@strapi/content-manager@5.53.0": "patches/@strapi__content-manager@5.53.0.patch"
     }
   }
 }
