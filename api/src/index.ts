@@ -1,8 +1,23 @@
 import type { Core } from '@strapi/strapi';
 import { installNoDeleteOverride } from './safety/disable-upload-delete';
+import { createRelationOrderSyncMiddleware } from './document-service/relation-order-sync';
 
 export default {
   register({ strapi }: { strapi: Core.Strapi }) {
+    // Force-resync relation order on publish for the content types configured in
+    // src/config/relation-order-sync.ts. Strapi 5's publish syncs relation
+    // add/remove but leaves join-table order stale for relations that stayed
+    // connected across a draft edit (see MISTAKES.md / reqts for the repro).
+    // Covers publish-time ORDER drift only. See the home→projects join-table
+    // repair in bootstrap() below for the separate boot-time repair of
+    // empty-relation/stale-ID join rows — neither one supersedes the other.
+    const relationOrderSyncMiddleware = createRelationOrderSyncMiddleware(
+      strapi as unknown as Parameters<typeof createRelationOrderSyncMiddleware>[0],
+    );
+    strapi.documents.use(
+      relationOrderSyncMiddleware as unknown as Parameters<typeof strapi.documents.use>[0],
+    );
+
     // Patch relations endpoint: fill in missing titles from the DB.
     // Works around a Strapi 5 bug where some relation entries reference
     // published rows instead of draft rows, returning locale instead of title.
@@ -55,6 +70,9 @@ export default {
     // Fix home→projects join table so the published home row references published project rows.
     // In Strapi 5 with draftAndPublish, the public API serves published content. The join table
     // must reference published row IDs for populated relations to return results.
+    // Covers boot-time repair of empty-relation/stale project-ID join rows only. See the
+    // register()-time relationOrderSyncMiddleware above for the separate publish-time
+    // resync of relation ORDER — neither one supersedes the other.
     try {
       const knex = strapi.db.connection;
 
