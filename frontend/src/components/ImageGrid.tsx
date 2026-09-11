@@ -124,7 +124,7 @@ const ImageGrid = ({ images, projectTitle, className = '' }: ImageGridProps) => 
             columns={(containerWidth) => {
               if (containerWidth < 640) return 2; // Mobile: 2 columns
               if (containerWidth < 1024) return 3; // Tablet: 3 columns
-              return 4; // Desktop: 4 columns
+              return 3; // Desktop: 3 columns
             }}
             onClick={({ index }) => openLightbox(index)}
           />
