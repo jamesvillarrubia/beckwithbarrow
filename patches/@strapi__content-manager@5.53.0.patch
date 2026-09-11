@@ -1,8 +1,8 @@
 diff --git a/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.js b/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.js
-index 47f27c93935d309c6713fc5b41f0dba053e03950..970c8a2f23cdf9706dc5b386366b888d3b63e522 100644
+index bb267e1a583c8917c643a0c7e0d58830460bf2f9..907d7f2af1360f63be26e054bc9149bcd8d48233 100644
 --- a/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.js
 +++ b/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.js
-@@ -78,7 +78,7 @@ var React__namespace = /*#__PURE__*/_interopNamespaceDefault(React);
+@@ -85,7 +85,7 @@ var React__namespace = /*#__PURE__*/_interopNamespace(React);
  }
  /* -------------------------------------------------------------------------------------------------
   * RelationsField
@@ -12,10 +12,10 @@ index 47f27c93935d309c6713fc5b41f0dba053e03950..970c8a2f23cdf9706dc5b386366b888d
      'oneWay',
      'oneToOne',
 diff --git a/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.mjs b/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.mjs
-index cf785a9396224160e100946b376a51235c038555..040127546b88ff41355a733f9e1ff8e86099dd84 100644
+index 4d908a8daea90be78e533f479ea68a35b1c839ce..ef16e5254bb351e1a642b84b5ff711b700da84f1 100644
 --- a/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.mjs
 +++ b/dist/admin/pages/EditView/components/FormInputs/Relations/Relations.mjs
-@@ -57,7 +57,7 @@ import { RelationModalRenderer, getCollectionType } from './RelationModal.mjs';
+@@ -63,7 +63,7 @@ import { getCollectionType, RelationModalRenderer } from './RelationModal.mjs';
  }
  /* -------------------------------------------------------------------------------------------------
   * RelationsField
