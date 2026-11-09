@@ -79,7 +79,14 @@ jobs:
           git config user.email "backup-bot@users.noreply.github.com"
           git fetch origin backups || true
           git checkout backups 2>/dev/null || git checkout -b backups
-          git add api/backups api/.gitattributes
+          # The beckwithbarrow-cms-mcp Vercel project has Root Directory
+          # packages/cms-mcp. This branch predates that directory, so every push
+          # fails with 'Root Directory "packages/cms-mcp" does not exist' and Vercel
+          # never reads the real vercel.json. A stub there makes the directory exist
+          # and turns deployments off for this branch.
+          mkdir -p packages/cms-mcp
+          printf '%s\n' '{' '  "git": {' '    "deploymentEnabled": {' '      "backups": false' '    }' '  }' '}' > packages/cms-mcp/vercel.json
+          git add api/backups api/.gitattributes packages/cms-mcp/vercel.json
           if git diff --cached --quiet; then
             echo "No backup changes to commit."
           else
